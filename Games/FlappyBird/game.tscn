@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgwt0ooxrefbh"]
+
+[ext_resource type="Script" path="res://Games/FlappyBird/scripts/game.gd" id="1_0i6u7"]
+[ext_resource type="Texture2D" uid="uid://deeluhxqor2cu" path="res://Assets/FlappyB/bg.png" id="1_kjxht"]
+[ext_resource type="PackedScene" uid="uid://br2ywu8evw0u0" path="res://Games/FlappyBird/bird.tscn" id="2_mphog"]
+[ext_resource type="PackedScene" uid="uid://bxigd2rbnn4so" path="res://Games/FlappyBird/ground.tscn" id="3_i3o01"]
+[ext_resource type="PackedScene" uid="uid://8oo1d0lg8be6" path="res://Games/FlappyBird/pipe.tscn" id="5_lbp8o"]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0i6u7")
+pipe_scene = ExtResource("5_lbp8o")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -15.0
+offset_top = -136.0
+offset_right = 8.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_kjxht")
+
+[node name="Bird" parent="." instance=ExtResource("2_mphog")]
+position = Vector2(181, 282)
+
+[node name="ground" parent="." instance=ExtResource("3_i3o01")]
+position = Vector2(1154, 656)
+
+[node name="PipeTimer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_right = 48.0
+offset_bottom = 39.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+text = "Score"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="dummy" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="dummy" to="." method="_on_dummy_timeout"]

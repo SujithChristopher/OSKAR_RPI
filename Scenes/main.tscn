@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://vhx3bkgoif43"]
+
+[ext_resource type="Texture2D" uid="uid://byjydq4dcbag8" path="res://Assets/Background/Brown.png" id="1_r3ng4"]
+[ext_resource type="Script" path="res://Scripts/GoButton.gd" id="2_dblnu"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_r3ng4")
+stretch_mode = 1
+
+[node name="NameEdit" type="TextEdit" parent="TextureRect"]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 278.0
+offset_right = 442.0
+offset_bottom = 346.0
+
+[node name="HospIDEdit" type="TextEdit" parent="TextureRect"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 412.0
+offset_right = 441.0
+offset_bottom = 480.0
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 234.0
+offset_right = 325.0
+offset_bottom = 276.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.556863, 0, 0.894118, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Enter your name:"
+
+[node name="Label2" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 368.0
+offset_right = 325.0
+offset_bottom = 404.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.776471, 0.364706, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "Enter your Hospital ID:"
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 700.0
+offset_top = 179.0
+offset_right = 805.0
+offset_bottom = 282.0
+
+[node name="GoButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 666.0
+offset_top = 346.0
+offset_right = 804.0
+offset_bottom = 433.0
+text = "Login"
+script = ExtResource("2_dblnu")
+
+[connection signal="pressed" from="GoButton" to="GoButton" method="_on_pressed"]
