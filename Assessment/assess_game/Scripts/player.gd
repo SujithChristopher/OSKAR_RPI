@@ -6,6 +6,7 @@ const SPEED = 100.0
 
 var received_message
 var thread: Thread
+var thread2: Thread
 var the_message : String
 
 var network_position = Vector2.ZERO
@@ -37,52 +38,54 @@ var rom_y_bot : int
 var game_over = false
 
 func _physics_process(delta):
-
-	if udp.get_available_packet_count() > 0:
-		_temp_message = udp.get_packet().get_string_from_utf8()
-		udp.put_packet('connected'.to_utf8_buffer())
-		if _temp_message == "stop":
-			udp_terminated = true
-		elif _temp_message == "none":
-			pass
-		else:
-			_split_message = _temp_message.split(",")
-			var net_x = float(_split_message[0])
-			var net_y = float(_split_message[1])
-			if net_x+600 < 10:
-				net_x = 10
-			if net_y+400 < 10:
-				net_y = 10
-
-			if net_y > 620:
-				net_y = 620
-			if net_x > 1120:
-				net_x = 1120
-			network_position = Vector2(net_x, net_y) + Vector2(600, 400)  
-			connected = true
-			
 	if network_position != Vector2.ZERO:
 		position = position.lerp(network_position, 0.2)
 		# position = network_position
 
-	if !apple_present and network_position != Vector2.ZERO:
-		my_timer.start()
-		var _apple = apple.instantiate()
-		add_child(_apple)
-		_apple.top_level = true
-		# _apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-		_apple.position = Vector2(randi_range(rom_x_top, rom_x_bot), randi_range(rom_y_top, rom_y_bot))
-		_apple.tree_exited.connect(apple_function)
-		apple_present = true
-	if apple_present:
-		time_display.text = str(round(my_timer.time_left)) + "s"
-	move_and_slide()
-	if score >= max_score:
-		udp.put_packet("stop".to_utf8_buffer())
-		game_over = true
-			
-	if udp_terminated:
-		get_tree().change_scene_to_file("res://Assessment/assess_game/results.tscn")
+func udp_thread():
+	
+	while true:
+		if udp.get_available_packet_count() > 0:
+			_temp_message = udp.get_packet().get_string_from_utf8()
+			udp.put_packet('connected'.to_utf8_buffer())
+			if _temp_message == "stop":
+				udp_terminated = true
+			elif _temp_message == "none":
+				pass
+			else:
+				_split_message = _temp_message.split(",")
+				var net_x = float(_split_message[0])
+				var net_y = float(_split_message[1])
+				if net_x+600 < 10:
+					net_x = 10
+				if net_y+400 < 10:
+					net_y = 10
+
+				if net_y > 620:
+					net_y = 620
+				if net_x > 1120:
+					net_x = 1120
+				network_position = Vector2(net_x, net_y) + Vector2(600, 400)  
+				connected = true
+
+		if !apple_present and network_position != Vector2.ZERO:
+			my_timer.start()
+			var _apple = apple.instantiate()
+			add_child(_apple)
+			_apple.top_level = true
+			_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+			# _apple.position = Vector2(randi_range(rom_x_top, rom_x_bot), randi_range(rom_y_top, rom_y_bot))
+			_apple.tree_exited.connect(apple_function)
+			apple_present = true
+		if apple_present:
+			time_display.text = str(round(my_timer.time_left)) + "s"
+		# move_and_slide()
+		if score >= max_score:
+			udp.put_packet("stop".to_utf8_buffer())
+			game_over = true
+				
+		if udp_terminated:
+			get_tree().change_scene_to_file("res://Assessment/assess_game/results.tscn")
 		
 func hey_there():
 	print('just printing')
@@ -114,6 +117,8 @@ func _on_reach_game_ready():
 	udp.connect_to_host("127.0.0.1", 8000)
 	pyscript_path = "/home/sujith/Documents/programs/webcamera.py"
 	thread.start(_thread_function)
+	thread2 = Thread.new()
+	thread2.start(udp_thread)
 
 func apple_function():
 	if score <= max_score:
