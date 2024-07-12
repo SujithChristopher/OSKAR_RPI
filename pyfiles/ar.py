@@ -50,7 +50,7 @@ class MainClass:
         cam_calib_path = cam_calib_path
         self.save_data_path = os.path.join(os.getcwd(), "pyfiles", "data", "data.msgpack")
         self.data_file = open(self.save_data_path, 'wb')
-        self.default_ids = [12, 88, 89]
+        self.default_ids = [12, 14, 20, 88, 89]
         
         with open(cam_calib_path, "rb") as f:
             ar_cam = mp.Unpacker(f, object_hook=mpn.decode)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     """
     Check these parameters
     """
-    UDP_STREAM = True
+    UDP_STREAM = False
     CAMERA_CALIBRATION_FILE = _file_path
     
     """

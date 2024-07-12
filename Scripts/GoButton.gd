@@ -10,6 +10,8 @@ func _ready():
 func _process(delta):
 	pass
 
-
+func _on_exit_button_pressed():
+	get_tree().quit()
+	
 func _on_pressed():
 	get_tree().change_scene_to_file("res://Scenes/select_game.tscn") # Replace with function body.
