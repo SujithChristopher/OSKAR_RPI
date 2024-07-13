@@ -21,9 +21,9 @@ board = aruco.GridBoard(
         dictionary=ARUCO_DICT)
 
 
-marker_points = np.array([[-halfSize, halfSize, 0],
-                            [halfSize, halfSize, 0],
-                            [halfSize, -halfSize, 0],
+marker_points = np.array([[-  halfSize  , halfSize, 0],
+                            [ halfSize , halfSize, 0],
+                            [ halfSize , -halfSize, 0],
                             [-halfSize, -halfSize, 0]], dtype=np.float32)
 
 def estimate_marker_poses(corners, marker_points, camera_matrix, distortion_coefficients):

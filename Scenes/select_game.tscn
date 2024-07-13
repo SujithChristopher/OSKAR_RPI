@@ -1,10 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://w7m2uhyqp1ir"]
+[gd_scene load_steps=5 format=3 uid="uid://w7m2uhyqp1ir"]
 
+[ext_resource type="Script" path="res://Scripts/select_game.gd" id="1_qtyt2"]
 [ext_resource type="Texture2D" uid="uid://b4a670lt0tvg1" path="res://Assets/Background/Yellow.png" id="1_xc818"]
-[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Fonts/HeavyDataNerdFont-Regular.ttf" id="2_e2y6t"]
-[ext_resource type="Script" path="res://Scripts/game_ss_button.gd" id="2_y5wld"]
-[ext_resource type="Script" path="res://Scripts/game_pp.gd" id="4_sgaj2"]
-[ext_resource type="PackedScene" uid="uid://dgwt0ooxrefbh" path="res://Games/FlappyBird/game.tscn" id="5_jbrpe"]
+[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Assets/Fonts/HeavyDataNerdFont-Regular.ttf" id="2_e2y6t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5h02n"]
 font = ExtResource("2_e2y6t")
@@ -20,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_qtyt2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 texture_filter = 1
@@ -60,25 +59,6 @@ text = "Games"
 label_settings = SubResource("LabelSettings_5h02n")
 horizontal_alignment = 1
 
-[node name="game_ss_button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 238.0
-offset_top = 466.0
-offset_right = 404.0
-offset_bottom = 542.0
-text = "Space shooter"
-script = ExtResource("2_y5wld")
-
-[node name="game_pp" type="Button" parent="."]
-layout_mode = 0
-offset_left = 520.0
-offset_top = 468.0
-offset_right = 641.0
-offset_bottom = 544.0
-text = "Ping Pong"
-script = ExtResource("4_sgaj2")
-flappy = ExtResource("5_jbrpe")
-
 [node name="game_reach" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 5
@@ -91,15 +71,14 @@ offset_bottom = 226.0
 grow_horizontal = 2
 text = "Reach"
 
-[node name="floppy_bird" type="Button" parent="."]
+[node name="Exit_button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 771.0
-offset_top = 465.0
-offset_right = 892.0
-offset_bottom = 541.0
-text = "Flappy Bird"
+offset_left = 1061.0
+offset_top = 20.0
+offset_right = 1132.0
+offset_bottom = 65.0
+text = "Exit
+"
 
-[connection signal="pressed" from="game_ss_button" to="game_ss_button" method="_on_pressed"]
-[connection signal="pressed" from="game_pp" to="game_pp" method="_on_pressed"]
-[connection signal="pressed" from="game_reach" to="game_pp" method="_on_game_reach_pressed"]
-[connection signal="pressed" from="floppy_bird" to="game_pp" method="_on_floppy_bird_pressed"]
+[connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
+[connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://vhx3bkgoif43"]
+[gd_scene load_steps=4 format=3 uid="uid://vhx3bkgoif43"]
 
-[ext_resource type="Texture2D" uid="uid://byjydq4dcbag8" path="res://Assets/Background/Brown.png" id="1_r3ng4"]
-[ext_resource type="Script" path="res://Scripts/GoButton.gd" id="2_dblnu"]
+[ext_resource type="Script" path="res://Scripts/main_window.gd" id="2_dblnu"]
+[ext_resource type="VideoStream" path="res://Assets/gifs/light-gold.ogv" id="2_vr051"]
+[ext_resource type="AudioStream" uid="uid://b3wryxtw0hixi" path="res://Assets/sound_track/NPC_soundtrack.mp3" id="4_l23ah"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -19,8 +20,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_r3ng4")
 stretch_mode = 1
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_vr051")
+autoplay = true
+expand = true
+loop = true
+
+[node name="ColorRect" type="ColorRect" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.537255, 0.760784, 0.482353, 0.686275)
+
+[node name="ColorRect2" type="ColorRect" parent="TextureRect"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 187.0
+offset_right = 1126.0
+offset_bottom = 546.0
+color = Color(0.995516, 0.730933, 0.879764, 0.6)
 
 [node name="NameEdit" type="TextEdit" parent="TextureRect"]
 layout_mode = 0
@@ -67,21 +96,29 @@ offset_right = 1138.0
 offset_bottom = 55.0
 text = "EXIT"
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="PlayButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 700.0
-offset_top = 179.0
-offset_right = 805.0
-offset_bottom = 282.0
-
-[node name="GoButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 666.0
-offset_top = 346.0
-offset_right = 804.0
-offset_bottom = 433.0
-text = "Login"
+offset_left = 708.0
+offset_top = 389.0
+offset_right = 846.0
+offset_bottom = 476.0
+text = "Play"
 script = ExtResource("2_dblnu")
 
-[connection signal="pressed" from="TextureRect/ExitButton" to="GoButton" method="_on_exit_button_pressed"]
-[connection signal="pressed" from="GoButton" to="GoButton" method="_on_pressed"]
+[node name="AssessButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 523.0
+offset_top = 389.0
+offset_right = 661.0
+offset_bottom = 476.0
+text = "Assess
+"
+script = ExtResource("2_dblnu")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_l23ah")
+autoplay = true
+
+[connection signal="pressed" from="TextureRect/ExitButton" to="PlayButton" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
+[connection signal="pressed" from="AssessButton" to="AssessButton" method="_on_pressed"]

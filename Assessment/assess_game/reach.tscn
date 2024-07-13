@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cwqtv62nto34u" path="res://Assets/Terrian/Terrain (16x16).png" id="3_m1ems"]
 [ext_resource type="PackedScene" uid="uid://c6bg6bhe2v1e3" path="res://Assessment/assess_game/scenes/home_pos.tscn" id="4_3vhle"]
 [ext_resource type="Texture2D" uid="uid://cklorvnyyai30" path="res://Assessment/assess_game/Sprites/AppleStatic.png" id="6_8g4ou"]
-[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Fonts/HeavyDataNerdFont-Regular.ttf" id="7_er5ec"]
+[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Assets/Fonts/HeavyDataNerdFont-Regular.ttf" id="7_er5ec"]
 [ext_resource type="AudioStream" uid="uid://bn4wpjscqoj8b" path="res://Assessment/assess_game/Sprites/apple_eating1.mp3" id="7_ornxp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fipgi"]
