@@ -1,7 +1,8 @@
-[gd_scene load_steps=42 format=3 uid="uid://ciht5nisjgbqp"]
+[gd_scene load_steps=50 format=3 uid="uid://ciht5nisjgbqp"]
 
-[ext_resource type="Script" path="res://Assessment/assess_game/Scripts/player.gd" id="1_w5ee0"]
+[ext_resource type="Script" path="res://Assessment/random_reach/Scripts/player.gd" id="1_w5ee0"]
 [ext_resource type="Texture2D" uid="uid://c7xjmpsaxhi3o" path="res://Assets/Tiny Swords/Factions/Knights/Troops/Warrior/Red/Warrior_Red.png" id="2_3l5pm"]
+[ext_resource type="Texture2D" uid="uid://b7btc0p4mvt8f" path="res://Assets/Tiny Swords/Resources/Sheep/HappySheep_Idle.png" id="3_uhilm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4hmy"]
 atlas = ExtResource("2_3l5pm")
@@ -50,6 +51,34 @@ region = Rect2(768, 192, 192, 192)
 [sub_resource type="AtlasTexture" id="AtlasTexture_p84uh"]
 atlas = ExtResource("2_3l5pm")
 region = Rect2(960, 192, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksehs"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcilq"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inmmm"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_larki"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjy1m"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6h4h"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctmfg"]
+atlas = ExtResource("3_uhilm")
+region = Rect2(896, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gg0gt"]
 atlas = ExtResource("2_3l5pm")
@@ -197,6 +226,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ksehs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcilq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inmmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_larki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjy1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k6h4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctmfg")
+}],
+"loop": true,
+"name": &"sheep",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_gg0gt")
 }, {
 "duration": 1.0,
@@ -289,11 +344,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y05v0"]
-radius = 9.66667
-height = 22.6667
+radius = 7.33333
+height = 14.6667
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_64rk2"]
-height = 25.3333
+radius = 6.66667
+height = 14.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 scale = Vector2(3, 3)
@@ -303,8 +359,9 @@ script = ExtResource("1_w5ee0")
 texture_filter = 1
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_dlft7")
-animation = &"strike_down"
-autoplay = "default"
+animation = &"sheep"
+autoplay = "sheep"
+frame_progress = 0.966059
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_y05v0")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkry1rm40uqso"
-path="res://.godot/imported/Collected.png-eb034dd98bb15f41b43a8f5fc729f639.ctex"
+uid="uid://dqf45l0lq8ppk"
+path="res://.godot/imported/Apple.png-beb10cbc4ba403af42de58574349d29f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assessment/assess_game/Sprites/Collected.png"
-dest_files=["res://.godot/imported/Collected.png-eb034dd98bb15f41b43a8f5fc729f639.ctex"]
+source_file="res://Assessment/random_reach/Sprites/Apple.png"
+dest_files=["res://.godot/imported/Apple.png-beb10cbc4ba403af42de58574349d29f.ctex"]
 
 [params]
 

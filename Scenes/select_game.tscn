@@ -32,20 +32,22 @@ texture = ExtResource("1_xc818")
 stretch_mode = 1
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -137.5
-offset_top = 20.0
-offset_right = 137.5
-offset_bottom = 79.0
+offset_left = -137.0
+offset_top = 69.0
+offset_right = 138.0
+offset_bottom = 128.0
 grow_horizontal = 2
 text = "Assessment"
 label_settings = SubResource("LabelSettings_5h02n")
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5

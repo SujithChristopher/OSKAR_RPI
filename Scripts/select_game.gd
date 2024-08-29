@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 
 
 func _on_game_reach_pressed() -> void:
-	get_tree().change_scene_to_file("Assessment/assess_game/reach.tscn") # Replace with function body.
+	get_tree().change_scene_to_file("res://Assessment/random_reach/random_reach.tscn") # Replace with function body.
 
 
 
