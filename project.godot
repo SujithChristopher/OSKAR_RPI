@@ -77,6 +77,6 @@ move_down={
 
 [rendering]
 
-renderer/rendering_method="forward+"
+renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_s3tc_bptc=true
 textures/vram_compression/import_etc2_astc=true
