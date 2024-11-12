@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://wvw586u8r01h"]
+
+[ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="1_m7guw"]
+[ext_resource type="Texture2D" uid="uid://dnf8uvl8pqvsb" path="res://Assets/Plane/Dead (1).png" id="1_yeo3c"]
+[ext_resource type="Texture2D" uid="uid://bj3k8mt4gmyye" path="res://Assets/Plane/Fly (2).png" id="2_e12hl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ldqoq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yeo3c")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m7guw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_e12hl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ngvb"]
+radius = 14.0
+height = 50.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.10596, 0.10596)
+sprite_frames = SubResource("SpriteFrames_ldqoq")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0ngvb")

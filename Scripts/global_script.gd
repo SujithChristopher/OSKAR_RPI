@@ -16,8 +16,8 @@ var _split_message
 
 func _ready():
 	udp.connect_to_host("127.0.0.1", 8000)
-	thread.start(python_thread)
-	thread2.start(my_function)
+	# thread.start(python_thread)
+	# thread2.start(my_function)
 
 func my_function():
 	while true:

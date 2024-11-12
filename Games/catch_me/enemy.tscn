@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://bom0f3nf3itma"]
+
+[ext_resource type="Texture2D" uid="uid://dtv7yw0itkfl3" path="res://Assets/Tiny Swords/Factions/Goblins/Troops/Torch/Purple/Torch_Purple.png" id="1_xushc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm26a"]
+atlas = ExtResource("1_xushc")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttf3k"]
+atlas = ExtResource("1_xushc")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c11vt"]
+atlas = ExtResource("1_xushc")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0xwa"]
+atlas = ExtResource("1_xushc")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfo4l"]
+atlas = ExtResource("1_xushc")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tccp"]
+atlas = ExtResource("1_xushc")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuned"]
+atlas = ExtResource("1_xushc")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6e826"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm26a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttf3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c11vt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0xwa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfo4l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tccp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuned")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wv1da"]
+radius = 33.8378
+
+[node name="enemy" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_6e826")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wv1da")

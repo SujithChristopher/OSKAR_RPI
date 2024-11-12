@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://fj2c6cebl8pk"]
+
+[ext_resource type="PackedScene" uid="uid://cd76jpqxb0eqo" path="res://Games/flappy_bird/flappy_scenes/ground.tscn" id="1_rlb8a"]
+[ext_resource type="Texture2D" uid="uid://h2ss1trfuva0" path="res://Assets/flappy_assets/bg.png" id="1_x0skj"]
+[ext_resource type="Script" path="res://Games/flappy_bird/flappy_main.gd" id="1_y37re"]
+[ext_resource type="PackedScene" uid="uid://wvw586u8r01h" path="res://Games/flappy_bird/flappy_scenes/bird.tscn" id="3_41wc1"]
+[ext_resource type="Script" path="res://Games/flappy_bird/flappy_scenes/ground.gd" id="3_85j6f"]
+
+[node name="FlappyMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_y37re")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_x0skj")
+
+[node name="ground" parent="." instance=ExtResource("1_rlb8a")]
+position = Vector2(862, 637)
+script = ExtResource("3_85j6f")
+
+[node name="bird" parent="." instance=ExtResource("3_41wc1")]
+position = Vector2(88, 303)
+scale = Vector2(2, 2)
+
+[connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
