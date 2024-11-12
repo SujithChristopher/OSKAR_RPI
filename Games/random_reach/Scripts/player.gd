@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 const SPEED = 100.0
 
-@export var max_score = 15
+@export var max_score = 500
 
 var network_position = Vector2.ZERO
 
