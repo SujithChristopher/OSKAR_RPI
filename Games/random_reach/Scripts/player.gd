@@ -7,7 +7,7 @@ const SPEED = 100.0
 var network_position = Vector2.ZERO
 
 var apple_present = false
-var apple = preload("res://Assessment/random_reach/scenes/apple.tscn")
+var apple = preload("res://Games/random_reach/scenes/apple.tscn")
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
