@@ -408,6 +408,14 @@ offset_right = 92.9235
 offset_bottom = 612.751
 text = "Exit"
 
+[node name="logout" type="Button" parent="."]
+layout_mode = 0
+offset_left = 112.753
+offset_top = 578.793
+offset_right = 204.753
+offset_bottom = 610.793
+text = "⬅️ logout"
+
 [connection signal="ready" from="." to="Player" method="_on_reach_game_ready"]
 [connection signal="tree_exiting" from="." to="Player" method="_on_reach_game_tree_exiting"]
 [connection signal="ready" from="Player" to="Player" method="_on_ready"]
@@ -415,3 +423,4 @@ text = "Exit"
 [connection signal="timeout" from="Dummy" to="Player" method="_on_dummy_timeout"]
 [connection signal="pressed" from="Zero" to="Player" method="_on_zero_pressed"]
 [connection signal="pressed" from="Button" to="Player" method="_on_button_pressed"]
+[connection signal="pressed" from="logout" to="Player" method="_on_logout_pressed"]

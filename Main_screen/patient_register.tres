@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3 uid="uid://bpkb2sxy142q6"]
+
+[ext_resource type="Script" path="res://Main_screen/Scripts/patient_db.gd" id="1_ypd56"]
+
+[resource]
+script = ExtResource("1_ypd56")
+patient_register = {
+"asdf": {
+"affected_hand": "unspecified",
+"age": 0,
+"comments": "",
+"dominant_hand": "unspecified",
+"gender": "",
+"name": "asdf",
+"stroke_time": 0
+},
+"ddd": {
+"affected_hand": "unspecified",
+"age": 0,
+"comments": "",
+"dominant_hand": "unspecified",
+"gender": "unspecified",
+"name": "ddd",
+"stroke_time": 0
+},
+"zzz": {
+"affected_hand": "left",
+"age": 33,
+"comments": "asdf",
+"dominant_hand": "left",
+"gender": "male",
+"name": "zzz",
+"stroke_time": 3
+}
+}
+current_patient_id = ""

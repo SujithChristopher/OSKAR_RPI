@@ -16,5 +16,3 @@ func _on_body_entered(body:Node2D):
 
 func _on_timer_timeout():
 	queue_free() # Replace with function body.
-
-

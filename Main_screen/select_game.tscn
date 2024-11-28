@@ -1,0 +1,135 @@
+[gd_scene load_steps=5 format=3 uid="uid://w7m2uhyqp1ir"]
+
+[ext_resource type="Script" path="res://Main_screen/Scripts/select_game.gd" id="1_qtyt2"]
+[ext_resource type="Texture2D" uid="uid://b4a670lt0tvg1" path="res://Assets/Background/Yellow.png" id="1_xc818"]
+[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Assets/Fonts/HeavyDataNerdFont-Regular.ttf" id="2_e2y6t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5h02n"]
+font = ExtResource("2_e2y6t")
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(1, 0.694118, 0.835294, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qtyt2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xc818")
+stretch_mode = 1
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -137.0
+offset_top = 69.0
+offset_right = 138.0
+offset_bottom = 128.0
+grow_horizontal = 2
+text = "Assessment"
+label_settings = SubResource("LabelSettings_5h02n")
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.5
+offset_top = 340.0
+offset_right = 100.5
+offset_bottom = 399.0
+grow_horizontal = 2
+text = "Games"
+label_settings = SubResource("LabelSettings_5h02n")
+horizontal_alignment = 1
+
+[node name="game_reach" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -392.0
+offset_top = 137.0
+offset_right = -240.0
+offset_bottom = 213.0
+grow_horizontal = 2
+text = "RandomReach"
+
+[node name="game_flappy" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -193.0
+offset_top = 138.0
+offset_right = -72.0
+offset_bottom = 214.0
+grow_horizontal = 2
+text = "FlyThrough"
+
+[node name="game_pingpong" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_top = 137.0
+offset_right = 96.0
+offset_bottom = 213.0
+grow_horizontal = 2
+text = "PingPong"
+
+[node name="game_spaceshooter" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 141.0
+offset_top = 137.0
+offset_right = 262.0
+offset_bottom = 213.0
+grow_horizontal = 2
+text = "SpaceShooter
+"
+
+[node name="Exit_button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1061.0
+offset_top = 20.0
+offset_right = 1132.0
+offset_bottom = 65.0
+text = "Exit
+"
+
+[node name="logout" type="Button" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 579.0
+offset_right = 134.0
+offset_bottom = 624.0
+text = "⬅️ Log-out"
+
+[connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
+[connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
+[connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]
+[connection signal="pressed" from="game_spaceshooter" to="." method="_on_game_spaceshooter_pressed"]
+[connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]

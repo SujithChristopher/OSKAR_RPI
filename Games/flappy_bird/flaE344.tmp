@@ -14,13 +14,12 @@ script = ExtResource("1_y37re")
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -2.0
-offset_top = -51.0
+offset_top = -31.0
 offset_right = 1154.0
-offset_bottom = 717.0
+offset_bottom = 737.0
 texture = ExtResource("2_4fwav")
 
 [node name="ground" parent="." instance=ExtResource("1_rlb8a")]
-z_index = 1
 position = Vector2(-3, 635)
 script = ExtResource("3_85j6f")
 
@@ -29,18 +28,7 @@ position = Vector2(96, 327)
 scale = Vector2(2, 2)
 
 [node name="PipeTimer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
-
-[node name="logout" type="Button" parent="."]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 547.0
-offset_right = 79.0
-offset_bottom = 583.0
-text = "⬅️ logout
-"
+wait_time = 1.5
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
-[connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]

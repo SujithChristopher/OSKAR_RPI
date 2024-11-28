@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Oskar_RPI"
-run/main_scene="res://Scenes/main.tscn"
+run/main_scene="res://Main_screen/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/image="res://logo.png"
@@ -21,7 +21,8 @@ boot_splash/minimum_display_time=2000
 
 [autoload]
 
-GlobalScript="*res://Scripts/global_script.gd"
+GlobalScript="*res://Main_screen/Scripts/global_script.gd"
+SoundFx="*res://Main_screen/SoundFx.tscn"
 
 [display]
 

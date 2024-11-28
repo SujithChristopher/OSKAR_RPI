@@ -27,13 +27,14 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ngvb"]
-radius = 14.0
-height = 50.0
+radius = 17.0
+height = 56.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.10596, 0.10596)
+position = Vector2(4.76837e-07, 4.76837e-07)
+scale = Vector2(0.125828, 0.125828)
 sprite_frames = SubResource("SpriteFrames_ldqoq")
 autoplay = "default"
 
