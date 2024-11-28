@@ -1,10 +1,28 @@
-[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3 uid="uid://bpkb2sxy142q6"]
+[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://Main_screen/Scripts/patient_db.gd" id="1_ypd56"]
 
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
+"22130": {
+"affected_hand": "left",
+"age": 27,
+"comments": "No problem",
+"dominant_hand": "right",
+"gender": "male",
+"name": "ARJUN",
+"stroke_time": 5
+},
+"864005G": {
+"affected_hand": "right",
+"age": 29,
+"comments": "No problem",
+"dominant_hand": "left",
+"gender": "male",
+"name": "SUJITH",
+"stroke_time": 5
+},
 "asdf": {
 "affected_hand": "unspecified",
 "age": 0,

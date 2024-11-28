@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://cuej5ryifr164"]
 
 [ext_resource type="Texture2D" uid="uid://cdr4ro16ljvi5" path="res://Assets/pp_assets/arts/background.jpg" id="1_hp74f"]
-[ext_resource type="PackedScene" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
+[ext_resource type="PackedScene" uid="uid://cqbhdd3f3ysqn" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
 [ext_resource type="Script" path="res://Games/ping_pong/scripts/pp_player.gd" id="3_day0s"]
-[ext_resource type="PackedScene" path="res://Games/ping_pong/pp_computer.tscn" id="3_p81ul"]
-[ext_resource type="PackedScene" path="res://Games/ping_pong/ball.tscn" id="4_ec0xc"]
+[ext_resource type="PackedScene" uid="uid://c80st638uowc8" path="res://Games/ping_pong/pp_computer.tscn" id="3_p81ul"]
+[ext_resource type="PackedScene" uid="uid://bgsliavl2kr2u" path="res://Games/ping_pong/ball.tscn" id="4_ec0xc"]
 [ext_resource type="Script" path="res://Games/ping_pong/scripts/pp_computer.gd" id="4_mxgn3"]
 [ext_resource type="Script" path="res://Games/ping_pong/scripts/ball.gd" id="5_cp50h"]
-[ext_resource type="PackedScene" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
+[ext_resource type="PackedScene" uid="uid://i3uo1tqj0yob" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 
 [node name="PingPong" type="Control"]
@@ -65,21 +65,30 @@ rotation = 1.5708
 position = Vector2(1036, 651)
 rotation = 1.5708
 
-[node name="Label" type="Label" parent="."]
+[node name="PlayerScore" type="Label" parent="."]
 layout_mode = 0
-offset_left = 964.0
-offset_top = 637.0
-offset_right = 1123.0
-offset_bottom = 679.0
+offset_left = 910.0
+offset_top = 581.0
+offset_right = 1136.0
+offset_bottom = 623.0
 theme_override_font_sizes/font_size = 30
-text = "Score"
+text = "Player score"
+
+[node name="ComputerScore" type="Label" parent="."]
+layout_mode = 0
+offset_left = 839.0
+offset_top = 44.0
+offset_right = 1111.0
+offset_bottom = 86.0
+theme_override_font_sizes/font_size = 30
+text = "Computer score"
 
 [node name="logout" type="Button" parent="."]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 583.0
 offset_right = 108.0
-offset_bottom = 617.0
+offset_bottom = 623.0
 text = "⬅️ logout"
 
 [connection signal="ready" from="player" to="player" method="_on_ready"]

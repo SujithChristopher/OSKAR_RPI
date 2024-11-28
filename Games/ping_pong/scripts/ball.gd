@@ -11,7 +11,7 @@ var score = 0
 @export var INITIAL_BALL_SPEED = 15
 
 @export var speed_multiplier = 1
-@onready var score_label = $"../Label"
+@onready var score_label = $"../PlayerScore"
 var ball_speed = INITIAL_BALL_SPEED
 
 func _physics_process(delta):

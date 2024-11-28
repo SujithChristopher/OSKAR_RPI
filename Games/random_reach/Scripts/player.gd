@@ -22,7 +22,6 @@ var rom_x_bot : int
 var rom_y_bot : int
 
 var game_over = false
-var process_thread = Thread.new()
 
 
 func _physics_process(delta):

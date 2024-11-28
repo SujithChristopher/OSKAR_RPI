@@ -1,21 +1,16 @@
 extends CharacterBody2D
-const SPEED = 100.0
-var thread: Thread
-var udp_terminated: bool = false
-var player_position = Vector2(0,0)
-var player_current_position = Vector2(0,0)
-var player_zero_drift = Vector2(0,0)
-var _temp_message
-var _split_message
 var network_position = Vector2.ZERO
-
+var zero_offset = Vector2.ZERO
 
 @export var speed = 200
 
 func _physics_process(delta):
-		
+	network_position = GlobalScript.network_position
+	if network_position != Vector2.ZERO:
+		network_position = network_position - zero_offset  + Vector2(600, 200)  
+		position = position.lerp(network_position, 0.8)
+	
 	position.y = 600
-	move_and_slide()
 
 func _on_ready():
 	pass

@@ -10,13 +10,17 @@ var udp_terminated = false
 var _temp_message
 var _split_message
 
+var thread = Thread.new()
+var thread2 = Thread.new()
 @export var xscreen_offset:int = 600
 @export var yscreen_offset:int = 400
 @export var player_pos_scaler:int = 15
 
 func _ready():
 	udp.connect_to_host("127.0.0.1", 8000)
-
+	thread.start(python_thread)
+	thread2.start(my_function)
+	
 func my_function():
 	while true:
 		if udp.get_available_packet_count() > 0:

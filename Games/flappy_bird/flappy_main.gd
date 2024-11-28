@@ -15,7 +15,7 @@ const TIMER_DELAY: int = 2
 
 @onready var pipe_scene = preload("res://Games/flappy_bird/flappy_scenes/pipe.tscn")
 @onready var timer = $PipeTimer
-@onready var player = $bird
+@onready var player = $pilot
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
