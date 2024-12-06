@@ -15,7 +15,6 @@ func _on_game_reach_pressed() -> void:
 	get_tree().change_scene_to_file("res://Games/random_reach/random_reach.tscn") # Replace with function body.
 
 
-
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
 
