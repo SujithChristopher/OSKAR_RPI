@@ -127,6 +127,17 @@ offset_right = 134.0
 offset_bottom = 624.0
 text = "⬅️ Log-out"
 
+[node name="LoggedInAs" type="Label" parent="."]
+layout_mode = 0
+offset_left = 668.0
+offset_top = 26.0
+offset_right = 1006.0
+offset_bottom = 71.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 22
+text = "Patient: "
+vertical_alignment = 1
+
 [connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
 [connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
 [connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]

@@ -5,50 +5,32 @@
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
-"22130": {
-"affected_hand": "left",
-"age": 27,
-"comments": "No problem",
-"dominant_hand": "right",
-"gender": "male",
-"name": "ARJUN",
-"stroke_time": 5
-},
-"864005G": {
-"affected_hand": "right",
-"age": 29,
-"comments": "No problem",
-"dominant_hand": "left",
-"gender": "male",
-"name": "SUJITH",
-"stroke_time": 5
-},
 "asdf": {
 "affected_hand": "unspecified",
-"age": 0,
+"age": 44,
 "comments": "",
 "dominant_hand": "unspecified",
-"gender": "",
+"gender": "male",
 "name": "asdf",
 "stroke_time": 0
 },
-"ddd": {
-"affected_hand": "unspecified",
-"age": 0,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "unspecified",
-"name": "ddd",
-"stroke_time": 0
-},
-"zzz": {
-"affected_hand": "left",
-"age": 33,
-"comments": "asdf",
+"divakar": {
+"affected_hand": "right",
+"age": 28,
+"comments": "laksjdflkjds",
 "dominant_hand": "left",
 "gender": "male",
-"name": "zzz",
-"stroke_time": 3
+"name": "Divakar",
+"stroke_time": 5
+},
+"sujith": {
+"affected_hand": "left",
+"age": 29,
+"comments": "asldkfjlsadkjflaksj",
+"dominant_hand": "right",
+"gender": "male",
+"name": "Sujith",
+"stroke_time": 5
 }
 }
-current_patient_id = ""
+current_patient_id = "divakar"

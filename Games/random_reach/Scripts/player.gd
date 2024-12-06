@@ -56,7 +56,6 @@ func _on_reach_game_ready():
 		rom_x_bot = 1100
 		
 
-
 func apple_function():
 	if score <= max_score:
 		if not apple_sound == null:

@@ -1,10 +1,10 @@
 extends Control
 
-
+@onready var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
+@onready var logged_in_as = $LoggedInAs
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	logged_in_as.text = "Patient: " + patient_db.current_patient_id
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

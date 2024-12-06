@@ -4,8 +4,12 @@ extends Control
 @onready var patient_list = $TextureRect/PatientList
 @onready var auth_window = $TextureRect/Auth
 @onready var patient_display = $TextureRect/Patient_display
+@onready var invalid_details = $TextureRect/InvalidDetails
+@onready var login_to_patient = $TextureRect/LoginSelectPatient
 var patient_selected: int
 var allpatients
+var path = "res://data.json"
+var json = JSON.new()
 
 func _ready() -> void:
 	allpatients = patient_db.list_all_patients()
@@ -25,6 +29,11 @@ func _on_back_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+func save_json(content):
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(json.stringify(content.list_all_patients()))
+	file.close()
 
 func _on_register_patient_pressed() -> void:
 	var patient_name = $TextureRect/PatientName.text
@@ -69,10 +78,13 @@ func _on_register_patient_pressed() -> void:
 	var comments = $TextureRect/AdditionalComments.text
 
 	if patient_name != "" and hosp_id != "" and age !="":
+		
 		patient_db.add_patient(hosp_id, patient_name, int(age), gender, stroke_time, dominant_hand, affected_hand, comments)
+		save_json(patient_db)
 		ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 		_update_plist()
 	else:
+		invalid_details.show()
 		print('enter details correctly')
 
 
@@ -101,12 +113,32 @@ func _on_delete_login_pressed() -> void:
 	if $TextureRect/Auth/password.text == "CMC":
 		if len(patient_db.list_all_patients()) != 0:
 			patient_db.remove_patient(allpatients[patient_selected]['hospital_id'])
+			save_json(patient_db)
 			ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 			patient_list.clear()
 			_update_plist()
+			auth_window.hide()
 	else:
 		auth_window.hide()
 
 
 func _on_auth_close_requested() -> void:
 	auth_window.hide()
+
+
+func _on_close_button_pressed() -> void:
+	invalid_details.hide()
+	login_to_patient.hide()
+
+
+func _on_patient_list_item_activated(index: int) -> void:
+	patient_selected = index
+	login_to_patient.show()
+
+
+func _on_login_button_pressed() -> void:
+	patient_db.current_patient_id = allpatients[patient_selected]['hospital_id']
+	save_json(patient_db)
+
+	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")

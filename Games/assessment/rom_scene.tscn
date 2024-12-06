@@ -7,15 +7,7 @@ script = ExtResource("1_gl5cx")
 
 [node name="Lines" type="Node2D" parent="."]
 
-[node name="UDPTimer" type="Timer" parent="."]
-wait_time = 0.2
-autostart = true
-
-[node name="dummyTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
-[node name="Button" type="Button" parent="."]
+[node name="StopButton" type="Button" parent="."]
 texture_filter = 1
 offset_left = 708.0
 offset_top = 591.0
@@ -41,8 +33,5 @@ offset_bottom = 633.0
 text = "Start"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="timeout" from="UDPTimer" to="." method="_on_udp_timer_timeout"]
-[connection signal="timeout" from="dummyTimer" to="." method="_on_dummy_timer_timeout"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
