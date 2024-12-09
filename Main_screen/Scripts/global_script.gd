@@ -1,76 +1,57 @@
 extends Node
 
-# Constants for screen bounds and scaling
+var network_position = Vector2.ZERO
+var udp := PacketPeerUDP.new()
+var connected = false
+var DIR = OS.get_executable_path().get_base_dir()
+var interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
+var pyscript_path = ''
+var udp_terminated = false
+var _temp_message
+var _split_message
 
-var X_SCREEN_OFFSET: int
-var Y_SCREEN_OFFSET: int
-@export var PLAYER_POS_SCALER: int = 15 * 100
-
-var MIN_X: int = 10
-var MAX_X: int
-var MIN_Y: int = 10
-var MAX_Y: int
-
-var screen_size: Vector2i
-
-# UDP and threading
-var udp: PacketPeerUDP = PacketPeerUDP.new()
-var thread_network = Thread.new()
-var thread_python = Thread.new()
-var connected: bool = false
-
-# Paths and platform-specific variables
-var interpreter_path: String
-var pyscript_path: String
-
-# Networked position
-var net_x: float
-var net_y: float
-var net_z: float
-var network_position: Vector2 = Vector2.ZERO
+var thread = Thread.new()
+var thread2 = Thread.new()
+@export var xscreen_offset:int = 600
+@export var yscreen_offset:int = 400
+@export var player_pos_scaler:int = 15
 
 func _ready():
 	udp.connect_to_host("127.0.0.1", 8000)
-	thread_network.start(network_thread)
-	thread_python.start(python_thread)
+	thread.start(python_thread)
+	thread2.start(my_function)
 	
-	screen_size = get_window().size
-	MAX_X = int(screen_size.x - screen_size.x * .15)
-	MAX_Y = int(screen_size.y - screen_size.y * .15)
-	X_SCREEN_OFFSET = int(screen_size.x/2)
-	Y_SCREEN_OFFSET = int(screen_size.y/2)
-
-func network_thread():
+func my_function():
 	while true:
 		if udp.get_available_packet_count() > 0:
-			handle_udp_packet()
+			_temp_message = udp.get_packet().get_string_from_utf8()
+			udp.put_packet('connected'.to_utf8_buffer())
+			if _temp_message == "stop":
+				udp_terminated = true
+			elif _temp_message == "none":
+				pass
+			else:
+				_split_message = _temp_message.split(",")
+				var net_x = float(_split_message[0])
+				var net_y = float(_split_message[1])
+				if net_x+xscreen_offset < 10:
+					net_x = 10
+				if net_y+yscreen_offset < 10:
+					net_y = 10
+				if net_y > 620:
+					net_y = 620
+				if net_x > 1120:
+					net_x = 1120
+				network_position = Vector2(net_x*player_pos_scaler, net_y*player_pos_scaler)
+				connected = true
 		else:
-			send_dummy_packet()
+			udp.put_packet('dummy'.to_utf8_buffer())
 
-func handle_udp_packet():
-	var packet = udp.get_packet()
-	var my_floats = PackedByteArray(packet).to_float32_array()
-	udp.put_packet("connected".to_utf8_buffer())
-
-	net_x = clamp(my_floats[1]*PLAYER_POS_SCALER + X_SCREEN_OFFSET, MIN_X, MAX_X)
-	net_y = clamp(my_floats[2]*PLAYER_POS_SCALER + Y_SCREEN_OFFSET, MIN_Y, MAX_Y)
-	net_z = my_floats[3]
-
-	network_position = Vector2(net_x, net_y)
-	connected = true
-
-func send_dummy_packet():
-	udp.put_packet("dummy".to_utf8_buffer())
 
 func python_thread():
 	var output = []
-	print("Python thread started.")
-	if OS.get_name() == "Windows":
-		pyscript_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\stream_optimize.py"
-		interpreter_path = "E:\\CMC\\py_env\\venv\\Scripts\\python.exe"
-	else:
-		pyscript_path = "/home/sujith/Documents/programs/stream_optimize.py"
-		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
+	print('thread function')
+	pyscript_path = "/home/sujith/Documents/programs/stream_april_undistort_ma.py"
 
 	OS.execute(interpreter_path, [pyscript_path], output)
 	print(output)

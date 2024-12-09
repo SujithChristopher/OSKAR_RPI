@@ -8,7 +8,7 @@ var screen_size : Vector2i
 var ground_height : int
 var pipes : Array
 
-const SCROLL_SPEED : float = 0.5
+const SCROLL_SPEED : float = 4
 const PIPE_DELAY : int = 50
 const PIPE_RANGE : int = 180
 const TIMER_DELAY: int = 2
@@ -24,7 +24,7 @@ func _ready() -> void:
 	screen_size = get_window().size
 	ground_height = $ground.get_node("Sprite2D").texture.get_height()
 	$ground.position.x = screen_size.x /2
-	timer.wait_time = TIMER_DELAY/SCROLL_SPEED
+	timer.wait_time = TIMER_DELAY/0.5
 
 func _process(delta: float) -> void:
 	scroll += SCROLL_SPEED
@@ -43,7 +43,7 @@ func _on_pipe_timer_timeout() -> void:
 
 func generate_pipe():
 	var pipe = pipe_scene.instantiate()
-	pipe.position.x = screen_size.x/2 + PIPE_DELAY
+	pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
 	pipe.position.y = (screen_size.y - ground_height) / 4.5  + randi_range(-PIPE_RANGE, PIPE_RANGE)
 	add_child(pipe)
 	pipes.append(pipe)

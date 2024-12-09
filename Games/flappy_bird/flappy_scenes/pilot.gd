@@ -9,3 +9,4 @@ func _physics_process(delta: float) -> void:
 	if network_position != Vector2.ZERO:
 		network_position = network_position - zero_offset  + Vector2(600, 200)  
 		position = position.lerp(network_position, 0.8)
+	position.x = 100
