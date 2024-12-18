@@ -14,6 +14,15 @@ patient_register = {
 "name": "asdf",
 "stroke_time": 0
 },
+"dd": {
+"affected_hand": "unspecified",
+"age": 20,
+"comments": "",
+"dominant_hand": "unspecified",
+"gender": "unspecified",
+"name": "dd",
+"stroke_time": 0
+},
 "divakar": {
 "affected_hand": "right",
 "age": 28,
@@ -22,6 +31,15 @@ patient_register = {
 "gender": "male",
 "name": "Divakar",
 "stroke_time": 5
+},
+"ee": {
+"affected_hand": "unspecified",
+"age": 20,
+"comments": "",
+"dominant_hand": "unspecified",
+"gender": "male",
+"name": "ee",
+"stroke_time": 0
 },
 "sujith": {
 "affected_hand": "left",
