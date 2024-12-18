@@ -27,7 +27,8 @@ var game_over = false
 func _physics_process(delta):
 	network_position = GlobalScript.network_position
 	if network_position != Vector2.ZERO:
-		network_position = network_position - zero_offset  + Vector2(600, 200)  
+		#network_position = network_position - zero_offset  + Vector2(600, 200)  
+		network_position = network_position - zero_offset
 		position = position.lerp(network_position, 0.8)
 		#position = network_position 
 		
@@ -59,7 +60,7 @@ func _on_reach_game_ready():
 func apple_function():
 	if score <= max_score:
 		if not apple_sound == null:
-			apple_sound.play()
+			#apple_sound.play()
 			score += 1
 			score_board.text = str(score)
 			apple_present = false

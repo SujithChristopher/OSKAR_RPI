@@ -21,6 +21,7 @@ boot_splash/minimum_display_time=2000
 
 [autoload]
 
+GlobalSignals="*res://Main_screen/Scripts/global_signals.gd"
 GlobalScript="*res://Main_screen/Scripts/global_script.gd"
 SoundFx="*res://Main_screen/SoundFx.tscn"
 
@@ -36,7 +37,6 @@ project/assembly_name="Oskar Game v2"
 
 [editor]
 
-version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
 [input]

@@ -8,7 +8,7 @@ extends Control
 @onready var login_to_patient = $TextureRect/LoginSelectPatient
 var patient_selected: int
 var allpatients
-var path = "res://data.json"
+var path = OS.get_system_dir(2)+"//NOARK//data.json"
 var json = JSON.new()
 
 func _ready() -> void:
@@ -32,9 +32,11 @@ func _on_exit_button_pressed() -> void:
 
 func save_json(content):
 	var file = FileAccess.open(path, FileAccess.WRITE)
+	print(path)
 	file.store_string(json.stringify(content.list_all_patients()))
 	file.close()
-
+	GlobalScript._path_checker()
+	
 func _on_register_patient_pressed() -> void:
 	var patient_name = $TextureRect/PatientName.text
 	var age = $TextureRect/Age.text
@@ -138,6 +140,7 @@ func _on_patient_list_item_activated(index: int) -> void:
 
 func _on_login_button_pressed() -> void:
 	patient_db.current_patient_id = allpatients[patient_selected]['hospital_id']
+	GlobalScript.change_patient()
 	save_json(patient_db)
 
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")

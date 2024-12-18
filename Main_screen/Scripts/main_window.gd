@@ -8,7 +8,8 @@ extends Button
 var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 
 func _on_exit_button_pressed():
-	get_tree().quit()
+	GlobalSignals.SignalBus.emit()
+	#get_tree().quit()
 	
 func _on_pressed():
 	hosp_id = $"../TextureRect/HospID".text

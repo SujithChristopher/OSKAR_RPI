@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp5v2sib3uxm"]
+
+[ext_resource type="Texture2D" uid="uid://c70hnnhv7u0ua" path="res://Assets/Tiny Swords/UI/Pointers/01.png" id="1_31f7r"]
+
+[node name="MouseDot" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_31f7r")

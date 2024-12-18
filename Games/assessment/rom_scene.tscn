@@ -1,18 +1,139 @@
-[gd_scene load_steps=2 format=3 uid="uid://orwfdvsg1eej"]
+[gd_scene load_steps=12 format=3 uid="uid://orwfdvsg1eej"]
 
 [ext_resource type="Script" path="res://Games/assessment/rom_scene.gd" id="1_gl5cx"]
+[ext_resource type="PackedScene" uid="uid://cf8cl7yt00u2e" path="res://Games/assessment/arrow.tscn" id="2_dqy0r"]
+[ext_resource type="Texture2D" uid="uid://wpbat27ye8h0" path="res://Assets/Tiny Swords/Factions/Knights/Troops/Archer/Arrow/File59.png" id="2_i7fyk"]
+[ext_resource type="Script" path="res://Games/assessment/arrow_2.gd" id="3_bqene"]
+[ext_resource type="Script" path="res://Games/assessment/arrow_3.gd" id="5_jnbu0"]
+[ext_resource type="Script" path="res://Games/assessment/rom_polygon.gd" id="6_tl040"]
+[ext_resource type="Texture2D" uid="uid://c70hnnhv7u0ua" path="res://Assets/Tiny Swords/UI/Pointers/01.png" id="7_pfwlr"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_cpy64"]
+
+[sub_resource type="Curve2D" id="Curve2D_fundk"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 589, 576, 0, 0, 0, 0, 589, 43)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_75bjf"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 588, 578, 0, 0, 0, 0, 967, 200)
+}
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x13xw"]
 
 [node name="RomScene" type="Node2D"]
 script = ExtResource("1_gl5cx")
 
-[node name="Lines" type="Node2D" parent="."]
+[node name="RomPolygon" type="Polygon2D" parent="."]
+position = Vector2(0, -1)
+color = Color(0.85965, 0.68324, 0.989475, 1)
+polygon = PackedVector2Array(366, 660, 350, 340, 596, 298, 880, 336, 996, 666)
+script = ExtResource("6_tl040")
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon"]
+position = Vector2(400, 394)
+rotation = 2.35619
+scale = Vector2(18.169, 547.86)
+texture = SubResource("CanvasTexture_cpy64")
+
+[node name="Sprite2D2" type="Sprite2D" parent="RomPolygon"]
+position = Vector2(590, 317)
+rotation = 3.14159
+scale = Vector2(18.169, 547.86)
+texture = SubResource("CanvasTexture_cpy64")
+
+[node name="Sprite2D3" type="Sprite2D" parent="RomPolygon"]
+position = Vector2(774, 396)
+rotation = -2.3562
+scale = Vector2(18.169, 547.86)
+texture = SubResource("CanvasTexture_cpy64")
+
+[node name="Arrow1" parent="RomPolygon" instance=ExtResource("2_dqy0r")]
+position = Vector2(548, 542)
+
+[node name="Arrow2" type="Node2D" parent="RomPolygon"]
+visible = false
+position = Vector2(0, 1)
+script = ExtResource("3_bqene")
+
+[node name="Path2D" type="Path2D" parent="RomPolygon/Arrow2"]
+curve = SubResource("Curve2D_fundk")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RomPolygon/Arrow2/Path2D"]
+position = Vector2(589, 576)
+rotation = -1.5708
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/Arrow2/Path2D/PathFollow2D"]
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_i7fyk")
+
+[node name="Arrow3" type="Node2D" parent="RomPolygon"]
+visible = false
+position = Vector2(0, 1)
+script = ExtResource("5_jnbu0")
+
+[node name="Path2D" type="Path2D" parent="RomPolygon/Arrow3"]
+curve = SubResource("Curve2D_75bjf")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="RomPolygon/Arrow3/Path2D"]
+position = Vector2(588, 578)
+rotation = -0.784077
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/Arrow3/Path2D/PathFollow2D"]
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_i7fyk")
+
+[node name="v1" type="Area2D" parent="RomPolygon"]
+position = Vector2(350, 338)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v1"]
+position = Vector2(1.89868, 5.00827)
+shape = SubResource("CircleShape2D_x13xw")
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v1"]
+position = Vector2(5, 6)
+texture = ExtResource("7_pfwlr")
+
+[node name="v2" type="Area2D" parent="RomPolygon"]
+position = Vector2(593, 298)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v2"]
+position = Vector2(3, 0)
+shape = SubResource("CircleShape2D_x13xw")
+
+[node name="Sprite2D2" type="Sprite2D" parent="RomPolygon/v2"]
+position = Vector2(3, 0)
+texture = ExtResource("7_pfwlr")
+
+[node name="v3" type="Area2D" parent="RomPolygon"]
+position = Vector2(877, 334)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v3"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_x13xw")
+
+[node name="Sprite2D4" type="Sprite2D" parent="RomPolygon/v3"]
+position = Vector2(1, 7)
+texture = ExtResource("7_pfwlr")
+
+[node name="Switch" type="Button" parent="."]
+offset_left = 767.0
+offset_top = 594.0
+offset_right = 835.0
+offset_bottom = 634.0
+text = "Switch"
 
 [node name="StopButton" type="Button" parent="."]
 texture_filter = 1
-offset_left = 708.0
-offset_top = 591.0
-offset_right = 781.0
-offset_bottom = 631.0
+offset_left = 669.0
+offset_top = 594.0
+offset_right = 742.0
+offset_bottom = 634.0
 text = "Stop"
 
 [node name="set_orgin" type="Button" parent="."]
@@ -32,6 +153,15 @@ offset_right = 627.0
 offset_bottom = 633.0
 text = "Start"
 
+[node name="Lines" type="Node2D" parent="."]
+
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="mouse_entered" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_entered"]
+[connection signal="mouse_exited" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_exited"]
+[connection signal="mouse_entered" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_entered"]
+[connection signal="mouse_exited" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_exited"]
+[connection signal="mouse_entered" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_entered"]
+[connection signal="mouse_exited" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_exited"]
+[connection signal="pressed" from="Switch" to="." method="_on_switch_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
