@@ -110,6 +110,18 @@ grow_horizontal = 2
 text = "SpaceShooter
 "
 
+[node name="Assessment" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -392.0
+offset_top = 316.0
+offset_right = -240.0
+offset_bottom = 392.0
+grow_horizontal = 2
+text = "Assessment"
+
 [node name="Exit_button" type="Button" parent="."]
 layout_mode = 0
 offset_left = 1061.0
@@ -142,5 +154,6 @@ vertical_alignment = 1
 [connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
 [connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]
 [connection signal="pressed" from="game_spaceshooter" to="." method="_on_game_spaceshooter_pressed"]
+[connection signal="pressed" from="Assessment" to="." method="_on_assessment_pressed"]
 [connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]

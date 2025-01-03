@@ -4,6 +4,7 @@ extends Node
 
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
+
 @export var PLAYER_POS_SCALER_X: int = 15 * 100
 @export var PLAYER_POS_SCALER_Y: int = 15 * 100
 
@@ -22,7 +23,6 @@ var thread_network = Thread.new()
 var thread_python = Thread.new()
 var thread_path_check = Thread.new()
 
-
 @onready var connected: bool = false
 @onready var disconnected: bool = false
 @onready var reset_position: bool = false
@@ -37,6 +37,12 @@ var net_x: float
 var net_y: float
 var net_z: float
 var network_position: Vector2 = Vector2.ZERO
+
+# scaled position
+var scaled_x: float
+var scaled_y: float
+var scaled_z: float
+var scaled_network_position: Vector2 = Vector2.ZERO
 
 var quit_request:bool = false
 @export var delay_time = 0.2
@@ -109,10 +115,12 @@ func handle_udp_packet():
 	net_x = my_floats[1]*PLAYER_POS_SCALER_X + X_SCREEN_OFFSET
 	net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
-
 	network_position = Vector2(net_x, net_z)
-	print(network_position)
-
+	
+	scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
+	scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
+	scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
+	scaled_network_position = Vector2(scaled_x, scaled_z)
 	
 func change_patient():
 	_outgoing_message = 'USER:' + patient_db.current_patient_id
@@ -123,5 +131,5 @@ func send_dummy_packet():
 func python_thread():
 	var output = []
 	print("Python thread started.")
-	#OS.execute(interpreter_path, [pyscript_path], output)
+	OS.execute(interpreter_path, [pyscript_path], output)
 	print(output)

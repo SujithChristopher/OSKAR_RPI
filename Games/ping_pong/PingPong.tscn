@@ -58,30 +58,30 @@ position = Vector2(-3, 77)
 position = Vector2(1159, 86)
 
 [node name="top" parent="." instance=ExtResource("9_p63tb")]
-position = Vector2(956, 17)
+position = Vector2(585, 13)
 rotation = 1.5708
 
 [node name="bottom" parent="." instance=ExtResource("9_p63tb")]
-position = Vector2(1036, 651)
+position = Vector2(579, 629)
 rotation = 1.5708
 
 [node name="PlayerScore" type="Label" parent="."]
 layout_mode = 0
-offset_left = 910.0
-offset_top = 581.0
-offset_right = 1136.0
-offset_bottom = 623.0
+offset_left = 923.0
+offset_top = 567.0
+offset_right = 1071.0
+offset_bottom = 609.0
 theme_override_font_sizes/font_size = 30
-text = "Player score"
+text = "Player "
 
 [node name="ComputerScore" type="Label" parent="."]
 layout_mode = 0
-offset_left = 839.0
-offset_top = 44.0
-offset_right = 1111.0
-offset_bottom = 86.0
+offset_left = 911.0
+offset_top = 32.0
+offset_right = 1125.0
+offset_bottom = 74.0
 theme_override_font_sizes/font_size = 30
-text = "Computer score"
+text = "Computer "
 
 [node name="logout" type="Button" parent="."]
 layout_mode = 0

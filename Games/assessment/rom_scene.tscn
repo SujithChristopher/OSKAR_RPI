@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://orwfdvsg1eej"]
+[gd_scene load_steps=13 format=3 uid="uid://orwfdvsg1eej"]
 
 [ext_resource type="Script" path="res://Games/assessment/rom_scene.gd" id="1_gl5cx"]
 [ext_resource type="PackedScene" uid="uid://cf8cl7yt00u2e" path="res://Games/assessment/arrow.tscn" id="2_dqy0r"]
 [ext_resource type="Texture2D" uid="uid://wpbat27ye8h0" path="res://Assets/Tiny Swords/Factions/Knights/Troops/Archer/Arrow/File59.png" id="2_i7fyk"]
+[ext_resource type="Texture2D" uid="uid://b4a670lt0tvg1" path="res://Assets/Background/Yellow.png" id="2_oh5h0"]
 [ext_resource type="Script" path="res://Games/assessment/arrow_2.gd" id="3_bqene"]
 [ext_resource type="Script" path="res://Games/assessment/arrow_3.gd" id="5_jnbu0"]
 [ext_resource type="Script" path="res://Games/assessment/rom_polygon.gd" id="6_tl040"]
@@ -27,10 +28,19 @@ point_count = 2
 [node name="RomScene" type="Node2D"]
 script = ExtResource("1_gl5cx")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1213.0
+offset_bottom = 746.0
+texture = ExtResource("2_oh5h0")
+stretch_mode = 1
+
+[node name="AromPolygon" type="Polygon2D" parent="."]
+color = Color(0.129412, 0.682353, 1, 0.533333)
+polygon = PackedVector2Array(432.845, 626.309, 433.825, 431.834, 751.114, 433.829, 751.114, 626.309)
+
 [node name="RomPolygon" type="Polygon2D" parent="."]
-position = Vector2(0, -1)
-color = Color(0.85965, 0.68324, 0.989475, 1)
-polygon = PackedVector2Array(366, 660, 350, 340, 596, 298, 880, 336, 996, 666)
+color = Color(0.858824, 0.682353, 0.988235, 0.396078)
+polygon = PackedVector2Array(346, 640, 350, 340, 883, 336, 887, 635)
 script = ExtResource("6_tl040")
 
 [node name="Sprite2D" type="Sprite2D" parent="RomPolygon"]
@@ -91,52 +101,42 @@ texture = ExtResource("2_i7fyk")
 [node name="v1" type="Area2D" parent="RomPolygon"]
 position = Vector2(350, 338)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v1"]
-position = Vector2(1.89868, 5.00827)
-shape = SubResource("CircleShape2D_x13xw")
-
 [node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v1"]
-position = Vector2(5, 6)
+position = Vector2(0, 5)
 texture = ExtResource("7_pfwlr")
 
-[node name="v2" type="Area2D" parent="RomPolygon"]
-position = Vector2(593, 298)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v2"]
-position = Vector2(3, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v1"]
+position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_x13xw")
-
-[node name="Sprite2D2" type="Sprite2D" parent="RomPolygon/v2"]
-position = Vector2(3, 0)
-texture = ExtResource("7_pfwlr")
 
 [node name="v3" type="Area2D" parent="RomPolygon"]
 position = Vector2(877, 334)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v3"]
-position = Vector2(0, 1)
-shape = SubResource("CircleShape2D_x13xw")
-
 [node name="Sprite2D4" type="Sprite2D" parent="RomPolygon/v3"]
-position = Vector2(1, 7)
+position = Vector2(5, 4)
 texture = ExtResource("7_pfwlr")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v3"]
+position = Vector2(5, 4)
+shape = SubResource("CircleShape2D_x13xw")
+
 [node name="Switch" type="Button" parent="."]
-offset_left = 767.0
+offset_left = 668.0
 offset_top = 594.0
-offset_right = 835.0
+offset_right = 736.0
 offset_bottom = 634.0
 text = "Switch"
 
 [node name="StopButton" type="Button" parent="."]
 texture_filter = 1
-offset_left = 669.0
-offset_top = 594.0
-offset_right = 742.0
-offset_bottom = 634.0
-text = "Stop"
+offset_left = 380.0
+offset_top = 593.0
+offset_right = 512.0
+offset_bottom = 633.0
+text = "Calculate AROM"
 
 [node name="set_orgin" type="Button" parent="."]
+visible = false
 texture_filter = 1
 offset_left = 394.0
 offset_top = 594.0
@@ -144,6 +144,14 @@ offset_right = 485.0
 offset_bottom = 633.0
 text = "Set orgin
 "
+
+[node name="Enter" type="Button" parent="."]
+texture_filter = 1
+offset_left = 775.0
+offset_top = 594.0
+offset_right = 866.0
+offset_bottom = 633.0
+text = "Enter"
 
 [node name="start" type="Button" parent="."]
 texture_filter = 1
@@ -153,15 +161,23 @@ offset_right = 627.0
 offset_bottom = 633.0
 text = "Start"
 
+[node name="SelectGame" type="Button" parent="."]
+offset_left = 1079.0
+offset_top = 16.0
+offset_right = 1129.0
+offset_bottom = 48.0
+text = "Game
+"
+
 [node name="Lines" type="Node2D" parent="."]
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="mouse_entered" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_entered"]
 [connection signal="mouse_exited" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_exited"]
-[connection signal="mouse_entered" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_entered"]
-[connection signal="mouse_exited" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_exited"]
 [connection signal="mouse_entered" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_entered"]
 [connection signal="mouse_exited" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_exited"]
 [connection signal="pressed" from="Switch" to="." method="_on_switch_pressed"]
+[connection signal="pressed" from="StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="SelectGame" to="." method="_on_select_game_pressed"]

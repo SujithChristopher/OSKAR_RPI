@@ -416,6 +416,22 @@ offset_right = 204.753
 offset_bottom = 610.793
 text = "⬅️ logout"
 
+[node name="AdaptRom" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 229.497
+offset_top = 580.765
+offset_right = 375.497
+offset_bottom = 611.765
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Adapt PROM"
+flat = true
+
 [connection signal="ready" from="." to="Player" method="_on_reach_game_ready"]
 [connection signal="tree_exiting" from="." to="Player" method="_on_reach_game_tree_exiting"]
 [connection signal="ready" from="Player" to="Player" method="_on_ready"]
@@ -424,3 +440,4 @@ text = "⬅️ logout"
 [connection signal="pressed" from="Zero" to="Player" method="_on_zero_pressed"]
 [connection signal="pressed" from="Button" to="Player" method="_on_button_pressed"]
 [connection signal="pressed" from="logout" to="Player" method="_on_logout_pressed"]
+[connection signal="toggled" from="AdaptRom" to="Player" method="_on_adapt_rom_toggled"]

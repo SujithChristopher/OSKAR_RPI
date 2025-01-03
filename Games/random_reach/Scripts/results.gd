@@ -9,7 +9,7 @@ var rom = ""
 func _ready():
 	var rom_val = $rom_value
 	var max_x = $max_x_value
-	var max_y = $max_y_value	
+	var max_y = $max_y_value
 	var output = []
 	interpreter_path = r"D:\CMC\py_env\venv\Scripts\python.exe"
 	OS.execute(interpreter_path, [pyscript_path], output)

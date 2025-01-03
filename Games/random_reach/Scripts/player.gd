@@ -22,10 +22,14 @@ var rom_x_bot : int
 var rom_y_bot : int
 
 var game_over = false
-
+@onready var adapt_toggle:bool = true
 
 func _physics_process(delta):
-	network_position = GlobalScript.network_position
+	if adapt_toggle:
+		network_position = GlobalScript.scaled_network_position
+	else:
+		network_position = GlobalScript.network_position
+		
 	if network_position != Vector2.ZERO:
 		#network_position = network_position - zero_offset  + Vector2(600, 200)  
 		network_position = network_position - zero_offset
@@ -101,3 +105,11 @@ func _on_button_pressed() -> void:
 
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+
+
+func _on_adapt_rom_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		adapt_toggle = true
+	else:
+		adapt_toggle = false
+		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://fj2c6cebl8pk"]
+[gd_scene load_steps=15 format=3 uid="uid://fj2c6cebl8pk"]
 
 [ext_resource type="PackedScene" uid="uid://cd76jpqxb0eqo" path="res://Games/flappy_bird/flappy_scenes/ground.tscn" id="1_rlb8a"]
 [ext_resource type="Script" path="res://Games/flappy_bird/flappy_main.gd" id="1_y37re"]
@@ -7,6 +7,9 @@
 [ext_resource type="Script" path="res://Games/flappy_bird/flappy_scenes/ground.gd" id="3_85j6f"]
 [ext_resource type="Script" path="res://Games/flappy_bird/flappy_scenes/pilot.gd" id="6_60jxw"]
 [ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="7_y6fyh"]
+[ext_resource type="Texture2D" uid="uid://fn3psom18nnv" path="res://Assets/Health and Points Bars/Sprites/Heart Bar/Heart Stage 1.png" id="8_0pgrx"]
+[ext_resource type="Texture2D" uid="uid://co33yn52kaeqb" path="res://Assets/Health and Points Bars/Sprites/Heart Bar/Heart Stage 5.png" id="9_ql3gn"]
+[ext_resource type="PackedScene" uid="uid://7nr2tlykv2n5" path="res://Games/flappy_bird/flappy_scenes/game_over.tscn" id="10_atd0n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovamc"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
@@ -23,6 +26,38 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywesg"]
+bg_color = Color(0.857629, 0.665457, 0.907348, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.811725, 0.27799, 0.590984, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 3
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oy1mx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_ql3gn")
+}],
+"loop": true,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_0pgrx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="FlappyMain" type="Control"]
 layout_mode = 3
@@ -128,6 +163,65 @@ grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 25
 text = "0"
+
+[node name="Health" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 660.0
+offset_top = 15.0
+offset_right = 886.0
+offset_bottom = 85.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ywesg")
+
+[node name="ApplePic" type="Panel" parent="Health"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 7.0
+offset_top = -25.0
+offset_right = 57.0
+offset_bottom = 25.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c6kp5")
+
+[node name="TextureRect" type="TextureRect" parent="Health/ApplePic"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_0pgrx")
+expand_mode = 3
+
+[node name="heart1" type="AnimatedSprite2D" parent="Health"]
+position = Vector2(85, 35)
+scale = Vector2(0.625, 0.625)
+sprite_frames = SubResource("SpriteFrames_oy1mx")
+animation = &"Dead"
+autoplay = "default"
+
+[node name="heart2" type="AnimatedSprite2D" parent="Health"]
+position = Vector2(134, 35)
+scale = Vector2(0.625, 0.625)
+sprite_frames = SubResource("SpriteFrames_oy1mx")
+animation = &"Dead"
+autoplay = "default"
+
+[node name="heart3" type="AnimatedSprite2D" parent="Health"]
+position = Vector2(184, 34)
+scale = Vector2(0.625, 0.625)
+sprite_frames = SubResource("SpriteFrames_oy1mx")
+animation = &"Dead"
+autoplay = "default"
+
+[node name="GameOver" parent="." instance=ExtResource("10_atd0n")]
+visible = false
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
