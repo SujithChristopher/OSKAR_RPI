@@ -18,19 +18,19 @@ var clamp_vector_x = Vector2(MIN_X, MIN_Y)
 var clamp_vector_y = Vector2(MAX_X, MAX_Y)
 
 # UDP and threading
-var udp: PacketPeerUDP = PacketPeerUDP.new()
-var thread_network = Thread.new()
-var thread_python = Thread.new()
-var thread_path_check = Thread.new()
+@onready var udp: PacketPeerUDP = PacketPeerUDP.new()
+@onready var thread_network = Thread.new()
+@onready var thread_python = Thread.new()
+@onready var thread_path_check = Thread.new()
 
 @onready var connected: bool = false
 @onready var disconnected: bool = false
 @onready var reset_position: bool = false
 
 # Paths and platform-specific variables
-var interpreter_path: String
-var pyscript_path: String
-var pypath_checker_path : String
+@onready var interpreter_path: String
+@onready var pyscript_path: String
+@onready var pypath_checker_path : String
 
 # Networked position
 var net_x: float
@@ -45,7 +45,7 @@ var scaled_z: float
 var scaled_network_position: Vector2 = Vector2.ZERO
 
 var quit_request:bool = false
-@export var delay_time = 0.2
+@export var delay_time = 0.1
 @onready var message_timer:Timer = Timer.new()
 var _outgoing_message = "CONNECTED"
 var _incoming_message: float
@@ -54,8 +54,9 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 
 func _ready():
 	udp.connect_to_host("127.0.0.1", 8000)
+	
+	thread_python.start(python_thread, Thread.PRIORITY_HIGH)
 	thread_network.start(network_thread)
-	thread_python.start(python_thread)
 
 	print(MAX_X, " " + str(MAX_Y))
 	X_SCREEN_OFFSET = int(screen_size.x/4)
@@ -78,6 +79,12 @@ func _ready():
 		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
 	
 func _process(delta: float) -> void:
+	if not thread_python.is_alive():
+		#thread_python.init_ref()
+		thread_python = Thread.new()
+		thread_python.start(python_thread, Thread.PRIORITY_HIGH)
+		#print(thread_python.start())
+		
 	match _incoming_message:
 		-99.0:
 			disconnected = true
