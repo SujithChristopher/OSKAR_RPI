@@ -36,7 +36,7 @@ var message = 'connected'
 
 func _on_ready():
 	_current_line = Line2D.new()
-	_current_line.add_point(Vector2(600, 400))
+	#_current_line.add_point(Vector2(600, 400))
 
 	arom_polygons = arom_polygon2D.polygon
 	add_child(_current_line)
@@ -56,7 +56,7 @@ func _process(delta):
 	if network_position != Vector2.ZERO and start_drawing:
 		_current_line.width = 5
 		_current_line.default_color = Color.RED
-		_current_line.add_point(network_position)
+		_current_line.add_point(network_position - Vector2(300,300))
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		add_mouse_dot()
