@@ -50,7 +50,6 @@ func _process(delta):
 
 	if _temp_message == "starting":
 		start_drawing = true
-
 	
 	network_position = GlobalScript.network_position
 

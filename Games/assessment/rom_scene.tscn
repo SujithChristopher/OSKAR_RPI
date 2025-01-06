@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Games/assessment/arrow_2.gd" id="3_bqene"]
 [ext_resource type="Script" path="res://Games/assessment/arrow_3.gd" id="5_jnbu0"]
 [ext_resource type="Script" path="res://Games/assessment/rom_polygon.gd" id="6_tl040"]
-[ext_resource type="Texture2D" uid="uid://c70hnnhv7u0ua" path="res://Assets/Tiny Swords/UI/Pointers/01.png" id="7_pfwlr"]
+[ext_resource type="Texture2D" uid="uid://dy8y607pjywvd" path="res://Assets/pp_assets/arts/Ball.png" id="8_e66ku"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_cpy64"]
 
@@ -24,6 +24,7 @@ _data = {
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x13xw"]
+radius = 19.105
 
 [node name="RomScene" type="Node2D"]
 script = ExtResource("1_gl5cx")
@@ -99,24 +100,46 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_i7fyk")
 
 [node name="v1" type="Area2D" parent="RomPolygon"]
-position = Vector2(350, 338)
+position = Vector2(350, 626)
 
 [node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v1"]
 position = Vector2(0, 5)
-texture = ExtResource("7_pfwlr")
+texture = ExtResource("8_e66ku")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v1"]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_x13xw")
+
+[node name="v2" type="Area2D" parent="RomPolygon"]
+position = Vector2(350, 338)
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v2"]
+position = Vector2(0, 5)
+texture = ExtResource("8_e66ku")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v2"]
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_x13xw")
 
 [node name="v3" type="Area2D" parent="RomPolygon"]
 position = Vector2(877, 334)
 
-[node name="Sprite2D4" type="Sprite2D" parent="RomPolygon/v3"]
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v3"]
 position = Vector2(5, 4)
-texture = ExtResource("7_pfwlr")
+texture = ExtResource("8_e66ku")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v3"]
+position = Vector2(5, 4)
+shape = SubResource("CircleShape2D_x13xw")
+
+[node name="v4" type="Area2D" parent="RomPolygon"]
+position = Vector2(877, 626)
+
+[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/v4"]
+position = Vector2(5, 4)
+texture = ExtResource("8_e66ku")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RomPolygon/v4"]
 position = Vector2(5, 4)
 shape = SubResource("CircleShape2D_x13xw")
 
@@ -174,8 +197,12 @@ text = "Game
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="mouse_entered" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_entered"]
 [connection signal="mouse_exited" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_exited"]
+[connection signal="mouse_entered" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_entered"]
+[connection signal="mouse_exited" from="RomPolygon/v2" to="RomPolygon" method="_on_v_2_mouse_exited"]
 [connection signal="mouse_entered" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_entered"]
 [connection signal="mouse_exited" from="RomPolygon/v3" to="RomPolygon" method="_on_v_3_mouse_exited"]
+[connection signal="mouse_entered" from="RomPolygon/v4" to="RomPolygon" method="_on_v_4_mouse_entered"]
+[connection signal="mouse_exited" from="RomPolygon/v4" to="RomPolygon" method="_on_v_4_mouse_exited"]
 [connection signal="pressed" from="Switch" to="." method="_on_switch_pressed"]
 [connection signal="pressed" from="StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]

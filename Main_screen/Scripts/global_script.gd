@@ -31,6 +31,7 @@ var clamp_vector_y = Vector2(MAX_X, MAX_Y)
 @onready var interpreter_path: String
 @onready var pyscript_path: String
 @onready var pypath_checker_path : String
+@export var endgame:bool = false
 
 # Networked position
 var net_x: float
@@ -68,6 +69,7 @@ func _ready():
 	message_timer.timeout.connect(send_dummy_packet)
 	add_child(message_timer)
 	GlobalSignals.SignalBus.connect(handle_quit_request)
+	get_tree().set_auto_accept_quit(false)
 	
 	if OS.get_name() == "Windows":
 		pyscript_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\stream_optimize.py"
@@ -79,15 +81,14 @@ func _ready():
 		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
 	
 func _process(delta: float) -> void:
-	if not thread_python.is_alive():
-		#thread_python.init_ref()
+	if not thread_python.is_alive() and not endgame:
 		thread_python = Thread.new()
 		thread_python.start(python_thread, Thread.PRIORITY_HIGH)
-		#print(thread_python.start())
 		
 	match _incoming_message:
 		-99.0:
 			disconnected = true
+			endgame = true
 			thread_network.wait_to_finish()
 			thread_python.wait_to_finish()
 			get_tree().quit()
@@ -140,3 +141,10 @@ func python_thread():
 	print("Python thread started.")
 	OS.execute(interpreter_path, [pyscript_path], output)
 	print(output)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		endgame = true
+		handle_quit_request()
+		thread_python.wait_to_finish()
+		get_tree().quit()
