@@ -73,10 +73,6 @@ func _process(delta):
 		$Player.position = network_position  - Vector2(300,300) - player_offset
 
 	get_xy_cm()
-	queue_redraw()
-
-func _draw() -> void:
-	draw_rect(Rect2(100, 100, 300, 100), Color.GREEN, true, 5)
 
 
 func get_xy_cm():

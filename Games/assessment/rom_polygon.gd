@@ -19,12 +19,16 @@ func _ready() -> void:
 	$TWLabel.position.x = poly_vals[1][0] + (poly_vals[2][0] - poly_vals[1][0])/2
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
+	#if Input.is_action_just_released(MOUSE_BUTTON_LEFT):
+		#print('released')
+		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		$TWLabel.position.y = poly_vals[1][1]
 		$TWLabel.position.x = poly_vals[1][0] + (poly_vals[2][0] - poly_vals[1][0])/2
 		
 		player_pos = get_viewport().get_mouse_position()
-		if vertex_selected and current_vertex == 0:
+		if current_vertex == 0:
 			poly_vals[0] = player_pos
 			poly_vals[1].x = player_pos.x
 			poly_vals[3].y = player_pos.y
@@ -38,7 +42,7 @@ func _process(delta: float) -> void:
 			$v4.position.y = player_pos.y
 			$v4/Sprite2D.position.y = $v4/CollisionShape2D.position.y
 			
-		elif vertex_selected and current_vertex == 1:
+		elif current_vertex == 1:
 			poly_vals[1] = player_pos
 			poly_vals[0].x = player_pos.x
 			poly_vals[2].y = player_pos.y
@@ -53,7 +57,7 @@ func _process(delta: float) -> void:
 			$v1/Sprite2D.position.x = $v1/CollisionShape2D.position.x
 
 			
-		elif vertex_selected and current_vertex == 2:
+		elif current_vertex == 2:
 			poly_vals[2] = player_pos
 			poly_vals[3].x = player_pos.x
 			poly_vals[1].y = player_pos.y
@@ -68,7 +72,7 @@ func _process(delta: float) -> void:
 			$v4.position.x = player_pos.x
 			$v4/Sprite2D.position.x = $v4/CollisionShape2D.position.x
 			
-		elif vertex_selected and current_vertex == 3:
+		elif current_vertex == 3:
 			
 			poly_vals[3] = player_pos
 			poly_vals[2].x = player_pos.x
@@ -85,33 +89,29 @@ func _process(delta: float) -> void:
 			$v1/Sprite2D.position.y = $v1/CollisionShape2D.position.y
 	
 func _on_v_1_mouse_entered() -> void:
-	vertex_selected = true
 	current_vertex = 0
 	
 func _on_v_3_mouse_entered() -> void:
-	vertex_selected = true
 	current_vertex = 2
 
 func _on_v_1_mouse_exited() -> void:
-	vertex_selected = false
-	current_vertex = -1
+	#current_vertex = -1
+	pass
 
 func _on_v_3_mouse_exited() -> void:
-	vertex_selected = false
-	current_vertex = -1
+	#current_vertex = -1
+	pass
 
 func _on_v_2_mouse_entered() -> void:
-	vertex_selected = true
 	current_vertex = 1
 
 func _on_v_4_mouse_entered() -> void:
-	vertex_selected = true
 	current_vertex = 3
 
 func _on_v_4_mouse_exited() -> void:
-	vertex_selected = true
-	current_vertex = -1
+	#current_vertex = -1
+	pass
 
 func _on_v_2_mouse_exited() -> void:
-	vertex_selected = true
-	current_vertex = -1
+	#current_vertex = -1
+	pass
