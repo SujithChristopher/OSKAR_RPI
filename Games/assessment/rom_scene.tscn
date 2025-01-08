@@ -36,13 +36,28 @@ texture = ExtResource("2_oh5h0")
 stretch_mode = 1
 
 [node name="AromPolygon" type="Polygon2D" parent="."]
+visible = false
 color = Color(0.129412, 0.682353, 1, 0.533333)
 polygon = PackedVector2Array(432.845, 626.309, 433.825, 431.834, 751.114, 433.829, 751.114, 626.309)
 
+[node name="AWLabel" type="Label" parent="AromPolygon"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "AW"
+
 [node name="RomPolygon" type="Polygon2D" parent="."]
-color = Color(0.858824, 0.682353, 0.988235, 0.396078)
+color = Color(0.858824, 0.682353, 0.988235, 0.545098)
 polygon = PackedVector2Array(346, 640, 350, 340, 883, 336, 887, 635)
 script = ExtResource("6_tl040")
+
+[node name="TWLabel" type="Label" parent="RomPolygon"]
+offset_left = 307.0
+offset_top = 16.0
+offset_right = 347.0
+offset_bottom = 39.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "TW"
 
 [node name="Sprite2D" type="Sprite2D" parent="RomPolygon"]
 position = Vector2(400, 394)
@@ -152,11 +167,11 @@ text = "Switch"
 
 [node name="StopButton" type="Button" parent="."]
 texture_filter = 1
-offset_left = 380.0
+offset_left = 394.0
 offset_top = 593.0
-offset_right = 512.0
+offset_right = 498.0
 offset_bottom = 633.0
-text = "Calculate AROM"
+text = "Calc.  AW"
 
 [node name="set_orgin" type="Button" parent="."]
 visible = false
@@ -184,6 +199,22 @@ offset_right = 627.0
 offset_bottom = 633.0
 text = "Start"
 
+[node name="Clear" type="Button" parent="."]
+texture_filter = 1
+offset_left = 1066.0
+offset_top = 594.0
+offset_right = 1140.0
+offset_bottom = 634.0
+text = "Clear"
+
+[node name="Reset" type="Button" parent="."]
+texture_filter = 1
+offset_left = 15.0
+offset_top = 594.0
+offset_right = 105.0
+offset_bottom = 634.0
+text = "Set-Zero"
+
 [node name="SelectGame" type="Button" parent="."]
 offset_left = 1079.0
 offset_top = 16.0
@@ -193,6 +224,99 @@ text = "Game
 "
 
 [node name="Lines" type="Node2D" parent="."]
+
+[node name="Player" type="Sprite2D" parent="."]
+position = Vector2(603, 489)
+scale = Vector2(0.533334, 0.533334)
+texture = ExtResource("8_e66ku")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 952.0
+offset_top = 86.0
+offset_right = 1142.0
+offset_bottom = 244.0
+
+[node name="AW" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Active workspace (AW)"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "X Dir"
+
+[node name="axval" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0.0"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "cm"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Z Dir"
+
+[node name="azval" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0.0"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "cm"
+
+[node name="TW" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Training workspace (TW)"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "X Dir"
+
+[node name="txval" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0.0"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "cm"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Z Dir"
+
+[node name="tzval" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0.0"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "cm"
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="mouse_entered" from="RomPolygon/v1" to="RomPolygon" method="_on_v_1_mouse_entered"]
@@ -207,4 +331,6 @@ text = "Game
 [connection signal="pressed" from="StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Clear" to="." method="_on_clear_pressed"]
+[connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="SelectGame" to="." method="_on_select_game_pressed"]

@@ -22,7 +22,7 @@ var rom_x_bot : int
 var rom_y_bot : int
 
 var game_over = false
-@onready var adapt_toggle:bool = true
+@onready var adapt_toggle:bool = false
 
 func _physics_process(delta):
 	if adapt_toggle:
@@ -32,7 +32,9 @@ func _physics_process(delta):
 		
 	if network_position != Vector2.ZERO:
 		#network_position = network_position - zero_offset  + Vector2(600, 200)  
-		network_position = network_position - zero_offset - Vector2(500, 350)
+		network_position = network_position - zero_offset
+		#print(network_position)
+		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
 		position = position.lerp(network_position, 0.8)
 		#position = network_position 
 		

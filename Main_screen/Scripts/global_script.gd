@@ -5,8 +5,8 @@ extends Node
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
 
-@export var PLAYER_POS_SCALER_X: int = 15 * 100
-@export var PLAYER_POS_SCALER_Y: int = 15 * 100
+@export var PLAYER_POS_SCALER_X: int = 10 * 100
+@export var PLAYER_POS_SCALER_Y: int = 10 * 100
 
 var screen_size = DisplayServer.screen_get_size()
 var MIN_X: int = 10

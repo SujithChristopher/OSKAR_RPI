@@ -10,15 +10,19 @@ extends Polygon2D
 @onready var mouse_pos_normalized
 @onready var player_pos = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
-
+@onready var aw_poly_vals
 
 func _ready() -> void:
 	poly_vals = rom_polygon.polygon
-
-
+		
+	$TWLabel.position.y = poly_vals[1][1]
+	$TWLabel.position.x = poly_vals[1][0] + (poly_vals[2][0] - poly_vals[1][0])/2
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		$TWLabel.position.y = poly_vals[1][1]
+		$TWLabel.position.x = poly_vals[1][0] + (poly_vals[2][0] - poly_vals[1][0])/2
+		
 		player_pos = get_viewport().get_mouse_position()
 		if vertex_selected and current_vertex == 0:
 			poly_vals[0] = player_pos
