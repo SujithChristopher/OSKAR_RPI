@@ -1,7 +1,7 @@
 extends Polygon2D
 
 
-@onready var current_vertex:int 
+@onready var current_vertex:int = -1
 @onready var vertex_selected:bool = false
 @onready var rom_polygon: Polygon2D = $"."
 
@@ -20,8 +20,8 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
-	#if Input.is_action_just_released(MOUSE_BUTTON_LEFT):
-		#print('released')
+	if Input.is_action_just_released("mouse_left"):
+		current_vertex = -1
 		
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		$TWLabel.position.y = poly_vals[1][1]
