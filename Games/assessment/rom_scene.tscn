@@ -1,27 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://orwfdvsg1eej"]
+[gd_scene load_steps=7 format=3 uid="uid://orwfdvsg1eej"]
 
 [ext_resource type="Script" path="res://Games/assessment/rom_scene.gd" id="1_gl5cx"]
-[ext_resource type="PackedScene" uid="uid://cf8cl7yt00u2e" path="res://Games/assessment/arrow.tscn" id="2_dqy0r"]
-[ext_resource type="Texture2D" uid="uid://wpbat27ye8h0" path="res://Assets/Tiny Swords/Factions/Knights/Troops/Archer/Arrow/File59.png" id="2_i7fyk"]
 [ext_resource type="Texture2D" uid="uid://b4a670lt0tvg1" path="res://Assets/Background/Yellow.png" id="2_oh5h0"]
-[ext_resource type="Script" path="res://Games/assessment/arrow_2.gd" id="3_bqene"]
-[ext_resource type="Script" path="res://Games/assessment/arrow_3.gd" id="5_jnbu0"]
 [ext_resource type="Script" path="res://Games/assessment/rom_polygon.gd" id="6_tl040"]
 [ext_resource type="Texture2D" uid="uid://dy8y607pjywvd" path="res://Assets/pp_assets/arts/Ball.png" id="8_e66ku"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_cpy64"]
-
-[sub_resource type="Curve2D" id="Curve2D_fundk"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 589, 576, 0, 0, 0, 0, 589, 43)
-}
-point_count = 2
-
-[sub_resource type="Curve2D" id="Curve2D_75bjf"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 588, 578, 0, 0, 0, 0, 967, 200)
-}
-point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x13xw"]
 radius = 19.105
@@ -60,59 +44,25 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "TW"
 
 [node name="Sprite2D" type="Sprite2D" parent="RomPolygon"]
+visible = false
 position = Vector2(400, 394)
 rotation = 2.35619
 scale = Vector2(18.169, 547.86)
 texture = SubResource("CanvasTexture_cpy64")
 
 [node name="Sprite2D2" type="Sprite2D" parent="RomPolygon"]
+visible = false
 position = Vector2(590, 317)
 rotation = 3.14159
 scale = Vector2(18.169, 547.86)
 texture = SubResource("CanvasTexture_cpy64")
 
 [node name="Sprite2D3" type="Sprite2D" parent="RomPolygon"]
+visible = false
 position = Vector2(774, 396)
 rotation = -2.3562
 scale = Vector2(18.169, 547.86)
 texture = SubResource("CanvasTexture_cpy64")
-
-[node name="Arrow1" parent="RomPolygon" instance=ExtResource("2_dqy0r")]
-position = Vector2(548, 542)
-
-[node name="Arrow2" type="Node2D" parent="RomPolygon"]
-visible = false
-position = Vector2(0, 1)
-script = ExtResource("3_bqene")
-
-[node name="Path2D" type="Path2D" parent="RomPolygon/Arrow2"]
-curve = SubResource("Curve2D_fundk")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="RomPolygon/Arrow2/Path2D"]
-position = Vector2(589, 576)
-rotation = -1.5708
-
-[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/Arrow2/Path2D/PathFollow2D"]
-rotation = -1.5708
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_i7fyk")
-
-[node name="Arrow3" type="Node2D" parent="RomPolygon"]
-visible = false
-position = Vector2(0, 1)
-script = ExtResource("5_jnbu0")
-
-[node name="Path2D" type="Path2D" parent="RomPolygon/Arrow3"]
-curve = SubResource("Curve2D_75bjf")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="RomPolygon/Arrow3/Path2D"]
-position = Vector2(588, 578)
-rotation = -0.784077
-
-[node name="Sprite2D" type="Sprite2D" parent="RomPolygon/Arrow3/Path2D/PathFollow2D"]
-rotation = -1.5708
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_i7fyk")
 
 [node name="v1" type="Area2D" parent="RomPolygon"]
 position = Vector2(350, 626)
