@@ -92,7 +92,8 @@ func _process(delta: float) -> void:
 			
 	if mouse_pressed:
 		mouse_pos = (get_viewport().get_mouse_position() - mouse_previous_pos).length()
-		inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -mouse_pos))
+		if Geometry2D.is_point_in_polygon(get_viewport().get_mouse_position(), inflated_workspace):
+			inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -mouse_pos))
 		queue_redraw()
 	get_xy_cm()
 
