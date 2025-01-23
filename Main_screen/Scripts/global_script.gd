@@ -5,6 +5,10 @@ extends Node
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
 
+var json = JSON.new()
+var path = "res://debug.json"
+
+
 @export var PLAYER_POS_SCALER_X: int = 10 * 100
 @export var PLAYER_POS_SCALER_Y: int = 10 * 100
 
@@ -52,12 +56,15 @@ var _outgoing_message = "CONNECTED"
 var _incoming_message: float
 
 var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
+@onready var debug:bool
 
 func _ready():
 	udp.connect_to_host("127.0.0.1", 8000)
 	
 	thread_python.start(python_thread, Thread.PRIORITY_HIGH)
 	thread_network.start(network_thread)
+	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
+	
 
 	print(MAX_X, " " + str(MAX_Y))
 	X_SCREEN_OFFSET = int(screen_size.x/4)
@@ -81,7 +88,7 @@ func _ready():
 		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
 	
 func _process(delta: float) -> void:
-	if not thread_python.is_alive() and not endgame:
+	if not thread_python.is_alive() and not endgame and not debug:
 		thread_python = Thread.new()
 		thread_python.start(python_thread, Thread.PRIORITY_HIGH)
 		
@@ -124,7 +131,7 @@ func handle_udp_packet():
 	net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	network_position = Vector2(net_x, net_z)
-	#print(network_position)
+
 	scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
 	scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
 	scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
@@ -137,10 +144,11 @@ func send_dummy_packet():
 	udp.put_packet(_outgoing_message.to_utf8_buffer())
 
 func python_thread():
-	var output = []
-	print("Python thread started.")
-	OS.execute(interpreter_path, [pyscript_path], output)
-	print(output)
+	if not debug:
+		var output = []
+		print("Python thread started.")
+		OS.execute(interpreter_path, [pyscript_path], output)
+		print(output)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
