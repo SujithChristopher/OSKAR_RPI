@@ -1,6 +1,5 @@
 extends Node2D
 
-signal thread_id
 @onready var _lines := $Lines
 
 var received_message
@@ -20,15 +19,6 @@ var start_drawing : bool
 
 var message = 'connected'
 @onready var start_pressed:bool = true
-
-@onready var arrow_1: Node2D = $RomPolygon/Arrow1
-@onready var arrow_2: Node2D = $RomPolygon/Arrow2
-@onready var arrow_3: Node2D = $RomPolygon/Arrow3
-
-@onready var mouse_dot = preload("res://Games/assessment/mouse_dot.tscn")
-
-
-@onready var arrow_sprites = [arrow_1, arrow_2, arrow_3]
 @onready var current_index = 0
 
 @onready var arom_polygon2D: Polygon2D = $AromPolygon
@@ -46,8 +36,6 @@ var message = 'connected'
 
 func _on_ready():
 	_current_line = Line2D.new()
-	#_current_line.add_point(Vector2(600, 400))
-
 	arom_polygons = arom_polygon2D.polygon
 	add_child(_current_line)
 	
@@ -128,7 +116,7 @@ func _draw_polygon(polygon_points):
 	$RomPolygon/TWLabel.position.x = rom_polygon.polygon[1][0] + (rom_polygon.polygon[2][0] - rom_polygon.polygon[1][0])/2
 	
 	$AromPolygon/AWLabel.position.y = $AromPolygon.polygon[1][1]
-	$AromPolygon/AWLabel.position.x = $AromPolygon.polygon[1][0] + ($AromPolygon.polygon[3][0] - $AromPolygon.polygon[1][0])/2
+	$AromPolygon/AWLabel.position.x  = $AromPolygon.polygon[1][0] + ($AromPolygon.polygon[3][0] - $AromPolygon.polygon[1][0])/2
 
 	$RomPolygon/v1.position = sprite_positions[3]
 	$RomPolygon/v1/Sprite2D.position = $RomPolygon/v1/CollisionShape2D.position
@@ -169,16 +157,6 @@ func _on_start_pressed():
 		start_drawing = true
 		start_pressed = false
 		$start.text = "Stop"
-
-
-func _on_switch_pressed() -> void:
-	current_index = (current_index + 1) % arrow_sprites.size()
-	update_visibility()
-
-func update_visibility():
-	# Loop through all sprites and set visibility
-	for i in range(arrow_sprites.size()):
-		arrow_sprites[i].visible = (i == current_index)
 
 	
 func _on_stop_button_pressed() -> void:
