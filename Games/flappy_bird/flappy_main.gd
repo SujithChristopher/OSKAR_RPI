@@ -23,6 +23,7 @@ const TIMER_DELAY: int = 2
 @onready var health = 2
 @onready var game_over_scene: CanvasLayer = $GameOver
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	score = 0

@@ -91,7 +91,16 @@ offset_right = 108.0
 offset_bottom = 623.0
 text = "⬅️ logout"
 
+[node name="AdaptRom" type="CheckButton" parent="."]
+offset_left = 131.0
+offset_top = 585.0
+offset_right = 277.0
+offset_bottom = 616.0
+text = "Adapt PROM"
+flat = true
+
 [connection signal="ready" from="player" to="player" method="_on_ready"]
 [connection signal="ready" from="computer" to="computer" method="_on_ready"]
 [connection signal="ready" from="Ball" to="Ball" method="_on_ready"]
 [connection signal="pressed" from="logout" to="player" method="_on_logout_pressed"]
+[connection signal="toggled" from="AdaptRom" to="player" method="_on_adapt_rom_toggled"]

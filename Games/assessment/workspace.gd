@@ -178,6 +178,7 @@ func _on_clear_pressed() -> void:
 
 
 func _on_select_game_pressed() -> void:
+	GlobalSignals.inflated_workspace = inflated_workspace
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
 	
 func get_aabb(points):

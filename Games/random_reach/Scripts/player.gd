@@ -8,6 +8,7 @@ var network_position = Vector2.ZERO
 
 var apple_present = false
 var apple = preload("res://Games/random_reach/scenes/apple.tscn")
+var apple_position
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
@@ -43,7 +44,15 @@ func _physics_process(delta):
 		var _apple = apple.instantiate()
 		add_child(_apple)
 		_apple.top_level = true
-		_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+		
+		#Spawning based on polygon
+		while true:
+			apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
+			if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
+				break
+				
+		#_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+		_apple.position = apple_position
 		_apple.tree_exited.connect(apple_function)
 		apple_present = true
 	if apple_present:

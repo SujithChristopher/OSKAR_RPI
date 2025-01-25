@@ -223,6 +223,22 @@ autoplay = "default"
 [node name="GameOver" parent="." instance=ExtResource("10_atd0n")]
 visible = false
 
+[node name="AdaptRom" type="CheckButton" parent="."]
+offset_left = 114.0
+offset_top = 549.0
+offset_right = 260.0
+offset_bottom = 580.0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+text = "Adapt PROM"
+flat = true
+
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
+[connection signal="toggled" from="AdaptRom" to="pilot" method="_on_adapt_rom_toggled"]
