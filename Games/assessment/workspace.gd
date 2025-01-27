@@ -223,7 +223,7 @@ func _on_stop_button_pressed() -> void:
 	var prom_size = get_aabb(inflated_workspace).size
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
-	_on_start_pressed()
+	#_on_start_pressed()
 
 func _on_enter_mouse_entered() -> void:
 	button_focus = true
@@ -268,3 +268,10 @@ func _on_enter_pressed() -> void:
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
 	$SaveDialogBox.show()
+
+
+func _on_close_button_mouse_entered() -> void:
+	button_focus = true
+
+func _on_close_button_mouse_exited() -> void:
+	button_focus = false
