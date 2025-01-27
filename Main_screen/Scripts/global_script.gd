@@ -9,8 +9,8 @@ var json = JSON.new()
 var path = "res://debug.json"
 
 
-@export var PLAYER_POS_SCALER_X: int = 10 * 100
-@export var PLAYER_POS_SCALER_Y: int = 10 * 100
+@export var PLAYER_POS_SCALER_X: int = 15 * 100
+@export var PLAYER_POS_SCALER_Y: int = 15 * 100
 
 var screen_size = DisplayServer.screen_get_size()
 var MIN_X: int = 10
@@ -131,7 +131,7 @@ func handle_udp_packet():
 	net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	network_position = Vector2(net_x, net_z)
-
+	
 	scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
 	scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
 	scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET

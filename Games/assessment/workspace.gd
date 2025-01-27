@@ -75,10 +75,10 @@ func _process(delta: float) -> void:
 	if network_position != Vector2.ZERO and start_drawing:
 		_current_line.width = 5
 		_current_line.default_color = Color.RED
-		_current_line.add_point(network_position - Vector2(300,300) - player_offset)
+		_current_line.add_point(network_position + Vector2(100,200) - player_offset)
 		
 	if network_position != Vector2.ZERO:
-		$Player.position = network_position  - Vector2(300,300) - player_offset
+		$Player.position = network_position  + Vector2(100,200) - player_offset
 		
 	if Input.is_action_just_released("mouse_left"):
 		mouse_current_first = false
@@ -98,13 +98,14 @@ func _process(delta: float) -> void:
 	get_xy_cm()
 
 func get_xy_cm():
-	active_pols = active_workspace
+	#print(get_aabb(active_workspace))
+	active_pols = get_rect(active_workspace)
 	
 	axdir = abs(active_pols[0][0]-active_pols[1][0]) / GlobalScript.PLAYER_POS_SCALER_X*100
-	azdir = abs(active_pols[0][1]-active_pols[3][1]) / GlobalScript.PLAYER_POS_SCALER_Y*100
+	azdir = abs(active_pols[0][1]-active_pols[1][1]) / GlobalScript.PLAYER_POS_SCALER_Y*100
 
-	training_pols = inflated_workspace
-	txdir = abs(training_pols[0][0]-training_pols[3][0]) / GlobalScript.PLAYER_POS_SCALER_X*100
+	training_pols = get_rect(inflated_workspace)
+	txdir = abs(training_pols[0][0]-training_pols[1][0]) / GlobalScript.PLAYER_POS_SCALER_X*100
 	tzdir = abs(training_pols[0][1]-training_pols[1][1]) / GlobalScript.PLAYER_POS_SCALER_Y*100
 	
 	$VBoxContainer/HBoxContainer/axval.text = String("%.2f" % axdir)
@@ -182,6 +183,22 @@ func _on_select_game_pressed() -> void:
 	GlobalSignals.inflated_workspace = inflated_workspace
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
 	
+func get_rect(points):
+	var min_x = points[0].x
+	var max_x = points[0].x
+	var min_y = points[0].y
+	var max_y = points[0].y
+
+	for point in points:
+		min_x = min(min_x, point.x)
+		max_x = max(max_x, point.x)
+		min_y = min(min_y, point.y)
+		max_y = max(max_y, point.y)
+	var pac: PackedVector2Array = []
+	pac.append(Vector2(min_x, min_y))
+	pac.append(Vector2(max_x - min_x, max_y - min_y))
+	return pac
+	
 func get_aabb(points):
 	var min_x = points[0].x
 	var max_x = points[0].x
@@ -201,7 +218,7 @@ func _on_stop_button_pressed() -> void:
 	rect_points = aabb
 
 	active_workspace = Geometry2D.convex_hull(_current_line.points)
-
+	inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -20))
 	var prom_size = get_aabb(inflated_workspace).size
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y

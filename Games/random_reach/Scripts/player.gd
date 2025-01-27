@@ -25,16 +25,19 @@ var rom_y_bot : int
 var game_over = false
 @onready var adapt_toggle:bool = false
 
+func _ready() -> void:
+	network_position = Vector2.ZERO
+
 func _physics_process(delta):
 	if adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
 	else:
 		network_position = GlobalScript.network_position
 		
+		
 	if network_position != Vector2.ZERO:
-		#network_position = network_position - zero_offset  + Vector2(600, 200)  
-		network_position = network_position - zero_offset
-		#print(network_position)
+		network_position = network_position - zero_offset  + Vector2(100, 50) 
+		#network_position = network_position - zero_offset - Vector2(500, 200)
 		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
 		position = position.lerp(network_position, 0.8)
 		#position = network_position 
@@ -46,13 +49,15 @@ func _physics_process(delta):
 		_apple.top_level = true
 		
 		#Spawning based on polygon
-		while true:
-			apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
-			if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
-				break
-				
-		#_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-		_apple.position = apple_position
+		if adapt_toggle:
+			while true:
+				apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
+				if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
+					break
+			_apple.position = apple_position
+		else:
+			_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+		
 		_apple.tree_exited.connect(apple_function)
 		apple_present = true
 	if apple_present:
