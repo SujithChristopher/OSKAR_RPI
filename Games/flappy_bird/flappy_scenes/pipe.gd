@@ -4,7 +4,6 @@ signal hit
 signal scored
 
 func _on_body_entered(body: Node2D) -> void:
-	print(body.name)
 	if body.name == "pilot":
 		hit.emit()
 

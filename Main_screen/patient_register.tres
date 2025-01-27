@@ -5,6 +5,15 @@
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
+"MECH": {
+"affected_hand": "left",
+"age": 29,
+"comments": "Not coming to work on time",
+"dominant_hand": "right",
+"gender": "male",
+"name": "Tia",
+"stroke_time": 30
+},
 "asdf": {
 "affected_hand": "unspecified",
 "age": 44,
@@ -51,4 +60,4 @@ patient_register = {
 "stroke_time": 5
 }
 }
-current_patient_id = "sujith"
+current_patient_id = "MECH"

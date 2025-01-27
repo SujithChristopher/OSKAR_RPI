@@ -58,7 +58,7 @@ func _on_pipe_timer_timeout() -> void:
 func generate_pipe():
 	var pipe = pipe_scene.instantiate()
 	pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
-	pipe.position.y = (screen_size.y - ground_height) / 4.5  + randi_range(-PIPE_RANGE, PIPE_RANGE)
+	pipe.position.y = (screen_size.y - ground_height) / 2  + randi_range(-PIPE_RANGE, PIPE_RANGE)
 	pipe.hit.connect(pipe_hit)
 	pipe.scored.connect(scored)
 	add_child(pipe)
@@ -77,12 +77,12 @@ func pipe_hit():
 	if not health == 0 and health > -1:
 		heart_array[health].animation = "Dead"
 	if health == 0:
+		heart_array[health].animation = "Dead"
 		game_over_signal.emit()
 		stop_game()
 	health -=1
 
 func scored():
-	print('asdf')
 	score+= 1
 	score_label.text = str(score)
 

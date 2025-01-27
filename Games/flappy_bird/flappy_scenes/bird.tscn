@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://wvw586u8r01h"]
+[gd_scene load_steps=11 format=3 uid="uid://wvw586u8r01h"]
 
+[ext_resource type="Shader" path="res://Games/flappy_bird/flappy_scenes/bird.gdshader" id="1_6rd7f"]
 [ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="1_m7guw"]
 [ext_resource type="Texture2D" uid="uid://dnf8uvl8pqvsb" path="res://Assets/Plane/Dead (1).png" id="1_yeo3c"]
 [ext_resource type="Texture2D" uid="uid://bj3k8mt4gmyye" path="res://Assets/Plane/Fly (2).png" id="2_e12hl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bfnj"]
+shader = ExtResource("1_6rd7f")
+shader_parameter/flash_color = null
+shader_parameter/flash_value = null
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ldqoq"]
 animations = [{
@@ -26,6 +32,42 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_p63wl"]
+resource_name = "flash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [null, 0.1]
+}
+
+[sub_resource type="Animation" id="Animation_33bc0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [null]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u6rro"]
+_data = {
+"RESET": SubResource("Animation_33bc0"),
+"flash": SubResource("Animation_p63wl")
+}
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ngvb"]
 radius = 17.0
 height = 56.0
@@ -33,10 +75,16 @@ height = 56.0
 [node name="CharacterBody2D" type="CharacterBody2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_0bfnj")
 position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(0.125828, 0.125828)
 sprite_frames = SubResource("SpriteFrames_ldqoq")
 autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_u6rro")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

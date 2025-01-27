@@ -66,10 +66,10 @@ script = ExtResource("1_y37re")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -2.0
-offset_top = -51.0
-offset_right = 1154.0
-offset_bottom = 717.0
+offset_left = -184.0
+offset_top = -183.0
+offset_right = 1336.0
+offset_bottom = 849.0
 texture = ExtResource("2_4fwav")
 
 [node name="ground" parent="." instance=ExtResource("1_rlb8a")]
