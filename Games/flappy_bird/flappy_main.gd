@@ -3,6 +3,10 @@ extends Control
 var game_running : bool = true
 var game_over : bool
 signal game_over_signal
+signal flash_animation
+signal plane_crashed
+signal game_started
+
 var scroll
 var score
 var screen_size : Vector2i
@@ -70,15 +74,20 @@ func restart_game():
 	timer.start()
 	for _h in heart_array:
 		_h.animation = "default"
+	game_started.emit()
 	score = 0
 	health = 2
 	
 func pipe_hit():
 	if not health == 0 and health > -1:
 		heart_array[health].animation = "Dead"
+		flash_animation.emit()
 	if health == 0:
+		
 		heart_array[health].animation = "Dead"
 		game_over_signal.emit()
+		plane_crashed.emit()
+		
 		stop_game()
 	health -=1
 

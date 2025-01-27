@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://wvw586u8r01h"]
+[gd_scene load_steps=12 format=3 uid="uid://wvw586u8r01h"]
 
 [ext_resource type="Shader" path="res://Games/flappy_bird/flappy_scenes/bird.gdshader" id="1_6rd7f"]
 [ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="1_m7guw"]
@@ -8,7 +8,11 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0bfnj"]
 shader = ExtResource("1_6rd7f")
 shader_parameter/flash_color = null
-shader_parameter/flash_value = null
+shader_parameter/flash_value = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0x4m"]
+atlas = ExtResource("1_m7guw")
+region = Rect2(0, 0, 443, 302)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ldqoq"]
 animations = [{
@@ -30,10 +34,19 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_o0x4m")
+}],
+"loop": true,
+"name": &"flash2",
+"speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_p63wl"]
+[sub_resource type="Animation" id="Animation_duxvr"]
 resource_name = "flash"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -41,13 +54,13 @@ tracks/0/path = NodePath(".:material:shader_parameter/flash_value")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [null, 0.1]
+"values": [0.0, 1.0, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_33bc0"]
+[sub_resource type="Animation" id="Animation_o1qg5"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -59,13 +72,13 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [null]
+"values": [0.0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_u6rro"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5n3ro"]
 _data = {
-"RESET": SubResource("Animation_33bc0"),
-"flash": SubResource("Animation_p63wl")
+"RESET": SubResource("Animation_o1qg5"),
+"flash": SubResource("Animation_duxvr")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ngvb"]
@@ -79,11 +92,13 @@ material = SubResource("ShaderMaterial_0bfnj")
 position = Vector2(4.76837e-07, 4.76837e-07)
 scale = Vector2(0.125828, 0.125828)
 sprite_frames = SubResource("SpriteFrames_ldqoq")
+animation = &"dead"
 autoplay = "default"
+frame_progress = 0.628242
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+[node name="Flash" type="AnimationPlayer" parent="AnimatedSprite2D"]
 libraries = {
-"": SubResource("AnimationLibrary_u6rro")
+"": SubResource("AnimationLibrary_5n3ro")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

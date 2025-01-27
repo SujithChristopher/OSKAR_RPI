@@ -87,6 +87,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="logout" type="Button" parent="."]
+z_index = 12
 layout_mode = 0
 offset_left = 7.0
 offset_top = 547.0
@@ -96,6 +97,7 @@ text = "⬅️ logout
 "
 
 [node name="ScoreBoard" type="Panel" parent="."]
+z_index = 11
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -165,6 +167,7 @@ theme_override_font_sizes/font_size = 25
 text = "0"
 
 [node name="Health" type="Panel" parent="."]
+z_index = 10
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -224,6 +227,7 @@ autoplay = "default"
 visible = false
 
 [node name="AdaptRom" type="CheckButton" parent="."]
+z_index = 13
 layout_mode = 0
 offset_left = 114.0
 offset_top = 549.0
