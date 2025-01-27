@@ -92,6 +92,7 @@ offset_bottom = 623.0
 text = "⬅️ logout"
 
 [node name="AdaptRom" type="CheckButton" parent="."]
+layout_mode = 0
 offset_left = 131.0
 offset_top = 585.0
 offset_right = 277.0

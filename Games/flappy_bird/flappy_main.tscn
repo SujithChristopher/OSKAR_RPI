@@ -224,6 +224,7 @@ autoplay = "default"
 visible = false
 
 [node name="AdaptRom" type="CheckButton" parent="."]
+layout_mode = 0
 offset_left = 114.0
 offset_top = 549.0
 offset_right = 260.0

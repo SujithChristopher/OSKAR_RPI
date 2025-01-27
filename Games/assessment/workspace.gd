@@ -46,6 +46,8 @@ var message = 'connected'
 
 @onready var rect_points
 
+@onready var button_focus:bool = false
+
 var hull
 func _ready():
 	# Generate 100 random points for demonstration
@@ -92,7 +94,7 @@ func _process(delta: float) -> void:
 			
 	if mouse_pressed:
 		mouse_pos = (get_viewport().get_mouse_position() - mouse_previous_pos).length()
-		if Geometry2D.is_point_in_polygon(get_viewport().get_mouse_position(), inflated_workspace):
+		if Geometry2D.is_point_in_polygon(get_viewport().get_mouse_position(), inflated_workspace) and not button_focus:
 			inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -mouse_pos))
 		queue_redraw()
 	get_xy_cm()
@@ -147,7 +149,7 @@ func _draw() -> void:
 	rect_points = get_aabb(inflated_workspace)
 	
 	if rect_points:
-		draw_rect(rect_points, Color(0.5, 0.5, 1.0, 0.8), false)
+		draw_rect(rect_points, Color(0.0, 0.5, 1.0, 0.8), false, 2)
 
 func reduce_to_seven_points(hull):
 	var step = hull.size() / 7
@@ -216,9 +218,53 @@ func get_aabb(points):
 func _on_stop_button_pressed() -> void:
 	var aabb = get_aabb(_current_line.points)
 	rect_points = aabb
-
 	active_workspace = Geometry2D.convex_hull(_current_line.points)
 	inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -20))
 	var prom_size = get_aabb(inflated_workspace).size
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
+	_on_start_pressed()
+
+func _on_enter_mouse_entered() -> void:
+	button_focus = true
+
+func _on_enter_mouse_exited() -> void:
+	button_focus = false
+
+func _on_start_mouse_entered() -> void:
+	button_focus = true
+
+func _on_start_mouse_exited() -> void:
+	button_focus = false
+
+func _on_stop_button_mouse_entered() -> void:
+	button_focus = true
+
+func _on_stop_button_mouse_exited() -> void:
+	button_focus = false
+
+func _on_clear_mouse_entered() -> void:
+	button_focus = true
+
+func _on_clear_mouse_exited() -> void:
+	button_focus = false
+
+func _on_select_game_mouse_entered() -> void:
+	button_focus = true
+
+func _on_select_game_mouse_exited() -> void:
+	button_focus = false
+
+
+func _on_close_button_pressed() -> void:
+	$SaveDialogBox.hide()
+
+func _on_enter_pressed() -> void:
+	var aabb = get_aabb(_current_line.points)
+	rect_points = aabb
+	active_workspace = Geometry2D.convex_hull(_current_line.points)
+	inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -20))
+	var prom_size = get_aabb(inflated_workspace).size
+	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
+	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
+	$SaveDialogBox.show()

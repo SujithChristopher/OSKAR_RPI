@@ -41,7 +41,7 @@ offset_left = 697.0
 offset_top = 594.0
 offset_right = 788.0
 offset_bottom = 633.0
-text = "Enter"
+text = "Save"
 
 [node name="start" type="Button" parent="."]
 texture_filter = 1
@@ -170,8 +170,51 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "cm"
 
+[node name="SaveDialogBox" type="Window" parent="."]
+auto_translate_mode = 1
+initial_position = 2
+size = Vector2i(300, 152)
+visible = false
+
+[node name="Label" type="Label" parent="SaveDialogBox"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.5
+offset_top = 30.0
+offset_right = 60.5
+offset_bottom = 80.0
+grow_horizontal = 2
+text = "The Active and Training workspaces
+ are saved."
+
+[node name="close_button" type="Button" parent="SaveDialogBox"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -23.0
+offset_top = -31.0
+offset_right = 23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Close"
+
+[connection signal="mouse_entered" from="StopButton" to="." method="_on_stop_button_mouse_entered"]
+[connection signal="mouse_exited" from="StopButton" to="." method="_on_stop_button_mouse_exited"]
 [connection signal="pressed" from="StopButton" to="." method="_on_stop_button_pressed"]
 [connection signal="pressed" from="set_orgin" to="." method="_on_set_orgin_pressed"]
+[connection signal="mouse_entered" from="Enter" to="." method="_on_enter_mouse_entered"]
+[connection signal="mouse_exited" from="Enter" to="." method="_on_enter_mouse_exited"]
+[connection signal="pressed" from="Enter" to="." method="_on_enter_pressed"]
+[connection signal="mouse_entered" from="start" to="." method="_on_start_mouse_entered"]
+[connection signal="mouse_exited" from="start" to="." method="_on_start_mouse_exited"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
+[connection signal="mouse_entered" from="Clear" to="." method="_on_clear_mouse_entered"]
+[connection signal="mouse_exited" from="Clear" to="." method="_on_clear_mouse_exited"]
 [connection signal="pressed" from="Clear" to="." method="_on_clear_pressed"]
+[connection signal="mouse_entered" from="SelectGame" to="." method="_on_select_game_mouse_entered"]
+[connection signal="mouse_exited" from="SelectGame" to="." method="_on_select_game_mouse_exited"]
 [connection signal="pressed" from="SelectGame" to="." method="_on_select_game_pressed"]
+[connection signal="pressed" from="SaveDialogBox/close_button" to="." method="_on_close_button_pressed"]
