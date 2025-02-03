@@ -325,7 +325,10 @@ offset_top = 15.0
 offset_right = 115.0
 offset_bottom = 71.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.00392157, 0, 0.00392157, 1)
+theme_override_colors/font_color = Color(0.986251, 0.602125, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.701922, 0.0764682, 0.383663, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 19
 text = "Reach quest"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -418,10 +421,10 @@ text = "⬅️ logout"
 
 [node name="AdaptRom" type="CheckButton" parent="."]
 layout_mode = 0
-offset_left = 229.497
-offset_top = 580.765
-offset_right = 375.497
-offset_bottom = 611.765
+offset_left = 229.0
+offset_top = 581.0
+offset_right = 355.0
+offset_bottom = 612.0
 theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
@@ -429,7 +432,7 @@ theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-text = "Adapt PROM"
+text = "Adapt PW"
 flat = true
 
 [connection signal="ready" from="." to="Player" method="_on_reach_game_ready"]

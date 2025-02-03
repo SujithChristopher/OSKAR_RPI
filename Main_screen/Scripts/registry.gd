@@ -12,12 +12,15 @@ var path = OS.get_system_dir(2)+"//NOARK//data.json"
 var json = JSON.new()
 
 func _ready() -> void:
-	allpatients = patient_db.list_all_patients()
+	#allpatients = patient_db.list_all_patients()
+	allpatients = read_json(path)
 	_update_plist()
 	
 func _update_plist() -> void:
 	patient_list.clear()
-	allpatients = patient_db.list_all_patients()
+	#allpatients = patient_db.list_all_patients()
+	allpatients = read_json(path)
+
 	var _h_id = []
 	for _p in allpatients:
 		_h_id.append(_p['hospital_id'] +" "+ _p['name'])
@@ -26,9 +29,15 @@ func _update_plist() -> void:
 func _on_back_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/main.tscn")
 
-
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+func read_json(path):
+	var file = FileAccess.open(path, FileAccess.READ)
+	var _content = JSON.parse_string(file.get_as_text())
+	file.close()
+	GlobalScript._path_checker()
+	return _content
 
 func save_json(content):
 	var file = FileAccess.open(path, FileAccess.WRITE)
@@ -83,7 +92,7 @@ func _on_register_patient_pressed() -> void:
 		
 		patient_db.add_patient(hosp_id, patient_name, int(age), gender, stroke_time, dominant_hand, affected_hand, comments)
 		save_json(patient_db)
-		ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+		#ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 		_update_plist()
 	else:
 		invalid_details.show()
@@ -116,7 +125,7 @@ func _on_delete_login_pressed() -> void:
 		if len(patient_db.list_all_patients()) != 0:
 			patient_db.remove_patient(allpatients[patient_selected]['hospital_id'])
 			save_json(patient_db)
-			ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+			#ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 			patient_list.clear()
 			_update_plist()
 			auth_window.hide()
@@ -143,5 +152,5 @@ func _on_login_button_pressed() -> void:
 	GlobalScript.change_patient()
 	save_json(patient_db)
 
-	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+	#ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")

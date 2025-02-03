@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3 uid="uid://dmhjt45o7lsja"]
 
 [ext_resource type="Script" path="res://Main_screen/Scripts/patient_db.gd" id="1_ypd56"]
 
@@ -14,24 +14,6 @@ patient_register = {
 "name": "Tia",
 "stroke_time": 30
 },
-"asdf": {
-"affected_hand": "unspecified",
-"age": 44,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
-"name": "asdf",
-"stroke_time": 0
-},
-"dd": {
-"affected_hand": "unspecified",
-"age": 20,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "unspecified",
-"name": "dd",
-"stroke_time": 0
-},
 "divakar": {
 "affected_hand": "right",
 "age": 28,
@@ -40,24 +22,6 @@ patient_register = {
 "gender": "male",
 "name": "Divakar",
 "stroke_time": 5
-},
-"ee": {
-"affected_hand": "unspecified",
-"age": 20,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
-"name": "ee",
-"stroke_time": 0
-},
-"sujith": {
-"affected_hand": "left",
-"age": 29,
-"comments": "asldkfjlsadkjflaksj",
-"dominant_hand": "right",
-"gender": "male",
-"name": "Sujith",
-"stroke_time": 5
 }
 }
-current_patient_id = "MECH"
+current_patient_id = "22"

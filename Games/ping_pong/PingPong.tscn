@@ -95,9 +95,9 @@ text = "⬅️ logout"
 layout_mode = 0
 offset_left = 131.0
 offset_top = 585.0
-offset_right = 277.0
+offset_right = 260.0
 offset_bottom = 616.0
-text = "Adapt PROM"
+text = "Adapt PW"
 flat = true
 
 [connection signal="ready" from="player" to="player" method="_on_ready"]

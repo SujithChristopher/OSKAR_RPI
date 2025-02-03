@@ -231,7 +231,7 @@ z_index = 13
 layout_mode = 0
 offset_left = 114.0
 offset_top = 549.0
-offset_right = 260.0
+offset_right = 240.0
 offset_bottom = 580.0
 theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
@@ -240,7 +240,7 @@ theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-text = "Adapt PROM"
+text = "Adapt PW"
 flat = true
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]

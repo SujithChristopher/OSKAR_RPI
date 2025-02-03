@@ -12,7 +12,6 @@ extends Node2D
 @onready var mouse_current_pos
 @onready var mouse_previous_pos
 
-
 @onready var _lines := $Lines
 
 var received_message
@@ -45,7 +44,6 @@ var message = 'connected'
 @onready var tzdir
 
 @onready var rect_points
-
 @onready var button_focus:bool = false
 
 var hull
