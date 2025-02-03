@@ -48,9 +48,14 @@ var message = 'connected'
 
 @onready var button_focus:bool = false
 
+@onready var workspace_file
+
 var hull
 func _ready():
 	# Generate 100 random points for demonstration
+	var ws_path = 'workspace-' + Time.get_datetime_string_from_system().split('T')[0]
+	
+	#workspace_file = FileAccess.open()
 	for i in range(100):
 		active_workspace.append(Vector2(randi() % 400 + 350, randi() % 400 + 200))
 		

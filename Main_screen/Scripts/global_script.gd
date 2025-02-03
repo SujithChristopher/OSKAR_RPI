@@ -8,7 +8,6 @@ var Y_SCREEN_OFFSET: int
 var json = JSON.new()
 var path = "res://debug.json"
 
-
 @export var PLAYER_POS_SCALER_X: int = 15 * 100
 @export var PLAYER_POS_SCALER_Y: int = 15 * 100
 

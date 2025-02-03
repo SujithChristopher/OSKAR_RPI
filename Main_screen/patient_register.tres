@@ -5,49 +5,22 @@
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
-"MECH": {
-"affected_hand": "left",
-"age": 29,
-"comments": "Not coming to work on time",
-"dominant_hand": "right",
+"22": {
+"affected_hand": "unspecified",
+"age": 10,
+"comments": "",
+"dominant_hand": "unspecified",
 "gender": "male",
 "name": "Tia",
-"stroke_time": 30
+"stroke_time": 22
 },
-"asdf": {
+"asdfadsf": {
 "affected_hand": "unspecified",
 "age": 44,
 "comments": "",
 "dominant_hand": "unspecified",
 "gender": "male",
-"name": "asdf",
-"stroke_time": 0
-},
-"dd": {
-"affected_hand": "unspecified",
-"age": 20,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "unspecified",
-"name": "dd",
-"stroke_time": 0
-},
-"divakar": {
-"affected_hand": "right",
-"age": 28,
-"comments": "laksjdflkjds",
-"dominant_hand": "left",
-"gender": "male",
-"name": "Divakar",
-"stroke_time": 5
-},
-"ee": {
-"affected_hand": "unspecified",
-"age": 20,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
-"name": "ee",
+"name": "asfdasdf",
 "stroke_time": 0
 },
 "sujith": {
@@ -58,6 +31,15 @@ patient_register = {
 "gender": "male",
 "name": "Sujith",
 "stroke_time": 5
+},
+"vvv": {
+"affected_hand": "unspecified",
+"age": 22,
+"comments": "",
+"dominant_hand": "unspecified",
+"gender": "male",
+"name": "vvv",
+"stroke_time": 0
 }
 }
-current_patient_id = "MECH"
+current_patient_id = "sujith"
