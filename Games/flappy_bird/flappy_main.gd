@@ -27,6 +27,8 @@ const TIMER_DELAY: int = 2
 @onready var health = 2
 @onready var game_over_scene: CanvasLayer = $GameOver
 
+@onready var game_log_file
+@onready var log_timer := Timer.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -37,6 +39,16 @@ func _ready() -> void:
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
 	game_over_scene.restart_games.connect(restart_game)
+
+	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
+
+	# add header to log file
+	game_log_file.store_csv_line(PackedStringArray(['position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+
+	log_timer.wait_time = 0.02 # 1 second
+	log_timer.autostart = true # start timer when added to a scene
+	log_timer.timeout.connect(_on_log_timer_timeout)
+	add_child(log_timer)
 
 func _process(delta: float) -> void:
 	
@@ -49,7 +61,8 @@ func _process(delta: float) -> void:
 		#move pipes
 		for pipe in pipes:
 			pipe.position.x -= SCROLL_SPEED
-			
+	
+	
 func stop_game():
 	timer.stop()
 	$GameOver.show()
@@ -97,3 +110,12 @@ func scored():
 
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		game_log_file.close()
+
+	
+func _on_log_timer_timeout():
+	if game_log_file:
+		game_log_file.store_csv_line(PackedStringArray([str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))

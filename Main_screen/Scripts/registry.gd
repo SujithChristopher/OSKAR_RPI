@@ -141,6 +141,7 @@ func _on_patient_list_item_activated(index: int) -> void:
 func _on_login_button_pressed() -> void:
 	patient_db.current_patient_id = allpatients[patient_selected]['hospital_id']
 	GlobalScript.change_patient()
+	GlobalSignals.current_patient_id = allpatients[patient_selected]['hospital_id']
 	save_json(patient_db)
 
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")

@@ -5,6 +5,9 @@ var zero_offset = Vector2.ZERO
 @export var speed = 200
 @onready var adapt_toggle:bool = false
 
+@onready var game_log_file
+@onready var log_timer := Timer.new()
+
 func _physics_process(delta):
 	if adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
@@ -18,7 +21,17 @@ func _physics_process(delta):
 	position.y = 600
 
 func _on_ready():
-	pass
+	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	log_timer.wait_time = 0.02 # 1 second
+	log_timer.autostart = true # start timer when added to a scene
+	log_timer.timeout.connect(_on_log_timer_timeout)
+	add_child(log_timer)
+
+func _on_log_timer_timeout() -> void:
+	if game_log_file:
+		game_log_file.store_csv_line(PackedStringArray([str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+
 	
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

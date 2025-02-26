@@ -58,11 +58,12 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 @onready var debug:bool
 
 func _ready():
-	udp.connect_to_host("127.0.0.1", 8000)
 	
+	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
+	
+	udp.connect_to_host("127.0.0.1", 8000)
 	thread_python.start(python_thread, Thread.PRIORITY_HIGH)
 	thread_network.start(network_thread)
-	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
 	
 
 	print(MAX_X, " " + str(MAX_Y))
@@ -148,6 +149,8 @@ func python_thread():
 		print("Python thread started.")
 		OS.execute(interpreter_path, [pyscript_path], output)
 		print(output)
+	if debug:
+		print("Debugging...")
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

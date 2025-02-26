@@ -46,6 +46,8 @@ func _on_hosp_id_text_submitted(new_text: String) -> void:
 	else:
 		if patient_db.get_patient(hosp_id):
 			patient_db.current_patient_id = hosp_id
+			GlobalScript.change_patient()
+			GlobalSignals.current_patient_id = hosp_id
 			ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")			
 			get_tree().change_scene_to_file("res://Main_screen/select_game.tscn") # Replace with function body.\
 		else:

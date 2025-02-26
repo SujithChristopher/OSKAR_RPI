@@ -30,6 +30,7 @@ var current_polyline: Line2D
 
 var start_drawing : bool
 var message = 'connected'
+var json = JSON.new()
 
 @onready var start_pressed:bool = true
 @onready var current_index = 0
@@ -53,7 +54,7 @@ var message = 'connected'
 var hull
 func _ready():
 	# Generate 100 random points for demonstration
-	var ws_path = 'workspace-' + Time.get_datetime_string_from_system().split('T')[0]
+	
 	
 	#workspace_file = FileAccess.open()
 	for i in range(100):
@@ -269,12 +270,20 @@ func _on_enter_pressed() -> void:
 	var aabb = get_aabb(_current_line.points)
 	rect_points = aabb
 	active_workspace = Geometry2D.convex_hull(_current_line.points)
-	#inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -20))
 	var prom_size = get_aabb(inflated_workspace).size
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
 	$SaveDialogBox.show()
-
+	
+	# GlobalSignals.current_patient_id
+	var ws_path = 'workspace-' + Time.get_datetime_string_from_system().split('T')[0] + '.json'
+	
+	
+	var new_workspace_file = FileAccess.open(GlobalSignals.data_path + '//' + GlobalSignals.current_patient_id + '//' + ws_path, FileAccess.WRITE)
+	var store_dict = {'active_workspace':active_workspace, 'inflated_workspace': inflated_workspace, 
+					'azdir':azdir, 'axdir':axdir, 'tzdir':tzdir, 'txdir':txdir}
+	new_workspace_file.store_string(json.stringify(store_dict))
+	new_workspace_file.close()
 
 func _on_close_button_mouse_entered() -> void:
 	button_focus = true
