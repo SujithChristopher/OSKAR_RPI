@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d1q0d6ufo0nxq"]
 
 [ext_resource type="AudioStream" uid="uid://b3wryxtw0hixi" path="res://Assets/sound_track/NPC_soundtrack.mp3" id="1_n08iy"]
-[ext_resource type="Script" path="res://Main_screen/Scripts/background_music.gd" id="2_rsbq2"]
+[ext_resource type="Script" uid="uid://djign3p66ko6e" path="res://Main_screen/Scripts/background_music.gd" id="2_rsbq2"]
 
 [node name="SoundFx" type="Node"]
 

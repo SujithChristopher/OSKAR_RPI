@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ceuh25br64vvt"]
 
-[ext_resource type="Script" path="res://Games/space_shooter/ss_scripts/player.gd" id="1_o8ohn"]
+[ext_resource type="Script" uid="uid://fcvejvt3ij3a" path="res://Games/space_shooter/ss_scripts/player.gd" id="1_o8ohn"]
 [ext_resource type="Texture2D" uid="uid://bhvftiiome0m8" path="res://Games/space_shooter/ss_assets/textures/playerShip1_blue.png" id="2_qaja4"]
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]

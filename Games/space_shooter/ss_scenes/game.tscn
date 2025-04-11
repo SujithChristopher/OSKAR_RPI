@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bxuuwmlma1xmm"]
 
-[ext_resource type="Script" path="res://Games/space_shooter/ss_scripts/game.gd" id="1_15kp8"]
+[ext_resource type="Script" uid="uid://bk03wrsa34ps8" path="res://Games/space_shooter/ss_scripts/game.gd" id="1_15kp8"]
 [ext_resource type="PackedScene" uid="uid://ceuh25br64vvt" path="res://Games/space_shooter/ss_scenes/player.tscn" id="2_oqgyc"]
 [ext_resource type="PackedScene" uid="uid://cmbeb4icp71di" path="res://Games/space_shooter/ss_scenes/diver_enemy.tscn" id="4_7pet0"]
 [ext_resource type="AudioStream" uid="uid://cyyydy05fivsp" path="res://Games/space_shooter/ss_assets/audio/laser.ogg" id="4_8y633"]

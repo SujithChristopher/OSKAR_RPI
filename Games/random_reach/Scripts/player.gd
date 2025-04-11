@@ -32,7 +32,7 @@ func _ready() -> void:
 	network_position = Vector2.ZERO
 
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['time','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -77,7 +77,7 @@ func _physics_process(delta):
 
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
 
 func _on_reach_game_ready():
 	rom_x_top = 20

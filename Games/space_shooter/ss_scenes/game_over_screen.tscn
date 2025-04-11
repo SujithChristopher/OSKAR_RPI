@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6uejmh8c7koe"]
 
-[ext_resource type="Script" path="res://Games/space_shooter/ss_scripts/game_over_screen.gd" id="1_cdpu4"]
+[ext_resource type="Script" uid="uid://k5wxdx36p6uy" path="res://Games/space_shooter/ss_scripts/game_over_screen.gd" id="1_cdpu4"]
 [ext_resource type="FontFile" uid="uid://bhr2rhqo8dmnd" path="res://Games/space_shooter/ss_assets/fonts/Kenney Future.ttf" id="2_155ke"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ya48v"]

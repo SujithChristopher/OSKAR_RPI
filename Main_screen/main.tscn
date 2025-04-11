@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://vhx3bkgoif43"]
 
-[ext_resource type="VideoStream" path="res://Assets/gifs/light-gold.ogv" id="1_yl1y7"]
-[ext_resource type="Script" path="res://Main_screen/Scripts/main_window.gd" id="2_71nsx"]
+[ext_resource type="VideoStream" uid="uid://c6higsh86v160" path="res://Assets/gifs/light-gold.ogv" id="1_yl1y7"]
+[ext_resource type="Script" uid="uid://dfesven8e7gry" path="res://Main_screen/Scripts/main_window.gd" id="2_71nsx"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bpg5v18vclxr"]
 
-[ext_resource type="Script" path="res://Games/flappy_bird/flappy_scenes/pipe.gd" id="1_qpcqc"]
+[ext_resource type="Script" uid="uid://bjaupi35p1iwj" path="res://Games/flappy_bird/flappy_scenes/pipe.gd" id="1_qpcqc"]
 [ext_resource type="Texture2D" uid="uid://c2thervb2nvp1" path="res://Assets/flappy_assets/pipe.png" id="2_ks06p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ypilm"]

@@ -11,4 +11,6 @@ signal SignalBus
 @export var data_path:String = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "//NOARK//data"
 
 
+@export var ball_position: Vector2
+
 #@export var game_data_path:String = data_path + '//' + current_patient_id + '//' + 'GameData'

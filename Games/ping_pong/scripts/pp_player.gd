@@ -22,7 +22,7 @@ func _physics_process(delta):
 
 func _on_ready():
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['time','ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 # 1 second
 	log_timer.autostart = true # start timer when added to a scene
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -30,7 +30,7 @@ func _on_ready():
 
 func _on_log_timer_timeout() -> void:
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([str(GlobalSignals.ball_position.x), str(GlobalSignals.ball_position.y),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
 
 	
 func _notification(what):

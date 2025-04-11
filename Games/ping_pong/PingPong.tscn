@@ -2,11 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://cdr4ro16ljvi5" path="res://Assets/pp_assets/arts/background.jpg" id="1_hp74f"]
 [ext_resource type="PackedScene" uid="uid://cqbhdd3f3ysqn" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
-[ext_resource type="Script" path="res://Games/ping_pong/scripts/pp_player.gd" id="3_day0s"]
+[ext_resource type="Script" uid="uid://twnu4hd5yb43" path="res://Games/ping_pong/scripts/pp_player.gd" id="3_day0s"]
 [ext_resource type="PackedScene" uid="uid://c80st638uowc8" path="res://Games/ping_pong/pp_computer.tscn" id="3_p81ul"]
 [ext_resource type="PackedScene" uid="uid://bgsliavl2kr2u" path="res://Games/ping_pong/ball.tscn" id="4_ec0xc"]
-[ext_resource type="Script" path="res://Games/ping_pong/scripts/pp_computer.gd" id="4_mxgn3"]
-[ext_resource type="Script" path="res://Games/ping_pong/scripts/ball.gd" id="5_cp50h"]
+[ext_resource type="Script" uid="uid://bxqi2oc3x6whx" path="res://Games/ping_pong/scripts/pp_computer.gd" id="4_mxgn3"]
+[ext_resource type="Script" uid="uid://qe7u2dgdar7d" path="res://Games/ping_pong/scripts/ball.gd" id="5_cp50h"]
 [ext_resource type="PackedScene" uid="uid://i3uo1tqj0yob" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 

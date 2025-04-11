@@ -30,7 +30,7 @@ func _physics_process(delta):
 		
 		#if collision.get_collider() is Paddle:
 			##audio_stream_player.play()
-
+	GlobalSignals.ball_position = position
 
 func _on_ready():
 	start_ball() # Replace with function body.

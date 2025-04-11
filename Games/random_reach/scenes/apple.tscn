@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://syhjbs7alt5a"]
 
-[ext_resource type="Script" path="res://Games/random_reach/Scripts/apple.gd" id="1_2qsfp"]
+[ext_resource type="Script" uid="uid://dlsvy52bgm6en" path="res://Games/random_reach/Scripts/apple.gd" id="1_2qsfp"]
 [ext_resource type="Texture2D" uid="uid://dqf45l0lq8ppk" path="res://Games/random_reach/Sprites/Apple.png" id="1_44jot"]
 [ext_resource type="Texture2D" uid="uid://dkry1rm40uqso" path="res://Games/random_reach/Sprites/Collected.png" id="2_n1gvv"]
 

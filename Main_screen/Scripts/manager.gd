@@ -28,7 +28,7 @@ func create_game_log_file(game, p_id):
 	# Check if the file exists
 	if FileAccess.file_exists(game_file_path):
 		print('File already exists')
-		var game_file = FileAccess.open(game_file_path, FileAccess.READ_WRITE)
+		var game_file = FileAccess.open(game_file_path, FileAccess.WRITE_READ)
 		return game_file
 	else:
 		var game_file = FileAccess.open(game_file_path, FileAccess.WRITE)
