@@ -15,22 +15,7 @@ extends Node2D
 
 @onready var _lines := $Lines
 
-var received_message
-var thread: Thread
-var the_message : String
 
-var connected = false
-var network_position
-
-var _temp_message
-var _presssed = false 
-
-var _current_line : Line2D
-var current_polyline: Line2D
-
-var start_drawing : bool
-var message = 'connected'
-var json = JSON.new()
 
 @onready var start_pressed:bool = true
 @onready var current_index = 0
@@ -50,6 +35,23 @@ var json = JSON.new()
 @onready var button_focus:bool = false
 
 @onready var workspace_file
+
+var received_message
+var thread: Thread
+var the_message : String
+
+var connected = false
+var network_position
+
+var _temp_message
+var _presssed = false 
+
+var _current_line : Line2D
+var current_polyline: Line2D
+
+var start_drawing : bool
+var message = 'connected'
+var json = JSON.new()
 
 var hull
 func _ready():
