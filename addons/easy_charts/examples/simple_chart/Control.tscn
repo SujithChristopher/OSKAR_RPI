@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://v4c2f17q8a1o"]
 
-[ext_resource type="Script" path="res://addons/easy_charts/examples/simple_chart/Control.gd" id="1"]
+[ext_resource type="Script" uid="uid://cscw8rwoyrtfh" path="res://addons/easy_charts/examples/simple_chart/Control.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 content_margin_right = 5.0
@@ -10,7 +10,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 1)
 
-[node name="Control2" type="Control"]
+[node name="Control3" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,12 +26,12 @@ anchor_bottom = 1.0
 
 [node name="CheckButton" type="CheckButton" parent="VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 text = "Start Relatime Plotting"
 
 [node name="Label" type="Label" parent="VBoxContainer"]
