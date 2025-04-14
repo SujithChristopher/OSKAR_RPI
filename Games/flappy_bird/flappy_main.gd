@@ -1,23 +1,5 @@
 extends Control
 
-var game_running : bool = true
-var game_over : bool
-signal game_over_signal
-signal flash_animation
-signal plane_crashed
-signal game_started
-
-var scroll
-var score
-var screen_size : Vector2i
-var ground_height : int
-var pipes : Array
-
-const SCROLL_SPEED : float = 4
-const PIPE_DELAY : int = 50
-const PIPE_RANGE : int = 180
-const TIMER_DELAY: int = 2
-
 @onready var pipe_scene = preload("res://Games/flappy_bird/flappy_scenes/pipe.tscn")
 @onready var timer = $PipeTimer
 @onready var player = $pilot
@@ -29,6 +11,25 @@ const TIMER_DELAY: int = 2
 
 @onready var game_log_file
 @onready var log_timer := Timer.new()
+
+signal game_over_signal
+signal flash_animation
+signal plane_crashed
+signal game_started
+
+const SCROLL_SPEED : float = 4
+const PIPE_DELAY : int = 50
+const PIPE_RANGE : int = 180
+const TIMER_DELAY: int = 2
+
+var game_running : bool = true
+var game_over : bool
+
+var scroll
+var score
+var screen_size : Vector2i
+var ground_height : int
+var pipes : Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
