@@ -35,3 +35,7 @@ func _on_game_spaceshooter_pressed() -> void:
 
 func _on_assessment_pressed() -> void:
 	get_tree().change_scene_to_file("res://Games/assessment/workspace.tscn") 
+
+
+func _on_results_pressed() -> void:
+	get_tree().change_scene_to_file("res://Results/user_progress.tscn")
