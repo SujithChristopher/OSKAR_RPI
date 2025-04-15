@@ -7,6 +7,8 @@ extends Button
 
 var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 
+
+
 func _on_exit_button_pressed():
 	GlobalSignals.SignalBus.emit()
 	#get_tree().quit()
