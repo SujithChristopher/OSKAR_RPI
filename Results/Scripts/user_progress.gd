@@ -1,9 +1,15 @@
 extends Control
 
 @onready var chart: Chart = $Chart
+@onready var hid: Label = $HID
+@onready var pname: Label = $PName
+
 
 func _ready():
 	# Get data from the parser
+
+	# pname.text = GlobalSignals.current_patient_name
+
 	var parser = preload("res://Results/Scripts/parse_files.gd").new()
 	parser._ready()
 	var workspace_data = parser.get_parsed_data()
@@ -86,6 +92,7 @@ func _ready():
 	
 	print("Chart created with " + str(workspace_data.size()) + " data points")
 
+	hid.text = "HID "+ GlobalSignals.current_patient_id
 
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/main.tscn")
