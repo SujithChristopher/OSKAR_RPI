@@ -9,11 +9,13 @@ var network_position = Vector2.ZERO
 var apple_present = false
 var apple = preload("res://Games/random_reach/scenes/apple.tscn")
 var apple_position
+
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
 @onready var my_timer = $"../DisplayTimer"
 @onready var time_display = $"../Panel/TimeSeconds"
+
 var process
 var score = 0
 var zero_offset = Vector2.ZERO
@@ -21,16 +23,15 @@ var rom_x_top : int
 var rom_y_top : int
 var rom_x_bot : int
 var rom_y_bot : int
-
 var game_over = false
-@onready var adapt_toggle:bool = false
 
+@onready var adapt_toggle:bool = false
 @onready var game_log_file
 @onready var log_timer := Timer.new()
 # Timer
 func _ready() -> void:
 	network_position = Vector2.ZERO
-
+	GlobalTimer.start_timer()
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
 	game_log_file.store_csv_line(PackedStringArray(['time','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 
@@ -73,6 +74,7 @@ func _physics_process(delta):
 		apple_present = true
 	if apple_present:
 		time_display.text = str(round(my_timer.time_left)) + "s"
+	
 		
 
 func _on_log_timer_timeout():
@@ -135,6 +137,7 @@ func _on_button_pressed() -> void:
 
 
 func _on_logout_pressed() -> void:
+	GlobalTimer.stop_timer()
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
 
 

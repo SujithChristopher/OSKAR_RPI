@@ -40,6 +40,7 @@ func _ready() -> void:
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
 	game_over_scene.restart_games.connect(restart_game)
+	GlobalTimer.start_timer()
 
 	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
 
@@ -76,7 +77,8 @@ func _on_pipe_timer_timeout() -> void:
 func generate_pipe():
 	var pipe = pipe_scene.instantiate()
 	pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
-	pipe.position.y = (screen_size.y - ground_height) / 2  + randi_range(-PIPE_RANGE, PIPE_RANGE)
+	#pipe.position.y = (screen_size.y - ground_height) / 2  + randi_range(-PIPE_RANGE, PIPE_RANGE)
+	pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
 	pipe.hit.connect(pipe_hit)
 	pipe.scored.connect(scored)
 	add_child(pipe)
@@ -111,6 +113,7 @@ func scored():
 
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+	GlobalTimer.stop_timer()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

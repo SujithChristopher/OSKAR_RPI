@@ -118,6 +118,8 @@ text = "Please make sure you have entered the correct hospital ID
 
 If the Patiend is new, please register the patient"
 
+[node name="TimerLabel" type="CanvasLayer" parent="Window/Label"]
+
 [node name="Button" type="Button" parent="Window"]
 custom_minimum_size = Vector2(50, 50)
 anchors_preset = 7

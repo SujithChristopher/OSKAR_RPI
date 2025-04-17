@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cuej5ryifr164"]
+[gd_scene load_steps=11 format=3 uid="uid://cuej5ryifr164"]
 
 [ext_resource type="Texture2D" uid="uid://cdr4ro16ljvi5" path="res://Assets/pp_assets/arts/background.jpg" id="1_hp74f"]
 [ext_resource type="PackedScene" uid="uid://cqbhdd3f3ysqn" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://bxqi2oc3x6whx" path="res://Games/ping_pong/scripts/pp_computer.gd" id="4_mxgn3"]
 [ext_resource type="Script" uid="uid://qe7u2dgdar7d" path="res://Games/ping_pong/scripts/ball.gd" id="5_cp50h"]
 [ext_resource type="PackedScene" uid="uid://i3uo1tqj0yob" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
+[ext_resource type="Script" uid="uid://dj606ct7uo4ou" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 
 [node name="PingPong" type="Control"]
@@ -99,6 +100,15 @@ offset_right = 277.0
 offset_bottom = 616.0
 text = "Adapt PROM"
 flat = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("10_g2848")
+
+[node name="TimerLabel" type="Label" parent="CanvasLayer"]
+offset_left = 14.0
+offset_top = 38.0
+offset_right = 107.0
+offset_bottom = 64.0
 
 [connection signal="ready" from="player" to="player" method="_on_ready"]
 [connection signal="ready" from="computer" to="computer" method="_on_ready"]

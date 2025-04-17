@@ -21,6 +21,7 @@ func _physics_process(delta):
 	position.y = 600
 
 func _on_ready():
+	GlobalTimer.start_timer()
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
 	game_log_file.store_csv_line(PackedStringArray(['time','ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 # 1 second
@@ -40,6 +41,7 @@ func _notification(what):
 		get_tree().quit()
 
 func _on_logout_pressed() -> void:
+	GlobalTimer.stop_timer()
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
 
 
