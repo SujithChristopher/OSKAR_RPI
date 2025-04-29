@@ -81,29 +81,19 @@ placeholder_text = "Eg 1234567H"
 [node name="NewPatient" type="Button" parent="TextureRect"]
 texture_filter = 1
 layout_mode = 0
-offset_left = 876.0
+offset_left = 755.0
 offset_top = 400.0
-offset_right = 1018.0
-offset_bottom = 458.0
+offset_right = 913.0
+offset_bottom = 465.0
 text = "New Patient"
 
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 699.0
+offset_left = 560.0
 offset_top = 400.0
-offset_right = 839.0
-offset_bottom = 457.0
+offset_right = 721.0
+offset_bottom = 465.0
 text = "Play"
-script = ExtResource("2_71nsx")
-
-[node name="AssessButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 524.0
-offset_top = 400.0
-offset_right = 661.0
-offset_bottom = 455.0
-text = "Assess
-"
 script = ExtResource("2_71nsx")
 
 [node name="Window" type="Window" parent="."]
@@ -112,11 +102,13 @@ size = Vector2i(500, 250)
 visible = false
 
 [node name="Label" type="Label" parent="Window"]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Please make sure you have entered the correct hospital ID
+offset_top = 74.0
+offset_right = 504.0
+offset_bottom = 169.0
+theme_override_font_sizes/font_size = 17
+text = "  Please make sure you have entered the correct Hospital ID.
 
-If the Patiend is new, please register the patient"
+      If the patient is new, click on new patient and register"
 
 [node name="TimerLabel" type="CanvasLayer" parent="Window/Label"]
 
@@ -157,7 +149,6 @@ text = "Ok"
 [connection signal="text_submitted" from="TextureRect/HospID" to="PlayButton" method="_on_hosp_id_text_submitted"]
 [connection signal="pressed" from="TextureRect/NewPatient" to="PlayButton" method="_on_new_patient_pressed"]
 [connection signal="pressed" from="PlayButton" to="PlayButton" method="_on_pressed"]
-[connection signal="pressed" from="AssessButton" to="PlayButton" method="_on_assess_button_pressed"]
 [connection signal="close_requested" from="Window" to="PlayButton" method="_on_window_close_requested"]
 [connection signal="pressed" from="Window/Button" to="PlayButton" method="_on_window_close_requested"]
 [connection signal="pressed" from="patient_notfound/patient_nf_ok" to="PlayButton" method="_on_patient_nf_ok_pressed"]

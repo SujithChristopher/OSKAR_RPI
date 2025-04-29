@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cuej5ryifr164"]
+[gd_scene load_steps=14 format=3 uid="uid://cuej5ryifr164"]
 
 [ext_resource type="Texture2D" uid="uid://cdr4ro16ljvi5" path="res://Assets/pp_assets/arts/background.jpg" id="1_hp74f"]
 [ext_resource type="PackedScene" uid="uid://cqbhdd3f3ysqn" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
@@ -10,6 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://i3uo1tqj0yob" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
 [ext_resource type="Script" uid="uid://dj606ct7uo4ou" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
+[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="11_5ysxo"]
+[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="12_heaje"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_heaje"]
+texture = ExtResource("11_5ysxo")
 
 [node name="PingPong" type="Control"]
 layout_mode = 3
@@ -68,10 +73,10 @@ rotation = 1.5708
 
 [node name="PlayerScore" type="Label" parent="."]
 layout_mode = 0
-offset_left = 923.0
-offset_top = 567.0
-offset_right = 1071.0
-offset_bottom = 609.0
+offset_left = 933.0
+offset_top = 649.0
+offset_right = 1081.0
+offset_bottom = 691.0
 theme_override_font_sizes/font_size = 30
 text = "Player "
 
@@ -86,18 +91,20 @@ text = "Computer "
 
 [node name="logout" type="Button" parent="."]
 layout_mode = 0
-offset_left = 14.0
-offset_top = 583.0
-offset_right = 108.0
-offset_bottom = 623.0
+offset_left = 16.0
+offset_top = 647.0
+offset_right = 124.0
+offset_bottom = 695.0
+theme_override_font_sizes/font_size = 18
 text = "⬅️ logout"
 
 [node name="AdaptRom" type="CheckButton" parent="."]
 layout_mode = 0
-offset_left = 131.0
-offset_top = 585.0
-offset_right = 277.0
-offset_bottom = 616.0
+offset_left = 152.0
+offset_top = 649.0
+offset_right = 315.0
+offset_bottom = 695.0
+theme_override_font_sizes/font_size = 18
 text = "Adapt PROM"
 flat = true
 
@@ -109,6 +116,130 @@ offset_left = 14.0
 offset_top = 38.0
 offset_right = 107.0
 offset_bottom = 64.0
+
+[node name="TimerSelectorPanel" type="Panel" parent="CanvasLayer"]
+visible = false
+offset_left = 400.0
+offset_top = 166.0
+offset_right = 724.0
+offset_bottom = 467.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_heaje")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 29.0
+offset_right = 276.0
+offset_bottom = 256.0
+theme_override_constants/separation = 120
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.7065, 0.126, 1)
+theme_override_font_sizes/font_size = 22
+text = "SET TIME TO PLAY !"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "   Play Game   "
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "  Close  "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 131.0
+offset_right = 281.0
+offset_bottom = 167.0
+theme_override_constants/separation = 10
+
+[node name="AddOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "  +1  "
+
+[node name="AddFiveButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "  +5  "
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 131.0
+offset_right = 143.0
+offset_bottom = 167.0
+theme_override_constants/separation = 10
+
+[node name="SubOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "  - 1  "
+
+[node name="SubFiveButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("12_heaje")
+text = "  - 5  "
+
+[node name="CountdownTimer" type="Timer" parent="CanvasLayer"]
+
+[node name="CountdownLabel" type="Label" parent="CanvasLayer"]
+offset_left = 903.0
+offset_top = 82.0
+offset_right = 1071.0
+offset_bottom = 124.0
+theme_override_colors/font_shadow_color = Color(0.72, 0.225448, 0.504629, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Time left :"
+
+[node name="GameOverLabel" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 452.0
+offset_top = 269.0
+offset_right = 673.0
+offset_bottom = 311.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "GAME OVER!"
+horizontal_alignment = 1
+
+[node name="LogoutButton" type="Button" parent="CanvasLayer/GameOverLabel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 53.0
+offset_right = 107.0
+offset_bottom = 94.0
+text = "⬅️ Logout"
+
+[node name="RetryButton" type="Button" parent="CanvasLayer/GameOverLabel"]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 54.0
+offset_right = 239.0
+offset_bottom = 91.0
+text = "🔄:Retry"
+
+[node name="TimeSelector" type="Label" parent="CanvasLayer"]
+offset_left = 545.0
+offset_top = 259.0
+offset_right = 587.0
+offset_bottom = 287.0
+text = "0 m"
 
 [connection signal="ready" from="player" to="player" method="_on_ready"]
 [connection signal="ready" from="computer" to="computer" method="_on_ready"]

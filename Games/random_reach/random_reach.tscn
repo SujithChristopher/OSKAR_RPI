@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=4 uid="uid://4xtjl0osd2j"]
+[gd_scene load_steps=16 format=4 uid="uid://4xtjl0osd2j"]
 
 [ext_resource type="Texture2D" uid="uid://55rxnr1pl2v0" path="res://Assets/Background/Green.png" id="1_1lps6"]
 [ext_resource type="PackedScene" uid="uid://ciht5nisjgbqp" path="res://Games/random_reach/scenes/player.tscn" id="2_ulp7u"]
 [ext_resource type="Texture2D" uid="uid://cwqtv62nto34u" path="res://Assets/Terrian/Terrain (16x16).png" id="3_ob8gn"]
 [ext_resource type="PackedScene" uid="uid://c6bg6bhe2v1e3" path="res://Games/random_reach/scenes/home_pos.tscn" id="4_816qe"]
 [ext_resource type="Texture2D" uid="uid://cklorvnyyai30" path="res://Games/random_reach/Sprites/AppleStatic.png" id="5_bmawe"]
+[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="5_x1css"]
+[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="6_lijr8"]
 [ext_resource type="AudioStream" uid="uid://bn4wpjscqoj8b" path="res://Games/random_reach/Sprites/apple_eating1.mp3" id="6_v6jim"]
 [ext_resource type="Script" uid="uid://daqv0t5qiw2d3" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
 
@@ -185,6 +187,9 @@ texture = ExtResource("3_ob8gn")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_fipgi")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wrl2s"]
+texture = ExtResource("5_x1css")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vn2u5"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
 corner_radius_top_left = 8
@@ -230,6 +235,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -7.98252
+offset_right = -7.98254
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_1lps6")
@@ -248,10 +255,139 @@ tile_set = SubResource("TileSet_47021")
 script = ExtResource("7_wrl2s")
 
 [node name="TimerLabel" type="Label" parent="TileMap/CanvasLayer"]
-offset_left = 31.0
-offset_top = 97.0
-offset_right = 231.0
-offset_bottom = 137.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 1067.0
+offset_right = -24.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="TimerSelectorPanel" type="Panel" parent="TileMap/CanvasLayer"]
+offset_left = 386.0
+offset_top = 180.0
+offset_right = 745.0
+offset_bottom = 508.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_wrl2s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TileMap/CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 56.0
+offset_right = 303.0
+offset_bottom = 265.0
+theme_override_constants/separation = 120
+
+[node name="Label" type="Label" parent="TileMap/CanvasLayer/TimerSelectorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.701346, 0.124376, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "SET TIME TO PLAY !"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TileMap/CanvasLayer/TimerSelectorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+theme_override_font_sizes/font_size = 20
+text = "  Play Game  "
+
+[node name="CloseButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+theme_override_font_sizes/font_size = 20
+text = "  Close  "
+
+[node name="TimeSelector" type="Label" parent="TileMap/CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 163.0
+offset_top = 113.0
+offset_right = 224.0
+offset_bottom = 142.0
+theme = ExtResource("6_lijr8")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="TileMap/CanvasLayer/TimerSelectorPanel"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 47.0
+offset_top = 140.0
+offset_right = 139.0
+offset_bottom = 180.0
+theme_override_constants/separation = 10
+
+[node name="SubOneButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+text = "  -1  "
+
+[node name="SubFiveButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "  -5  "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TileMap/CanvasLayer/TimerSelectorPanel"]
+modulate = Color(0.952941, 1, 1, 1)
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 226.0
+offset_top = 138.0
+offset_right = 322.0
+offset_bottom = 178.0
+theme_override_constants/separation = 6
+
+[node name="AddOneButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+text = "  +1  "
+
+[node name="AddFiveButton" type="Button" parent="TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("6_lijr8")
+text = "  +5  "
+
+[node name="CountdownTimer" type="Timer" parent="TileMap/CanvasLayer"]
+
+[node name="CountdownLabel" type="Label" parent="TileMap/CanvasLayer"]
+offset_left = 912.0
+offset_top = 104.0
+offset_right = 1120.0
+offset_bottom = 149.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "Time left:"
+
+[node name="GameOverLabel" type="Label" parent="TileMap/CanvasLayer"]
+visible = false
+offset_left = 427.0
+offset_top = 279.0
+offset_right = 689.0
+offset_bottom = 340.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.546968, 0.546968, 0.546968, 1)
+theme_override_font_sizes/font_size = 40
+text = "GAME OVER!"
+
+[node name="LogoutButton" type="Button" parent="TileMap/CanvasLayer/GameOverLabel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 64.0
+offset_right = 110.0
+offset_bottom = 105.0
+text = "⬅️ Logout"
+
+[node name="RetryButton" type="Button" parent="TileMap/CanvasLayer/GameOverLabel"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 65.0
+offset_right = 244.0
+offset_bottom = 106.0
+text = "🔄:Retry"
 
 [node name="HomePos" parent="." instance=ExtResource("4_816qe")]
 position = Vector2(568.754, 646.828)
@@ -261,10 +397,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -258.0
-offset_top = 28.0
-offset_right = -33.0
-offset_bottom = 88.0
+offset_left = -241.0
+offset_top = 34.0
+offset_right = -38.0
+offset_bottom = 91.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_vn2u5")
 
@@ -298,10 +434,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -43.0
-offset_top = -11.0
-offset_right = 43.0
-offset_bottom = 12.0
+offset_left = -27.0175
+offset_top = -18.5
+offset_right = 55.9825
+offset_bottom = 17.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 25
@@ -315,10 +451,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -68.0
-offset_top = -11.0
-offset_right = -20.0
-offset_bottom = 12.0
+offset_left = -52.0175
+offset_top = -18.5
+offset_right = -9.01746
+offset_bottom = 17.5
 grow_horizontal = 0
 grow_vertical = 2
 theme_override_font_sizes/font_size = 25
@@ -348,9 +484,9 @@ volume_db = 9.494
 texture_filter = 1
 layout_mode = 0
 offset_left = 27.9388
-offset_top = 27.6085
+offset_top = 35.4966
 offset_right = 189.939
-offset_bottom = 79.6085
+offset_bottom = 87.4966
 theme_override_styles/panel = SubResource("StyleBoxFlat_un0mj")
 
 [node name="TimeLabel" type="Label" parent="Panel"]
@@ -395,6 +531,7 @@ autostart = true
 wait_time = 10.0
 
 [node name="Zero" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 907.014
 offset_top = 583.723
@@ -403,6 +540,7 @@ offset_bottom = 614.723
 text = "Zero"
 
 [node name="Re_rotate" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1011.0
 offset_top = 584.0

@@ -40,6 +40,10 @@ project/assembly_name="Oskar Game v2"
 
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/easy_charts/plugin.cfg")
+
 [input]
 
 shoot={

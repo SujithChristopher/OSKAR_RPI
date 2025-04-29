@@ -6,6 +6,9 @@ extends Control
 @onready var patient_display = $TextureRect/Patient_display
 @onready var invalid_details = $TextureRect/InvalidDetails
 @onready var login_to_patient = $TextureRect/LoginSelectPatient
+@onready var patient_name_label: Label = $TextureRect/LoginSelectPatient/PatientName
+
+
 var patient_selected: int
 var allpatients
 var path = OS.get_system_dir(2)+"//NOARK//data.json"
@@ -47,35 +50,35 @@ func _on_register_patient_pressed() -> void:
 	
 	match gender_id:
 		0:
-			gender = "male"
+			gender = "Male"
 		1:
-			gender = "female"
+			gender = "Female"
 		2:
-			gender = "others"
+			gender = "Others"
 		-1:
-			gender = "unspecified"
+			gender = "Unspecified"
 	
 	var dominant_hand:String
 	match $TextureRect/DominantHand.selected:
 		0:
-			dominant_hand = "left"
+			dominant_hand = "Left"
 		1:
-			dominant_hand = "right"
+			dominant_hand = "Right"
 		2:
-			dominant_hand = "ambidextrous"
+			dominant_hand = "Ambidextrous"
 		-1:
-			dominant_hand = "unspecified"
+			dominant_hand = "Unspecified"
 			
 	var affected_hand:String
 	match $TextureRect/AffectedHand.selected:
 		0:
-			affected_hand = "left"
+			affected_hand = "Left"
 		1:
-			affected_hand = "right"
+			affected_hand = "Right"
 		2:
-			affected_hand = "both"
+			affected_hand = "Both"
 		-1:
-			affected_hand = "unspecified"
+			affected_hand = "Unspecified"
 	
 	var comments = $TextureRect/AdditionalComments.text
 
@@ -136,13 +139,18 @@ func _on_close_button_pressed() -> void:
 func _on_patient_list_item_activated(index: int) -> void:
 	patient_selected = index
 	login_to_patient.show()
-
-
+	var selected_text = patient_list.get_item_text(index)
+	patient_name_label.text = selected_text
+	patient_name_label.visible = true
+	
 func _on_login_button_pressed() -> void:
 	patient_db.current_patient_id = allpatients[patient_selected]['hospital_id']
 	GlobalScript.change_patient()
 	GlobalSignals.current_patient_id = allpatients[patient_selected]['hospital_id']
 	save_json(patient_db)
-
-	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+
+
+	
+	

@@ -4,7 +4,7 @@ class_name Ball
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+var game_started: bool = false
 var player_score = 0
 var computer_score = 0
 @export var INITIAL_BALL_SPEED = 15
@@ -16,6 +16,8 @@ var computer_score = 0
 var ball_speed = INITIAL_BALL_SPEED
 
 func _physics_process(delta):
+	if not game_started:
+		return
 	var collision = move_and_collide(velocity * ball_speed * delta)
 	
 	if(collision):
@@ -33,7 +35,8 @@ func _physics_process(delta):
 	GlobalSignals.ball_position = position
 
 func _on_ready():
-	start_ball() # Replace with function body.
+	pass
+	start_ball() 
 	
 func start_ball():
 	randomize()

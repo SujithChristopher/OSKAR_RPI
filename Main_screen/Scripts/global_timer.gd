@@ -3,6 +3,7 @@ extends Node
 var total_play_time := 0.0
 var timer_running := false
 
+
 func _process(delta: float) -> void:
 	if timer_running:
 		total_play_time += delta
