@@ -52,7 +52,7 @@ func _on_ready():
 	log_timer.timeout.connect(_on_log_timer_timeout)
 	add_child(log_timer)
 	update_label()
-	game_started = false
+	game_started = true
 	timer_panel.visible = true
 	game_over_label.visible = false
 	play_button.pressed.connect(_on_play_pressed)

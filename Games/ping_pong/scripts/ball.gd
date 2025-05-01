@@ -35,7 +35,6 @@ func _physics_process(delta):
 	GlobalSignals.ball_position = position
 
 func _on_ready():
-	pass
 	start_ball() 
 	
 func start_ball():

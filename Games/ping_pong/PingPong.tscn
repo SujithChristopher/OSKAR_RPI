@@ -45,7 +45,7 @@ scale = Vector2(0.1875, 4.52172)
 texture = ExtResource("10_rod25")
 
 [node name="player" parent="." instance=ExtResource("2_x01ca")]
-position = Vector2(561, 623)
+position = Vector2(565, 619)
 scale = Vector2(1.5, 1.5)
 script = ExtResource("3_day0s")
 
@@ -68,7 +68,7 @@ position = Vector2(585, 13)
 rotation = 1.5708
 
 [node name="bottom" parent="." instance=ExtResource("9_p63tb")]
-position = Vector2(579, 629)
+position = Vector2(580, 637)
 rotation = 1.5708
 
 [node name="PlayerScore" type="Label" parent="."]

@@ -133,7 +133,7 @@ func _on_close_pressed():
 
 func start_game_with_timer():
 	countdown_active = true
-	countdown_timer.wait_time = 1.0 # tick every second
+	countdown_timer.wait_time = 1.0 
 	countdown_timer.start()
 	_update_time_display()
 
@@ -204,7 +204,8 @@ func _physics_process(delta):
 		else:
 			_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
 		
-		_apple.tree_exited.connect(apple_function)
+		_apple.apple_eaten.connect(_on_apple_eaten)
+		#_apple.tree_exited.connect(apple_function)
 		apple_present = true
 	if apple_present:
 		time_display.text = str(round(my_timer.time_left)) + "s"
@@ -228,6 +229,12 @@ func _on_reach_game_ready():
 		rom_x_bot = 1100
 		
 
+func _on_apple_eaten():
+	apple_present = false
+	score += 1
+	score_board.text = str(score)
+	
+	
 func apple_function():
 	if score <= max_score:
 		if not apple_sound == null:
@@ -239,12 +246,6 @@ func apple_function():
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		game_log_file.close()
-
-
-func _on_apple_apple_eaten(value:Variant):
-	apple_present = false
-	score += 1
-	score_board.text(str(score))
 
 func _on_reach_game_tree_exiting():
 	pass
