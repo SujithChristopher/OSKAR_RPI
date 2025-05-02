@@ -65,12 +65,12 @@ func _on_PauseButton_pressed():
 	is_paused = !is_paused
 
 func _ready() -> void:
-	var top_scores = ScoreManager.get_top_scores("RandomReach", int(GlobalSignals.current_patient_id))
+	var top_scores = Manager.get_top_scores("RandomReach", GlobalSignals.current_patient_id)
 	if top_scores.size() > 0:
 		var top_score = top_scores[0]
 		top_score_label.text = "🥇 Best: %d" % top_score["score"]
 	else:
-		top_score_label.text = "0"
+		top_score_label.text = "🥇 Best: 0"
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
 	game_log_file.store_csv_line(PackedStringArray(['time','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
@@ -183,14 +183,17 @@ func _update_time_display():
 	
 func show_game_over():
 	GlobalTimer.stop_timer()
-	# Save the score
-	ScoreManager.save_score("RandomReach", score, GlobalSignals.current_patient_id)
-	# Get top 3 scores
-	var top_scores = ScoreManager.get_top_scores("RandomReach", 3, GlobalSignals.current_patient_id)
-	var text = "  🏆 Top Scores:\n"
+
+	# Save score
+	Manager.save_score("RandomReach", GlobalSignals.current_patient_id, score)
+
+	# Get Top 3
+	var top_scores = Manager.get_top_scores("RandomReach", GlobalSignals.current_patient_id)
+	var display = "🏆 Top Scores:\n"
 	for s in top_scores:
-		text += "- %s: %d\n" % [s["date"].split("T")[0], s["score"]]
-	top_three_scores_label.text = text
+		display += "- %s: %d\n" % [s["date"], s["score"]]
+	top_three_scores_label.text = display
+	
 	game_over_label.visible = true
 	
 func start_game_without_timer():
