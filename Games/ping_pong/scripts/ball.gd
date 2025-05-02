@@ -24,7 +24,7 @@ func _physics_process(delta):
 
 		if collision.get_collider().name == 'bottom':
 			computer_score += 1
-		if collision.get_collider().name == 'top':
+		if collision.get_collider().name == 'player':
 			player_score += 1
 		player_score_label.text = "Player " + str(player_score)
 		computer_score_label.text = "Computer " + str(computer_score)

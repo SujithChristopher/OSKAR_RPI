@@ -29,6 +29,8 @@ var apple_position
 @onready var logout_button = $"../TileMap/CanvasLayer/GameOverLabel/LogoutButton"
 @onready var retry_button = $"../TileMap/CanvasLayer/GameOverLabel/RetryButton"
 @onready var time_label := $"../TileMap/CanvasLayer/TimerSelectorPanel/TimeSelector"
+@onready var top_three_scores_label := $"../TileMap/CanvasLayer/GameOverLabel/TopScores"
+@onready var top_score_label: Label = $"../TileMap/CanvasLayer/TextureRect/TopScoreLabel"
 
 
 var process
@@ -43,12 +45,32 @@ var game_over = false
 var countdown_time = 0
 var countdown_active = false
 var current_time := 0
+var is_paused = false
 
 @onready var adapt_toggle:bool = false
 @onready var game_log_file
 @onready var log_timer := Timer.new()
+@onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
+
+
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		pause_button.text = "Pause"
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		pause_button.text = "Resume"
+	is_paused = !is_paused
 
 func _ready() -> void:
+	var top_scores = ScoreManager.get_top_scores("RandomReach", int(GlobalSignals.current_patient_id))
+	if top_scores.size() > 0:
+		var top_score = top_scores[0]
+		top_score_label.text = "🥇 Best: %d" % top_score["score"]
+	else:
+		top_score_label.text = "0"
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
 	game_log_file.store_csv_line(PackedStringArray(['time','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
@@ -69,9 +91,16 @@ func _ready() -> void:
 	sub_five_btn.pressed.connect(_on_sub_five_pressed)
 	logout_button.pressed.connect(_on_logout_button_pressed)
 	retry_button.pressed.connect(_on_retry_button_pressed)
+	my_timer.timeout.connect(_on_apple_missed)
+	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	
-	
+
+func _on_apple_missed():
+	if apple_present:
+		apple_present = false
+		
+		
 func update_label():
 	time_label.text = str(current_time) + " sec"
 	var minutes = countdown_time / 60
@@ -153,8 +182,15 @@ func _update_time_display():
 	countdown_display.text = "Time Left: %02d:%02d" % [minutes, seconds]
 	
 func show_game_over():
-	print("Game Over!")
 	GlobalTimer.stop_timer()
+	# Save the score
+	ScoreManager.save_score("RandomReach", score, GlobalSignals.current_patient_id)
+	# Get top 3 scores
+	var top_scores = ScoreManager.get_top_scores("RandomReach", 3, GlobalSignals.current_patient_id)
+	var text = "  🏆 Top Scores:\n"
+	for s in top_scores:
+		text += "- %s: %d\n" % [s["date"].split("T")[0], s["score"]]
+	top_three_scores_label.text = text
 	game_over_label.visible = true
 	
 func start_game_without_timer():

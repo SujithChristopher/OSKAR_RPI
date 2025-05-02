@@ -73,10 +73,10 @@ rotation = 1.5708
 
 [node name="PlayerScore" type="Label" parent="."]
 layout_mode = 0
-offset_left = 933.0
-offset_top = 649.0
-offset_right = 1081.0
-offset_bottom = 691.0
+offset_left = 989.0
+offset_top = 569.0
+offset_right = 1137.0
+offset_bottom = 611.0
 theme_override_font_sizes/font_size = 30
 text = "Player "
 
@@ -92,18 +92,18 @@ text = "Computer "
 [node name="logout" type="Button" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 647.0
-offset_right = 124.0
-offset_bottom = 695.0
+offset_top = 566.0
+offset_right = 122.0
+offset_bottom = 610.0
 theme_override_font_sizes/font_size = 18
 text = "⬅️ logout"
 
 [node name="AdaptRom" type="CheckButton" parent="."]
 layout_mode = 0
 offset_left = 152.0
-offset_top = 649.0
-offset_right = 315.0
-offset_bottom = 695.0
+offset_top = 561.0
+offset_right = 310.0
+offset_bottom = 607.0
 theme_override_font_sizes/font_size = 18
 text = "Adapt PROM"
 flat = true

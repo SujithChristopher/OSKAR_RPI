@@ -162,6 +162,7 @@ func _update_time_display():
 	
 func show_game_over():
 	print("Game Over!")
+	ball.game_started = false
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	

@@ -130,7 +130,6 @@ func _on_sub_five_pressed():
 func _on_play_pressed():
 	game_running = true
 	GlobalTimer.start_timer()
-
 	print("play button is pressed, countdown_time:", countdown_time)
 	timer_panel.visible = false
 	add_one_btn.hide()
@@ -176,6 +175,7 @@ func _update_time_display():
 	
 func show_game_over():
 	print("Game Over!")
+	game_running = false
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	
