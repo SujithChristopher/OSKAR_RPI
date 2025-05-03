@@ -1,5 +1,6 @@
 extends Control
 
+
 @onready var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 @onready var patient_list = $TextureRect/PatientList
 @onready var auth_window = $TextureRect/Auth
@@ -148,8 +149,15 @@ func _on_login_button_pressed() -> void:
 	GlobalScript.change_patient()
 	GlobalSignals.current_patient_id = allpatients[patient_selected]['hospital_id']
 	save_json(patient_db)
-	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+	
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+	
+	
+	
+	
+	
+
 
 
 	

@@ -65,15 +65,9 @@ func _on_PauseButton_pressed():
 	is_paused = !is_paused
 
 func _ready() -> void:
-	var top_scores = Manager.get_top_scores("RandomReach", GlobalSignals.current_patient_id)
-	if top_scores.size() > 0:
-		var top_score = top_scores[0]
-		top_score_label.text = "🥇 Best: %d" % top_score["score"]
-	else:
-		top_score_label.text = "🥇 Best: 0"
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['time','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['score','epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -183,17 +177,7 @@ func _update_time_display():
 	
 func show_game_over():
 	GlobalTimer.stop_timer()
-
-	# Save score
-	Manager.save_score("RandomReach", GlobalSignals.current_patient_id, score)
-
-	# Get Top 3
-	var top_scores = Manager.get_top_scores("RandomReach", GlobalSignals.current_patient_id)
-	var display = "🏆 Top Scores:\n"
-	for s in top_scores:
-		display += "- %s: %d\n" % [s["date"], s["score"]]
-	top_three_scores_label.text = display
-	
+	save_final_score_to_log(GlobalScript.current_score)
 	game_over_label.visible = true
 	
 func start_game_without_timer():
@@ -249,11 +233,14 @@ func _physics_process(delta):
 	if apple_present:
 		time_display.text = str(round(my_timer.time_left)) + "s"
 	
-		
+func save_final_score_to_log(score: int):
+	if game_log_file:
+		game_log_file.store_line("Final Score: " + str(score))
+		game_log_file.flush()  # Ensure it's written
 
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
 
 func _on_reach_game_ready():
 	rom_x_top = 20

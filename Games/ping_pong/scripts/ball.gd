@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name Ball
 
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var game_started: bool = false

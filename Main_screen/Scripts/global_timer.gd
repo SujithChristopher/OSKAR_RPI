@@ -15,7 +15,7 @@ func start_timer() -> void:
 func stop_timer() -> void:
 	timer_running = false
 	timer_paused = false
-	Manager.save_total_time("RandomReach", GlobalSignals.current_patient_id, total_play_time)
+	#Manager.save_total_time("RandomReach", GlobalSignals.current_patient_id, total_play_time)
 
 func pause_timer() -> void:
 	if timer_running:

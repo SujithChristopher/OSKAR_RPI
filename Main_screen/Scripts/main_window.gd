@@ -33,7 +33,7 @@ func _on_window_close_requested() -> void:
 
 func _on_new_patient_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/registry.tscn") # Replace with function body.
-
+	
 
 func _on_assess_button_pressed() -> void:
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")

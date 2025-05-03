@@ -44,9 +44,9 @@ func _physics_process(delta):
 	position.y = 600
 
 func _on_ready():
-
-	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['time','ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	
+	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 # 1 second
 	log_timer.autostart = true # start timer when added to a scene
 	log_timer.timeout.connect(_on_log_timer_timeout)
