@@ -46,6 +46,8 @@ var countdown_time = 0
 var countdown_active = false
 var current_time := 0
 var is_paused = false
+var pause_state = 1
+var total_time = GlobalTimer.get_time() 
 
 @onready var adapt_toggle:bool = false
 @onready var game_log_file
@@ -58,16 +60,18 @@ func _on_PauseButton_pressed():
 		GlobalTimer.resume_timer()
 		countdown_timer.start()
 		pause_button.text = "Pause"
+		pause_state = 1
 	else:
 		GlobalTimer.pause_timer()
 		countdown_timer.stop()
 		pause_button.text = "Resume"
+		pause_state = 0
 	is_paused = !is_paused
 
 func _ready() -> void:
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['score','epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['Score','epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','PauseButton','TotalPlaytime']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -240,7 +244,7 @@ func save_final_score_to_log(score: int):
 
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y),str(pause_state),str(total_time)]))
 
 func _on_reach_game_ready():
 	rom_x_top = 20

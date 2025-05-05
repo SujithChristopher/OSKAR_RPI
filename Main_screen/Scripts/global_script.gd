@@ -1,10 +1,12 @@
 extends Node
 
 # Constants for screen bounds and scaling
-
+var session_id := 1
+var trial_id := 0
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
 
+var current_score: int = 0
 var json = JSON.new()
 var path = "res://debug.json"
 

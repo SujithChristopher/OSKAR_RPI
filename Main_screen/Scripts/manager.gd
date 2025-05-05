@@ -21,7 +21,13 @@ func create_game_log_file(game, p_id):
 	if not DirAccess.dir_exists_absolute(GlobalSignals.data_path + '//' + p_id + '//' + 'GameData'):
 		DirAccess.make_dir_recursive_absolute(GlobalSignals.data_path + '//' + p_id + '//' + 'GameData')
 
-	var game_path = game + '-' + Time.get_datetime_string_from_system().split('T')[0] + '.csv'
+	var session_id = GlobalScript.session_id
+	var trial_id = GlobalScript.trial_id
+	GlobalScript.trial_id += 1  # auto-increment trial
+	
+	var timestamp = Time.get_datetime_string_from_system().replace(":", "-")
+	#var game_path = game + '-' + Time.get_datetime_string_from_system().split('T')[0] + '.csv'
+	var game_path = "%s_S%d_T%d_%s.csv" % [game, session_id, trial_id, timestamp]
 
 	var game_file_path = GlobalSignals.data_path + '//' + p_id + '//' + 'GameData' + '//' + game_path
 
