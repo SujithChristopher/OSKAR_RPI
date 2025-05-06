@@ -74,7 +74,7 @@ text = "HID:"
 [node name="Chart" parent="." instance=ExtResource("2_pcn45")]
 layout_mode = 1
 offset_left = 285.0
-offset_top = 167.0
+offset_top = 141.0
 offset_right = -44.0
 offset_bottom = -76.0
 grow_horizontal = 2

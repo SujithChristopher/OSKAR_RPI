@@ -1,6 +1,7 @@
 extends Node
 # var current_patient_id = GlobalSignals.current_patient_id
 var parsed_data = []
+@onready var area = $"."
 
 func _ready() -> void:
 	

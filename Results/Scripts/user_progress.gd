@@ -5,8 +5,13 @@ extends Control
 @onready var hid_label: Label = $HID
 @onready var session_list: ItemList = $SessionList
 @onready var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
+@onready var area_calc := preload("res://Games/assessment/workspace.gd").new()
 
+
+var active_areas = []
+var inflated_areas = []
 var workspace_data = []
+
 
 func _ready():
 	# Get patient details
@@ -27,9 +32,11 @@ func _ready():
 	if workspace_data.size() == 0:
 		print("No data to plot")
 		return
-		
+	
+	
 	for data in workspace_data:
-		var session_text = "Date:" + data.date
+		var parts = data.date.split("-")
+		var session_text = parts[2] + "-" + parts[1] + "-" + parts[0]
 		session_list.add_item(session_text)
 	
 	# Prepare data for plotting
@@ -46,6 +53,13 @@ func _ready():
 		txdir_values.append(data.txdir)
 		tzdir_values.append(data.tzdir)
 		date_labels.append(data.date)
+		
+		var active_area = area_calc.calculate_polygon_area(data["active_poly"])
+		var inflated_area = area_calc.calculate_polygon_area(data["inflated_poly"])
+		active_areas.append(active_area)
+		inflated_areas.append(inflated_area)
+		
+		
 	
 	# Create functions for each directional value
 	var f_axdir = Function.new(
@@ -83,6 +97,17 @@ func _ready():
 			type = Function.Type.LINE
 		}
 	)
+	var f_active_area = Function.new(
+	x_values, active_areas, "Active Area",
+	{ color = Color.GREEN, type = Function.Type.LINE, marker = Function.Marker.CIRCLE }
+)
+
+	var f_inflated_area = Function.new(
+	x_values, inflated_areas, "Inflated Area",
+	{ color = Color.ORANGE, type = Function.Type.LINE, marker = Function.Marker.TRIANGLE }
+)
+	
+	
 	
 	# Set up chart properties
 	var cp = ChartProperties.new()
@@ -95,14 +120,17 @@ func _ready():
 	cp.show_legend = true
 	cp.title = "Workspace Directional Values"
 	cp.x_label = "Session Date"
-	cp.y_label = "Direction Values (degrees)"
-	cp.x_scale = 1
+	cp.y_label = "Area of Polygon"
+	#cp.x_scale = 1
 	cp.y_scale = 5
 	cp.interactive = true
-	# cp.x_labels = date_labels
+	#cp.x_labels = date_labels
 	
 	# Plot the data
-	chart.plot([f_axdir, f_azdir, f_txdir, f_tzdir], cp)
+	#chart.plot([f_axdir, f_azdir, f_txdir, f_tzdir], cp)
+	chart.plot([f_active_area, f_inflated_area], cp)
+	
+	
 	
 	print("Chart created with " + str(workspace_data.size()) + " data points")
 

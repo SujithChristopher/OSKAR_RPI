@@ -6,7 +6,9 @@ var countdown_time = 0
 var countdown_active = false
 var current_time := 0
 var game_started := false
-
+var is_paused = false
+var pause_state = 1
+#var player_score = ball.player_score
 
 @export var speed = 200
 @onready var adapt_toggle:bool = false
@@ -27,6 +29,25 @@ var game_started := false
 @onready var logout_button = $"../CanvasLayer/GameOverLabel/LogoutButton"
 @onready var retry_button = $"../CanvasLayer/GameOverLabel/RetryButton"
 @onready var time_label := $"../CanvasLayer/TimeSelector"
+@onready var pause_button = $"../CanvasLayer/PauseButton"
+
+
+
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		ball.game_started = true
+		pause_button.text = "Pause"
+		pause_state = 1
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		ball.game_started = false
+		pause_button.text = "Resume"
+		pause_state = 0
+	is_paused = !is_paused
+
 
 func _physics_process(delta):
 	
@@ -46,7 +67,7 @@ func _physics_process(delta):
 func _on_ready():
 	
 	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['score','Epochtime','ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 	log_timer.wait_time = 0.02 # 1 second
 	log_timer.autostart = true # start timer when added to a scene
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -64,6 +85,7 @@ func _on_ready():
 	sub_five_btn.pressed.connect(_on_sub_five_pressed)
 	logout_button.pressed.connect(_on_logout_button_pressed)
 	retry_button.pressed.connect(_on_retry_button_pressed)
+	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	countdown_display.hide()
 	
@@ -181,10 +203,15 @@ func _on_retry_button_pressed():
 	sub_one_btn.show()
 	sub_five_btn.show()
 	game_started = false
+	
+func save_final_score_to_log(player_score: int):
+	if game_log_file:
+		game_log_file.store_line("Final Score: " + str(player_score))
+		game_log_file.flush() 
 
 func _on_log_timer_timeout() -> void:
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([str(GlobalSignals.ball_position.x), str(GlobalSignals.ball_position.y),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([ball.player_score,Time.get_unix_time_from_system(),str(GlobalSignals.ball_position.x), str(GlobalSignals.ball_position.y),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
 
 	
 func _notification(what):

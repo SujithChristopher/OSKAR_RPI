@@ -25,7 +25,7 @@ extends Control
 @onready var logout_button = $CanvasLayer/GameOverLabel/LogoutButton
 @onready var retry_button = $CanvasLayer/GameOverLabel/RetryButton
 @onready var time_label := $CanvasLayer/TimeSelector
-
+@onready var pause_button = $CanvasLayer/PauseButton
 
 signal game_over_signal
 signal flash_animation
@@ -49,8 +49,27 @@ var pipes : Array
 var countdown_time = 0
 var countdown_active = false
 var current_time := 0
+var is_paused = false
+var pause_state = 1
 
 # Called when the node enters the scene tree for the first time.
+
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		game_running = true
+		pause_button.text = "Pause"
+		pause_state = 1
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		game_running = false
+		pause_button.text = "Resume"
+		pause_state = 0
+	is_paused = !is_paused
+
+
 func _ready() -> void:
 	game_running = false
 	score = 0
@@ -63,7 +82,7 @@ func _ready() -> void:
 	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
 
 	# add header to log file
-	game_log_file.store_csv_line(PackedStringArray(['position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
 
 	log_timer.wait_time = 0.02 # 1 second
 	log_timer.autostart = true # start timer when added to a scene
@@ -82,6 +101,7 @@ func _ready() -> void:
 	sub_five_btn.pressed.connect(_on_sub_five_pressed)
 	logout_button.pressed.connect(_on_logout_button_pressed)
 	retry_button.pressed.connect(_on_retry_button_pressed)
+	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	
 	
@@ -267,7 +287,11 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		game_log_file.close()
 
+func save_final_score_to_log(score: int):
+	if game_log_file:
+		game_log_file.store_line("Final Score: " + str(score))
+		game_log_file.flush()
 	
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))

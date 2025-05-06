@@ -259,10 +259,10 @@ offset_right = 161.0
 offset_bottom = 55.0
 
 [node name="TimerSelectorPanel" type="Panel" parent="CanvasLayer"]
-offset_left = 416.0
-offset_top = 170.0
-offset_right = 762.0
-offset_bottom = 479.0
+offset_left = 397.0
+offset_top = 165.0
+offset_right = 780.0
+offset_bottom = 503.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_lyy77")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
@@ -272,10 +272,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -118.0
-offset_top = -111.5
-offset_right = 122.0
-offset_bottom = 126.5
+offset_left = -155.5
+offset_top = -121.0
+offset_right = 157.5
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 125
@@ -306,10 +306,10 @@ text = "  Close  "
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
 layout_mode = 0
-offset_left = 206.0
-offset_top = 134.0
-offset_right = 305.0
-offset_bottom = 173.0
+offset_left = 234.0
+offset_top = 133.0
+offset_right = 333.0
+offset_bottom = 172.0
 
 [node name="AddOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer"]
 layout_mode = 2
@@ -324,10 +324,10 @@ text = "  +5  "
 [node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = 41.0
-offset_top = 134.0
-offset_right = 137.0
-offset_bottom = 174.0
+offset_left = 52.0
+offset_top = 133.0
+offset_right = 148.0
+offset_bottom = 173.0
 
 [node name="SubOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
 layout_mode = 2
@@ -379,13 +379,19 @@ offset_bottom = 95.0
 text = "🔄:Retry"
 
 [node name="TimeSelector" type="Label" parent="CanvasLayer"]
-offset_left = 563.0
-offset_top = 264.0
-offset_right = 606.0
-offset_bottom = 297.0
+offset_left = 561.0
+offset_top = 302.0
+offset_right = 604.0
+offset_bottom = 335.0
 theme = ExtResource("13_lyy77")
 theme_override_font_sizes/font_size = 20
 text = "0 m"
+
+[node name="PauseButton" type="Button" parent="CanvasLayer"]
+offset_left = 493.0
+offset_right = 566.0
+offset_bottom = 33.0
+text = "Pause"
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]

@@ -23,6 +23,15 @@ patient_register = {
 "name": "asfdasdf",
 "stroke_time": 0
 },
+"haha": {
+"affected_hand": "Unspecified",
+"age": 45,
+"comments": "",
+"dominant_hand": "Unspecified",
+"gender": "Male",
+"name": "haha",
+"stroke_time": 0
+},
 "sujith": {
 "affected_hand": "left",
 "age": 29,

@@ -54,6 +54,65 @@ var message = 'connected'
 var json = JSON.new()
 
 var hull
+
+
+func process_workspace_areas(patient_dir_path: String) -> void:
+	var dir = DirAccess.open(patient_dir_path)
+	if dir == null:
+		print("Failed to open directory:", patient_dir_path)
+		return
+
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.ends_with(".json"):
+			var file_path = patient_dir_path + "/" + file_name
+			var file = FileAccess.open(file_path, FileAccess.READ)
+			if file:
+				var content = file.get_as_text()
+				var data = JSON.parse_string(content)
+				if typeof(data) == TYPE_DICTIONARY:
+					var active_str = data.get("active_workspace", "")
+					var inflated_str = data.get("inflated_workspace", "")
+
+					var active_area = parse_and_calculate_area(active_str)
+					var inflated_area = parse_and_calculate_area(inflated_str)
+
+					print("File:", file_name)
+					print("  Active Area: ", active_area)
+					print("  Inflated Area: ", inflated_area)
+			else:
+				print("Failed to open file:", file_path)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	
+	
+	
+func parse_and_calculate_area(polygon_str: String) -> float:
+	if polygon_str == "":
+		return 0.0
+	
+	# Remove the brackets and spaces
+	var clean_str = polygon_str.strip_edges().replace("[", "").replace("]", "")
+	var point_strs = clean_str.split("), (")
+	
+	var points = []
+	for p_str in point_strs:
+		p_str = p_str.replace("(", "").replace(")", "")
+		var xy = p_str.split(",")
+		if xy.size() == 2:
+			var x = float(xy[0])
+			var y = float(xy[1])
+			points.append(Vector2(x, y))
+	
+	# Calculate area using shoelace formula
+	var area = 0.0
+	for i in range(points.size()):
+		var j = (i + 1) % points.size()
+		area += points[i].x * points[j].y
+		area -= points[j].x * points[i].y
+	area = abs(area) * 0.5
+	return area
 func _ready():
 	# Generate 100 random points for demonstration
 	
@@ -106,6 +165,33 @@ func _process(delta: float) -> void:
 			inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -mouse_pos))
 		queue_redraw()
 	get_xy_cm()
+	
+	var inflated_area = get_polygon_area(inflated_workspace)
+	var workspace_area = get_polygon_area(active_workspace)
+	print("Inflated Workspace Area: ", inflated_area)
+	print("Active Workspace Area: ", workspace_area)
+	
+func calculate_polygon_area(points: Array) -> float:
+	var area = 0.0
+	var n = points.size()
+	for i in range(n):
+		var j = (i + 1) % n
+		area += points[i].x * points[j].y
+		area -= points[j].x * points[i].y
+	return abs(area) * 0.5
+
+	
+func get_polygon_area(polygon: PackedVector2Array) -> float:
+	var area := 0.0
+	var n := polygon.size()
+	if n < 3:
+		return 0.0  # Not a polygon
+
+	for i in range(n):
+		var j = (i + 1) % n
+		area += (polygon[i].x * polygon[j].y) - (polygon[j].x * polygon[i].y)
+
+	return abs(area) * 0.5
 
 func get_xy_cm():
 	#print(get_aabb(active_workspace))

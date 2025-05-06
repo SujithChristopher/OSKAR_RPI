@@ -5,8 +5,8 @@ const SPEED = 100.0
 @export var max_score = 500
 
 var network_position = Vector2.ZERO
+var current_apple: Node = null
 
-var apple_present = false
 var apple = preload("res://Games/random_reach/scenes/apple.tscn")
 var apple_position
 
@@ -71,7 +71,7 @@ func _on_PauseButton_pressed():
 func _ready() -> void:
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['Score','epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','PauseButton','TotalPlaytime']))
+	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','PauseButton','TotalPlaytime']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -89,14 +89,10 @@ func _ready() -> void:
 	sub_five_btn.pressed.connect(_on_sub_five_pressed)
 	logout_button.pressed.connect(_on_logout_button_pressed)
 	retry_button.pressed.connect(_on_retry_button_pressed)
-	my_timer.timeout.connect(_on_apple_missed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	
 
-func _on_apple_missed():
-	if apple_present:
-		apple_present = false
 		
 		
 func update_label():
@@ -206,35 +202,33 @@ func _physics_process(delta):
 		network_position = GlobalScript.scaled_network_position
 	else:
 		network_position = GlobalScript.network_position
-		
-		
+
 	if network_position != Vector2.ZERO:
-		network_position = network_position - zero_offset  + Vector2(100, 50) 
-		#network_position = network_position - zero_offset - Vector2(500, 200)
+		network_position = network_position - zero_offset + Vector2(100, 50)
 		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
 		position = position.lerp(network_position, 0.8)
-		#position = network_position 
-		
-	if !apple_present and network_position != Vector2.ZERO:
+
+	if current_apple == null and network_position != Vector2.ZERO:
 		my_timer.start()
-		var _apple = apple.instantiate()
-		add_child(_apple)
-		_apple.top_level = true
-		
-		#Spawning based on polygon
+		current_apple = apple.instantiate()
+		add_child(current_apple)
+		current_apple.top_level = true
+
+		# Connect apple signals
+		current_apple.apple_eaten.connect(_on_apple_eaten)
+		current_apple.tree_exited.connect(_on_apple_removed)
+
+		# Spawn position
 		if adapt_toggle:
 			while true:
 				apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
 				if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
 					break
-			_apple.position = apple_position
+			current_apple.position = apple_position
 		else:
-			_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-		
-		_apple.apple_eaten.connect(_on_apple_eaten)
-		#_apple.tree_exited.connect(apple_function)
-		apple_present = true
-	if apple_present:
+			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+
+	if current_apple != null:
 		time_display.text = str(round(my_timer.time_left)) + "s"
 	
 func save_final_score_to_log(score: int):
@@ -258,11 +252,15 @@ func _on_reach_game_ready():
 	if rom_x_bot > 1100:
 		rom_x_bot = 1100
 		
-
+func _on_apple_removed():
+	current_apple = null
+	
 func _on_apple_eaten():
-	apple_present = false
-	score += 1
-	score_board.text = str(score)
+	if score < max_score:
+		score += 1
+		score_board.text = str(score)
+		if apple_sound:
+			apple_sound.play()
 	
 	
 func apple_function():
@@ -271,7 +269,7 @@ func apple_function():
 			#apple_sound.play()
 			score += 1
 			score_board.text = str(score)
-			apple_present = false
+			
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
