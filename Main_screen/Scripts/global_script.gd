@@ -59,7 +59,7 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 
 func _ready():
 	
-	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
+	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
 	
 	udp.connect_to_host("127.0.0.1", 8000)
 	thread_python.start(python_thread, Thread.PRIORITY_HIGH)
@@ -87,7 +87,7 @@ func _ready():
 		pypath_checker_path = "/home/sujith/Documents/programs/file_integrity.py"
 		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not thread_python.is_alive() and not endgame and not debug:
 		thread_python = Thread.new()
 		thread_python.start(python_thread, Thread.PRIORITY_HIGH)
