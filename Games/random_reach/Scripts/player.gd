@@ -92,10 +92,45 @@ func _ready() -> void:
 	retry_button.pressed.connect(_on_retry_button_pressed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
+	GlobalScript.start_new_session()
+	var top = get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
+	top_score_label.text = "Top Score: " + str(top)
 	
 	
 
-		
+func get_top_score_for_game(game_name: String, p_id: String) -> int:
+	var top_score := 0
+	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+
+	if DirAccess.dir_exists_absolute(folder_path):
+		var dir = DirAccess.open(folder_path)
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+
+		while file_name != "":
+			if file_name.ends_with(".csv") and file_name.begins_with(game_name):
+				var file_path = folder_path + "/" + file_name
+				var file = FileAccess.open(file_path, FileAccess.READ)
+
+				if file:
+					var is_first_line = true
+					while not file.eof_reached():
+						var line = file.get_line()
+						if is_first_line:
+							is_first_line = false  # Skip header
+							continue
+						var fields = line.split(",")
+						if fields.size() > 0:
+							var score_str = fields[0].strip_edges()
+							if score_str.is_valid_int():
+								var score = int(score_str)
+								if score > top_score:
+									top_score = score
+
+					file.close()
+			file_name = dir.get_next()
+
+	return top_score
 		
 func update_label():
 	time_label.text = str(current_time) + " sec"
@@ -147,6 +182,8 @@ func _on_play_pressed():
 	sub_one_btn.hide()
 	sub_five_btn.hide()
 	start_game_with_timer()
+	
+	
 
 func _on_close_pressed():
 	timer_panel.visible = false
@@ -157,6 +194,7 @@ func _on_close_pressed():
 	sub_five_btn.hide()    
 	countdown_display.hide()
 	start_game_without_timer()
+	
 
 func start_game_with_timer():
 	countdown_active = true
@@ -242,22 +280,6 @@ func save_final_score_to_log(score: int):
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()  # Ensure it's written
 		
-		
-func get_top_score_from_log(log_path: String) -> int:
-	var top_score = 0
-	if FileAccess.file_exists(log_path):
-		var file = FileAccess.open(log_path, FileAccess.READ)
-		while not file.eof_reached():
-			var line = file.get_line()
-			if line.begins_with("Score: "):
-				var score_str = line.replace("Score: ", "").strip_edges()
-				var score = int(score_str)
-				if score > top_score:
-					top_score = score
-		file.close()
-	return top_score
-	print("Top Score:", top_score)
-	top_score_label.text = top_score
 
 func _on_log_timer_timeout():
 	if game_log_file:

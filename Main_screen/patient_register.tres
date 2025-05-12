@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="PatientDetails" load_steps=2 format=3 uid="uid://c51dbjj0nr5he"]
 
-[ext_resource type="Script" path="res://Main_screen/Scripts/patient_db.gd" id="1_ypd56"]
+[ext_resource type="Script" uid="uid://bwkrwo7u7dy1p" path="res://Main_screen/Scripts/patient_db.gd" id="1_ypd56"]
 
 [resource]
 script = ExtResource("1_ypd56")
@@ -51,4 +51,4 @@ patient_register = {
 "stroke_time": 0
 }
 }
-current_patient_id = "Yuvan"
+current_patient_id = "asdfadsf"

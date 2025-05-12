@@ -3,7 +3,6 @@ extends Node
 # Constants for screen bounds and scaling
 var current_date: String = ""
 var session_id: int = 1
-var trial_id = 1
 var trial_counts := {} 
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
