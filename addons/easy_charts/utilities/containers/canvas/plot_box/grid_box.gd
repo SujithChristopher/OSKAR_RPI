@@ -1,10 +1,10 @@
 extends Control
 class_name GridBox
 
-var x_domain: Dictionary = { lb = 0, ub = 0 }
+var x_domain: ChartAxisDomain = null
 var x_labels_function: Callable = Callable()
 
-var y_domain: Dictionary = { lb = 0, ub = 0 }
+var y_domain: ChartAxisDomain = null
 var y_labels_function: Callable = Callable()
 
 var box: Rect2
@@ -14,7 +14,7 @@ var plot_box: Rect2
 func _ready():
 	pass # Replace with function body.
 
-func set_domains(x_domain: Dictionary, y_domain: Dictionary) -> void:
+func set_domains(x_domain: ChartAxisDomain, y_domain: ChartAxisDomain) -> void:
 	self.x_domain = x_domain
 	self.y_domain = y_domain
 
@@ -52,9 +52,9 @@ func _draw_bounding_box() -> void:
 	draw_rect(box, get_parent().chart_properties.colors.bounding_box, false, 1)# true) TODOGODOT4 Antialiasing argument is missing
 
 func _draw_origin() -> void:
-	var xorigin: float = ECUtilities._map_domain(0.0, x_domain, { lb = self.plot_box.position.x, ub = self.plot_box.end.x })
-	var yorigin: float = ECUtilities._map_domain(0.0, y_domain, { lb = self.plot_box.end.y, ub = self.plot_box.position.y })
-	
+	var xorigin: float = ECUtilities._map_domain(0.0, x_domain, ChartAxisDomain.from_bounds(self.plot_box.position.x, self.plot_box.end.x))
+	var yorigin: float = ECUtilities._map_domain(0.0, y_domain, ChartAxisDomain.from_bounds(self.plot_box.end.y, self.plot_box.position.y))
+		
 	draw_line(Vector2(xorigin, self.plot_box.position.y), Vector2(xorigin, self.plot_box.position.y + self.plot_box.size.y), get_parent().chart_properties.colors.origin, 1)
 	draw_line(Vector2(self.plot_box.position.x, yorigin), Vector2(self.plot_box.position.x + self.plot_box.size.x, yorigin), get_parent().chart_properties.colors.origin, 1)
 	draw_string(
@@ -78,7 +78,7 @@ func _draw_vertical_grid() -> void:
 	
 	for _x in (scaler + 1):
 		var x_sampled_val: float = (_x * x_pixel_dist) + self.plot_box.position.x
-		var x_val: float = ECUtilities._map_domain(x_sampled_val, { lb = self.plot_box.position.x, ub = self.plot_box.end.x }, x_domain)
+		var x_val: float = ECUtilities._map_domain(x_sampled_val, ChartAxisDomain.from_bounds(self.plot_box.position.x, self.plot_box.end.x), x_domain)
 
 		var top: Vector2 = Vector2(x_sampled_val, self.box.position.y)
 		var bottom: Vector2 = Vector2(x_sampled_val, self.box.end.y)
@@ -122,7 +122,7 @@ func _draw_horizontal_grid() -> void:
 	
 	for _y in (scaler + 1):
 		var y_sampled_val: float = (_y * y_pixel_dist) + self.plot_box.position.y
-		var y_val: float = ECUtilities._map_domain(y_sampled_val, { lb = self.plot_box.end.y, ub = self.plot_box.position.y }, y_domain)
+		var y_val: float = ECUtilities._map_domain(y_sampled_val, ChartAxisDomain.from_bounds(self.plot_box.end.y, self.plot_box.position.y), y_domain)
 
 		var left: Vector2 = Vector2(self.box.position.x, y_sampled_val)
 		var right: Vector2 = Vector2(self.box.end.x, y_sampled_val)

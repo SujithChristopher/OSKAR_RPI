@@ -39,6 +39,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.537255, 0.760784, 0.482353, 0.686275)
@@ -98,13 +99,13 @@ script = ExtResource("2_71nsx")
 
 [node name="Window" type="Window" parent="."]
 initial_position = 1
-size = Vector2i(500, 250)
+size = Vector2i(500, 210)
 visible = false
 
 [node name="Label" type="Label" parent="Window"]
-offset_top = 74.0
+offset_top = 44.0
 offset_right = 504.0
-offset_bottom = 169.0
+offset_bottom = 139.0
 theme_override_font_sizes/font_size = 17
 text = "  Please make sure you have entered the correct Hospital ID.
 
@@ -119,9 +120,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -25.0
+offset_left = -37.0
 offset_top = -60.0
-offset_right = 25.0
+offset_right = 47.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0

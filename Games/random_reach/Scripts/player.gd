@@ -6,6 +6,7 @@ const SPEED = 100.0
 
 var network_position = Vector2.ZERO
 var current_apple: Node = null
+var game_started: bool = false
 
 var apple = preload("res://Games/random_reach/scenes/apple.tscn")
 var apple_position
@@ -92,6 +93,7 @@ func _ready() -> void:
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	
+	
 
 		
 		
@@ -139,6 +141,7 @@ func _on_sub_five_pressed():
 func _on_play_pressed():
 	GlobalTimer.start_timer()
 	timer_panel.visible = false
+	game_started = true
 	add_one_btn.hide()
 	add_five_btn.hide()
 	sub_one_btn.hide()
@@ -148,6 +151,7 @@ func _on_play_pressed():
 func _on_close_pressed():
 	timer_panel.visible = false
 	add_one_btn.hide()
+	game_started = true
 	add_five_btn.hide()
 	sub_one_btn.hide()
 	sub_five_btn.hide()    
@@ -198,6 +202,8 @@ func _on_retry_button_pressed():
 	sub_five_btn.show()
 
 func _physics_process(delta):
+	if not game_started:
+		return
 	if adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
 	else:
@@ -235,6 +241,23 @@ func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()  # Ensure it's written
+		
+		
+func get_top_score_from_log(log_path: String) -> int:
+	var top_score = 0
+	if FileAccess.file_exists(log_path):
+		var file = FileAccess.open(log_path, FileAccess.READ)
+		while not file.eof_reached():
+			var line = file.get_line()
+			if line.begins_with("Score: "):
+				var score_str = line.replace("Score: ", "").strip_edges()
+				var score = int(score_str)
+				if score > top_score:
+					top_score = score
+		file.close()
+	return top_score
+	print("Top Score:", top_score)
+	top_score_label.text = top_score
 
 func _on_log_timer_timeout():
 	if game_log_file:

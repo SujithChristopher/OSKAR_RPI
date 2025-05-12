@@ -14,7 +14,8 @@ var main_menu_scene = preload("res://Main_screen/main.tscn")
 
 func _ready() -> void:
 	logged_in_as.text = "Patient: " + patient_db.current_patient_id
-
+	
+	
 func _process(delta: float) -> void:
 	pass
 

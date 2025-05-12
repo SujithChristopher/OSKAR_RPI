@@ -4,14 +4,18 @@ extends Control
 
 # This Chart will plot 3 different functions
 var f1: Function
+var f2: Function
+var f3: Function
 
 func _ready():
 	# Let's create our @x values
-	var x: Array = [10, 20, 30, 40]
+	var x: Array = ArrayOperations.multiply_float(range(-10, 11, 1), 0.5)
 	
 	# And our y values. It can be an n-size array of arrays.
 	# NOTE: `x.size() == y.size()` or `x.size() == y[n].size()`
-	var y: Array = ["Java", "JavaScript", "C++", "GDScript"]
+	var y: Array = ArrayOperations.multiply_int(ArrayOperations.cos(x), 20)
+	var y2: Array = ArrayOperations.add_float(ArrayOperations.multiply_int(ArrayOperations.sin(x), 20), 20)
+	var y3: Array = ArrayOperations.add_float(ArrayOperations.multiply_int(ArrayOperations.cos(x), -5), -3)
 	
 	# Let's customize the chart properties, which specify how the chart
 	# should look, plus some additional elements like labels, the scale, etc...
@@ -22,31 +26,38 @@ func _ready():
 	cp.colors.ticks = Color("#283442")
 	cp.colors.text = Color.WHITE_SMOKE
 	cp.draw_bounding_box = false
-	cp.title = "Users preferences on programming languages"
-	cp.draw_grid_box = false
 	cp.show_legend = true
+	cp.title = "Air Quality Monitoring"
+	cp.x_label = "Time"
+	cp.y_label = "Sensor values"
+	cp.x_scale = 5
+	cp.y_scale = 10
 	cp.interactive = true # false by default, it allows the chart to create a tooltip to show point values
 	# and interecept clicks on the plot
 	
-	var gradient: Gradient = Gradient.new()
-	gradient.set_color(0, Color.AQUAMARINE)
-	gradient.set_color(1, Color.DEEP_PINK)
-	
 	# Let's add values to our functions
 	f1 = Function.new(
-		x, y, "Language", # This will create a function with x and y values taken by the Arrays 
+		x, y, "Pressure", # This will create a function with x and y values taken by the Arrays 
 						# we have created previously. This function will also be named "Pressure"
 						# as it contains 'pressure' values.
 						# If set, the name of a function will be used both in the Legend
 						# (if enabled thourgh ChartProperties) and on the Tooltip (if enabled).
-		{
-			gradient = gradient,
-			type = Function.Type.PIE
+		# Let's also provide a dictionary of configuration parameters for this specific function.
+		{ 
+			color = Color("#36a2eb"), 		# The color associated to this function
+			marker = Function.Marker.NONE, 	# The marker that will be displayed for each drawn point (x,y)
+											# since it is `NONE`, no marker will be shown.
+			type = Function.Type.AREA, 		# This defines what kind of plotting will be used, 
+											# in this case it will be an Area Chart.
+			interpolation = Function.Interpolation.STAIR	# Interpolation mode, only used for 
+															# Line Charts and Area Charts.
 		}
 	)
+	f2 = Function.new(x, y2, "Humidity", { color = Color("#ff6384"), marker = Function.Marker.CROSS })
+	f3 = Function.new(x, y3, "CO2", { color = Color.GREEN, marker = Function.Marker.TRIANGLE })
 	
 	# Now let's plot our data
-	chart.plot([f1], cp)
+	chart.plot([f1, f2, f3], cp)
 	
 	# Uncommenting this line will show how real time data plotting works
 	set_process(false)
@@ -60,6 +71,8 @@ func _process(delta: float):
 	
 	# we can use the `Function.add_point(x, y)` method to update a function
 	f1.add_point(new_val, cos(new_val) * 20)
+	f2.add_point(new_val, (sin(new_val) * 20) + 20)
+	f3.add_point(new_val, (cos(new_val) * -5) - 3)
 	chart.queue_redraw() # This will force the Chart to be updated
 
 

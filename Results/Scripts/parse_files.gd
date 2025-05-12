@@ -93,6 +93,7 @@ func parse_polygon_string(polygon_string: String) -> Array[Vector2]:
 			result.append(Vector2(x, y))
 	
 	return result
+	
 
 func get_parsed_data() -> Array:
 	return parsed_data

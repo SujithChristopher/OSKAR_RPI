@@ -19,10 +19,10 @@ stretch_mode = 1
 
 [node name="StopButton" type="Button" parent="."]
 texture_filter = 1
-offset_left = 415.0
-offset_top = 593.0
-offset_right = 519.0
-offset_bottom = 633.0
+offset_left = 339.0
+offset_top = 649.0
+offset_right = 443.0
+offset_bottom = 689.0
 text = "Calc.  AW"
 
 [node name="set_orgin" type="Button" parent="."]
@@ -37,34 +37,34 @@ text = "Set orgin
 
 [node name="Enter" type="Button" parent="."]
 texture_filter = 1
-offset_left = 697.0
-offset_top = 594.0
-offset_right = 788.0
-offset_bottom = 633.0
+offset_left = 670.0
+offset_top = 650.0
+offset_right = 779.0
+offset_bottom = 688.0
 text = "Save"
 
 [node name="start" type="Button" parent="."]
 texture_filter = 1
-offset_left = 568.0
-offset_top = 593.0
-offset_right = 642.0
-offset_bottom = 633.0
+offset_left = 507.0
+offset_top = 649.0
+offset_right = 608.0
+offset_bottom = 688.0
 text = "Start"
 
 [node name="Clear" type="Button" parent="."]
 texture_filter = 1
 offset_left = 1066.0
-offset_top = 594.0
+offset_top = 626.0
 offset_right = 1140.0
-offset_bottom = 634.0
+offset_bottom = 666.0
 text = "Clear"
 
 [node name="Reset" type="Button" parent="."]
 texture_filter = 1
 offset_left = 15.0
-offset_top = 594.0
+offset_top = 626.0
 offset_right = 105.0
-offset_bottom = 634.0
+offset_bottom = 666.0
 text = "Set-Zero"
 
 [node name="SelectGame" type="Button" parent="."]

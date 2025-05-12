@@ -1,8 +1,10 @@
 extends Node
 
 # Constants for screen bounds and scaling
-var session_id := 1
-var trial_id := 0
+var current_date: String = ""
+var session_id: int = 1
+var trial_id = 1
+var trial_counts := {} 
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
 
@@ -60,7 +62,7 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 @onready var debug:bool
 
 func _ready():
-	
+	current_date = get_date_string()
 	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
 	
 	udp.connect_to_host("127.0.0.1", 8000)
@@ -160,3 +162,23 @@ func _notification(what: int) -> void:
 		handle_quit_request()
 		thread_python.wait_to_finish()
 		get_tree().quit()
+		
+func get_date_string() -> String:
+	var time = Time.get_datetime_dict_from_system()
+	return "%04d-%02d-%02d" % [time.year, time.month, time.day]
+
+func start_new_session():
+	var today = get_date_string()
+	if today != current_date:
+		current_date = today
+		session_id = 1
+	else:
+		session_id += 1
+	trial_counts.clear()
+
+func get_next_trial_id(game_name: String) -> int:
+	if not trial_counts.has(game_name):
+		trial_counts[game_name] = 1
+	else:
+		trial_counts[game_name] += 1
+	return trial_counts[game_name]

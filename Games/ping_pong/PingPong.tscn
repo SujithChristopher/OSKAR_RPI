@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://dj606ct7uo4ou" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="11_5ysxo"]
-[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="12_heaje"]
+[ext_resource type="Theme" path="res://addons/new_theme.tres" id="12_heaje"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_heaje"]
 texture = ExtResource("11_5ysxo")

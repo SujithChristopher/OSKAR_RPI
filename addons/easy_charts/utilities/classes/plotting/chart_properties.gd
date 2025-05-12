@@ -6,7 +6,9 @@ var x_label: String
 var y_label: String
 
 ## {n}_scale defines in how many sectors the grid will be divided.
-var x_scale: float = 5.0
+
+
+var x_scale: float = 3.0
 var y_scale: float = 2.0
 
 var x_tick_size: float = 7

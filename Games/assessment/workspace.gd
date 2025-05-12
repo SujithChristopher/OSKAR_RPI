@@ -178,7 +178,7 @@ func calculate_polygon_area(points: Array) -> float:
 		var j = (i + 1) % n
 		area += points[i].x * points[j].y
 		area -= points[j].x * points[i].y
-	return abs(area) * 0.5
+	return abs(area) * 0.5 * 0.0264583333
 
 	
 func get_polygon_area(polygon: PackedVector2Array) -> float:

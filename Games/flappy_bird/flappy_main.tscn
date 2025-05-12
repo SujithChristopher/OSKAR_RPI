@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://7nr2tlykv2n5" path="res://Games/flappy_bird/flappy_scenes/game_over.tscn" id="10_atd0n"]
 [ext_resource type="Script" uid="uid://nqypnx6hl2qj" path="res://Games/flappy_bird/timer_label.gd" id="11_lfx1l"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="12_jdt3t"]
-[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="13_lyy77"]
+[ext_resource type="Theme" path="res://addons/new_theme.tres" id="13_lyy77"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovamc"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
