@@ -1,15 +1,8 @@
 extends CharacterBody2D
 
-const SPEED = 100.0
+
 
 @export var max_score = 500
-
-var network_position = Vector2.ZERO
-var current_apple: Node = null
-var game_started: bool = false
-
-var apple = preload("res://Games/random_reach/scenes/apple.tscn")
-var apple_position
 
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
@@ -33,7 +26,24 @@ var apple_position
 @onready var top_three_scores_label := $"../TileMap/CanvasLayer/GameOverLabel/TopScores"
 @onready var top_score_label: Label = $"../TileMap/CanvasLayer/TextureRect/TopScoreLabel"
 
+@onready var adapt_toggle:bool = false
+@onready var game_log_file
+@onready var log_timer := Timer.new()
+@onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
 
+var json = JSON.new()
+var path = "res://debug.json"
+var debug
+
+
+const SPEED = 100.0
+
+var network_position = Vector2.ZERO
+var current_apple: Node = null
+var game_started: bool = false
+
+var apple = preload("res://Games/random_reach/scenes/apple.tscn")
+var apple_position
 var process
 var score = 0
 var zero_offset = Vector2.ZERO
@@ -50,15 +60,13 @@ var is_paused = false
 var pause_state = 1
 var total_time = GlobalTimer.get_time() 
 
-@onready var adapt_toggle:bool = false
-@onready var game_log_file
-@onready var log_timer := Timer.new()
-@onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
-
 func _ready() -> void:
+
+	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
+
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','PauseButton','TotalPlaytime']))
+	game_log_file.store_csv_line(PackedStringArray(['score','epoch','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','pause','time_played']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -248,7 +256,7 @@ func save_final_score_to_log(score: int):
 		game_log_file.flush()  # Ensure it's written
 		
 func _on_log_timer_timeout():
-	if game_log_file:
+	if game_log_file and not debug:
 		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y),str(pause_state),str(total_time)]))
 
 func _on_reach_game_ready():

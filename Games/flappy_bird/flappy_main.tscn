@@ -7,13 +7,13 @@
 [ext_resource type="Script" uid="uid://slnssvf31hcb" path="res://Games/flappy_bird/flappy_scenes/ground.gd" id="3_85j6f"]
 [ext_resource type="Script" uid="uid://beumoolioq1b2" path="res://Games/flappy_bird/flappy_scenes/pilot.gd" id="6_60jxw"]
 [ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="7_y6fyh"]
-[ext_resource type="Texture2D" uid="uid://fn3psom18nnv" path="res://Assets/Health and Points Bars/Sprites/Heart Bar/Heart Stage 1.png" id="8_0pgrx"]
-[ext_resource type="Texture2D" uid="uid://co33yn52kaeqb" path="res://Assets/Health and Points Bars/Sprites/Heart Bar/Heart Stage 5.png" id="9_ql3gn"]
+[ext_resource type="Texture2D" uid="uid://fn3psom18nnv" path="res://Assets/health_and_pointers_bar/Sprites/Heart Bar/Heart Stage 1.png" id="8_0pgrx"]
+[ext_resource type="Texture2D" uid="uid://co33yn52kaeqb" path="res://Assets/health_and_pointers_bar/Sprites/Heart Bar/Heart Stage 5.png" id="9_ql3gn"]
 [ext_resource type="PackedScene" uid="uid://7nr2tlykv2n5" path="res://Games/flappy_bird/flappy_scenes/game_over.tscn" id="10_atd0n"]
-[ext_resource type="Script" uid="uid://nqypnx6hl2qj" path="res://Games/flappy_bird/timer_label.gd" id="11_lfx1l"]
-[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="12_jdt3t"]
+[ext_resource type="Script" path="res://Games/flappy_bird/timer_label.gd" id="11_lfx1l"]
+[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="12_jdt3t"]
 [ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="13_lyy77"]
-[ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://medal.webp" id="14_jtwbv"]
+[ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://Assets/scoring_system/medal.webp" id="14_jtwbv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovamc"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
