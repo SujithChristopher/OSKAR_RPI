@@ -181,7 +181,9 @@ func get_next_trial_id(game_name: String) -> int:
 	else:
 		trial_counts[game_name] += 1
 	return trial_counts[game_name]
-	
+
+
+#TODO: change this to file sorting functions and use for loops for finishing the job
 func get_top_score_for_game(game_name: String, p_id: String) -> int:
 	var top_score := 0
 	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"

@@ -8,7 +8,7 @@ func _ready() -> void:
 	parse_workspace_files()
 
 func parse_workspace_files() -> void:
-	
+	#TODO: change this to file sorting and parsing, no while loops if possible
 	var path = GlobalSignals.data_path + "//" + GlobalSignals.current_patient_id
 	print("Parsing files in: " + path)
 	var dir = DirAccess.open(path)

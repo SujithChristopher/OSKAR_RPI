@@ -25,6 +25,8 @@ extends Control
 @onready var pause_button = $CanvasLayer/PauseButton
 @onready var top_score_label = $CanvasLayer/TextureRect/TopScoreLabel
 
+#TODO: Packed scene if possible
+
 signal game_over_signal
 signal flash_animation
 signal plane_crashed

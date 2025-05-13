@@ -32,6 +32,8 @@ var pause_state = 1
 @onready var top_score_label = $"../CanvasLayer/TextureRect/TopScoreLabel"
 
 
+#TODO: convert multiple references to packed scene, its easier
+
 func _physics_process(delta):
 	
 	if not game_started:
