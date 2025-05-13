@@ -94,8 +94,5 @@ func _on_player_killed():
 	await get_tree().create_timer(1.5).timeout
 	gos.visible = true
 
-func _notification(what):
-	pass
-
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://fj2c6cebl8pk"]
+[gd_scene load_steps=20 format=3 uid="uid://fj2c6cebl8pk"]
 
 [ext_resource type="PackedScene" uid="uid://cd76jpqxb0eqo" path="res://Games/flappy_bird/flappy_scenes/ground.tscn" id="1_rlb8a"]
 [ext_resource type="Script" uid="uid://cplymo30m4t22" path="res://Games/flappy_bird/flappy_main.gd" id="1_y37re"]
@@ -12,7 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://7nr2tlykv2n5" path="res://Games/flappy_bird/flappy_scenes/game_over.tscn" id="10_atd0n"]
 [ext_resource type="Script" uid="uid://nqypnx6hl2qj" path="res://Games/flappy_bird/timer_label.gd" id="11_lfx1l"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="12_jdt3t"]
-[ext_resource type="Theme" path="res://addons/new_theme.tres" id="13_lyy77"]
+[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="13_lyy77"]
+[ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://medal.webp" id="14_jtwbv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovamc"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
@@ -392,6 +393,19 @@ offset_left = 493.0
 offset_right = 566.0
 offset_bottom = 33.0
 text = "Pause"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_right = 65.0
+offset_bottom = 84.0
+texture = ExtResource("14_jtwbv")
+expand_mode = 1
+
+[node name="TopScoreLabel" type="Label" parent="CanvasLayer/TextureRect"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 16.0
+offset_right = 48.0
+offset_bottom = 41.0
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]

@@ -2,57 +2,40 @@ extends Node2D
 
 @onready var points = []
 @onready var convex_hull_points = PackedVector2Array()
-
 @onready var active_workspace = []
 @onready var mouse_pos
 @onready var inflated_workspace
 @onready var mouse_pressed:bool = false
 @onready var mouse_current_first:bool = false
-
 @onready var mouse_current_pos
 @onready var mouse_previous_pos
-
-
 @onready var _lines := $Lines
-
-
-
 @onready var start_pressed:bool = true
 @onready var current_index = 0
-
 @onready var sprite_positions
 @onready var player_offset = Vector2.ZERO
-
 @onready var active_pols
 @onready var training_pols
 @onready var axdir
 @onready var azdir
 @onready var txdir
 @onready var tzdir
-
 @onready var rect_points
-
 @onready var button_focus:bool = false
-
 @onready var workspace_file
 
 var received_message
 var thread: Thread
 var the_message : String
-
 var connected = false
 var network_position
-
 var _temp_message
 var _presssed = false 
-
 var _current_line : Line2D
 var current_polyline: Line2D
-
 var start_drawing : bool
 var message = 'connected'
 var json = JSON.new()
-
 var hull
 
 
@@ -115,9 +98,6 @@ func parse_and_calculate_area(polygon_str: String) -> float:
 	return area
 func _ready():
 	# Generate 100 random points for demonstration
-	
-	
-	#workspace_file = FileAccess.open()
 	for i in range(100):
 		active_workspace.append(Vector2(randi() % 400 + 350, randi() % 400 + 200))
 		
@@ -165,12 +145,7 @@ func _process(delta: float) -> void:
 			inflated_workspace = Geometry2D.convex_hull(inflate_polygon(active_workspace, -mouse_pos))
 		queue_redraw()
 	get_xy_cm()
-	
-	var inflated_area = get_polygon_area(inflated_workspace)
-	var workspace_area = get_polygon_area(active_workspace)
-	print("Inflated Workspace Area: ", inflated_area)
-	print("Active Workspace Area: ", workspace_area)
-	
+
 func calculate_polygon_area(points: Array) -> float:
 	var area = 0.0
 	var n = points.size()
@@ -180,23 +155,8 @@ func calculate_polygon_area(points: Array) -> float:
 		area -= points[j].x * points[i].y
 	return abs(area) * 0.5 * 0.0264583333
 
-	
-func get_polygon_area(polygon: PackedVector2Array) -> float:
-	var area := 0.0
-	var n := polygon.size()
-	if n < 3:
-		return 0.0  # Not a polygon
-
-	for i in range(n):
-		var j = (i + 1) % n
-		area += (polygon[i].x * polygon[j].y) - (polygon[j].x * polygon[i].y)
-
-	return abs(area) * 0.5
-
 func get_xy_cm():
-	#print(get_aabb(active_workspace))
 	active_pols = get_rect(active_workspace)
-	
 	axdir = abs(active_pols[0][0]-active_pols[1][0]) / GlobalScript.PLAYER_POS_SCALER_X*100
 	azdir = abs(active_pols[0][1]-active_pols[1][1]) / GlobalScript.PLAYER_POS_SCALER_Y*100
 
@@ -318,7 +278,6 @@ func _on_stop_button_pressed() -> void:
 	GlobalSignals.global_scalar_x = get_viewport_rect().size.x /prom_size.x 
 	GlobalSignals.global_scalar_y = get_viewport_rect().size.y /prom_size.y
 	queue_redraw()
-	#_on_start_pressed()
 
 func _on_enter_mouse_entered() -> void:
 	button_focus = true

@@ -55,20 +55,6 @@ var total_time = GlobalTimer.get_time()
 @onready var log_timer := Timer.new()
 @onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
 
-
-func _on_PauseButton_pressed():
-	if is_paused:
-		GlobalTimer.resume_timer()
-		countdown_timer.start()
-		pause_button.text = "Pause"
-		pause_state = 1
-	else:
-		GlobalTimer.pause_timer()
-		countdown_timer.stop()
-		pause_button.text = "Resume"
-		pause_state = 0
-	is_paused = !is_paused
-
 func _ready() -> void:
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
@@ -93,45 +79,47 @@ func _ready() -> void:
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	GlobalScript.start_new_session()
-	var top = get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
-	top_score_label.text = "Top Score: " + str(top)
+	var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
+	top_score_label.text = str(top)
 	
 	
+func _physics_process(delta):
+	if not game_started:
+		return
+	if adapt_toggle:
+		network_position = GlobalScript.scaled_network_position
+	else:
+		network_position = GlobalScript.network_position
 
-func get_top_score_for_game(game_name: String, p_id: String) -> int:
-	var top_score := 0
-	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+	if network_position != Vector2.ZERO:
+		network_position = network_position - zero_offset + Vector2(100, 50)
+		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
+		position = position.lerp(network_position, 0.8)
 
-	if DirAccess.dir_exists_absolute(folder_path):
-		var dir = DirAccess.open(folder_path)
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
+	if current_apple == null and network_position != Vector2.ZERO:
+		my_timer.start()
+		current_apple = apple.instantiate()
+		add_child(current_apple)
+		current_apple.top_level = true
 
-		while file_name != "":
-			if file_name.ends_with(".csv") and file_name.begins_with(game_name):
-				var file_path = folder_path + "/" + file_name
-				var file = FileAccess.open(file_path, FileAccess.READ)
+		# Connect apple signals
+		current_apple.apple_eaten.connect(_on_apple_eaten)
+		current_apple.tree_exited.connect(_on_apple_removed)
 
-				if file:
-					var is_first_line = true
-					while not file.eof_reached():
-						var line = file.get_line()
-						if is_first_line:
-							is_first_line = false  # Skip header
-							continue
-						var fields = line.split(",")
-						if fields.size() > 0:
-							var score_str = fields[0].strip_edges()
-							if score_str.is_valid_int():
-								var score = int(score_str)
-								if score > top_score:
-									top_score = score
+		# Spawn position
+		if adapt_toggle:
+			while true:
+				apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
+				if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
+					break
+			current_apple.position = apple_position
+		else:
+			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
 
-					file.close()
-			file_name = dir.get_next()
+	if current_apple != null:
+		time_display.text = str(round(my_timer.time_left)) + "s"
+	
 
-	return top_score
-		
 func update_label():
 	time_label.text = str(current_time) + " sec"
 	var minutes = countdown_time / 60
@@ -195,12 +183,31 @@ func _on_close_pressed():
 	countdown_display.hide()
 	start_game_without_timer()
 	
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		pause_button.text = "Pause"
+		game_started = true
+		pause_state = 1
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		pause_button.text = "Resume"
+		game_started = false
+		pause_state = 0
+	is_paused = !is_paused
+	
 
 func start_game_with_timer():
 	countdown_active = true
 	countdown_timer.wait_time = 1.0 
 	countdown_timer.start()
 	_update_time_display()
+	
+func start_game_without_timer():
+	countdown_active = false
+	GlobalTimer.start_timer()
 
 func _on_CountdownTimer_timeout():
 	if countdown_active:
@@ -222,10 +229,6 @@ func show_game_over():
 	save_final_score_to_log(GlobalScript.current_score)
 	game_over_label.visible = true
 	
-func start_game_without_timer():
-	countdown_active = false
-	GlobalTimer.start_timer()
-	
 func _on_logout_button_pressed():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
@@ -239,48 +242,11 @@ func _on_retry_button_pressed():
 	sub_one_btn.show()
 	sub_five_btn.show()
 
-func _physics_process(delta):
-	if not game_started:
-		return
-	if adapt_toggle:
-		network_position = GlobalScript.scaled_network_position
-	else:
-		network_position = GlobalScript.network_position
-
-	if network_position != Vector2.ZERO:
-		network_position = network_position - zero_offset + Vector2(100, 50)
-		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
-		position = position.lerp(network_position, 0.8)
-
-	if current_apple == null and network_position != Vector2.ZERO:
-		my_timer.start()
-		current_apple = apple.instantiate()
-		add_child(current_apple)
-		current_apple.top_level = true
-
-		# Connect apple signals
-		current_apple.apple_eaten.connect(_on_apple_eaten)
-		current_apple.tree_exited.connect(_on_apple_removed)
-
-		# Spawn position
-		if adapt_toggle:
-			while true:
-				apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
-				if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
-					break
-			current_apple.position = apple_position
-		else:
-			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-
-	if current_apple != null:
-		time_display.text = str(round(my_timer.time_left)) + "s"
-	
 func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()  # Ensure it's written
 		
-
 func _on_log_timer_timeout():
 	if game_log_file:
 		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y),str(pause_state),str(total_time)]))
@@ -311,7 +277,6 @@ func _on_apple_eaten():
 func apple_function():
 	if score <= max_score:
 		if not apple_sound == null:
-			#apple_sound.play()
 			score += 1
 			score_board.text = str(score)
 			

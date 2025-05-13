@@ -12,5 +12,3 @@ signal SignalBus
 
 
 @export var ball_position: Vector2
-
-#@export var game_data_path:String = data_path + '//' + current_patient_id + '//' + 'GameData'

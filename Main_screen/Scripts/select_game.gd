@@ -39,10 +39,7 @@ func _on_results_pressed() -> void:
 	get_tree().change_scene_to_packed(results_scene)
 
 func _on_logout_pressed() -> void:
-	#GlobalTimer.save_play_time(GlobalSignals.current_patient_id)
 	get_tree().change_scene_to_packed(main_menu_scene)
 	
-
 func _on_exit_button_pressed() -> void:
-	#GlobalTimer.save_play_time(GlobalSignals.current_patient_id)
 	get_tree().quit()

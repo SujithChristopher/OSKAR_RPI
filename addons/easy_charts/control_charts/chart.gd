@@ -20,7 +20,7 @@ var y_domain: ChartAxisDomain = null
 
 var chart_properties: ChartProperties = null
 
-###########
+
 
 func _ready() -> void:
 	if theme == null:

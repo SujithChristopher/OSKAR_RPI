@@ -4,14 +4,11 @@ extends Control
 @onready var timer = $PipeTimer
 @onready var player = $pilot
 @onready var score_label: Label = $ScoreBoard/Score
-
 @onready var heart_array = [$Health/heart1, $Health/heart2, $Health/heart3]
 @onready var health = 2
 @onready var game_over_scene: CanvasLayer = $GameOver
-
 @onready var game_log_file
 @onready var log_timer := Timer.new()
-
 @onready var timer_panel = $CanvasLayer/TimerSelectorPanel
 @onready var countdown_display = $CanvasLayer/CountdownTimer/CountdownLabel
 @onready var play_button = $CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer/PlayButton
@@ -26,6 +23,7 @@ extends Control
 @onready var retry_button = $CanvasLayer/GameOverLabel/RetryButton
 @onready var time_label := $CanvasLayer/TimeSelector
 @onready var pause_button = $CanvasLayer/PauseButton
+@onready var top_score_label = $CanvasLayer/TextureRect/TopScoreLabel
 
 signal game_over_signal
 signal flash_animation
@@ -39,35 +37,17 @@ const TIMER_DELAY: int = 2
 
 var game_running : bool = false
 var game_over : bool
-
 var scroll
 var score
 var screen_size : Vector2i
 var ground_height : int
 var pipes : Array
-
 var countdown_time = 0
 var countdown_active = false
 var current_time := 0
 var is_paused = false
 var pause_state = 1
 
-# Called when the node enters the scene tree for the first time.
-
-func _on_PauseButton_pressed():
-	if is_paused:
-		GlobalTimer.resume_timer()
-		countdown_timer.start()
-		game_running = true
-		pause_button.text = "Pause"
-		pause_state = 1
-	else:
-		GlobalTimer.pause_timer()
-		countdown_timer.stop()
-		game_running = false
-		pause_button.text = "Resume"
-		pause_state = 0
-	is_paused = !is_paused
 
 
 func _ready() -> void:
@@ -78,17 +58,11 @@ func _ready() -> void:
 	ground_height = $ground.get_node("Sprite2D").texture.get_height()
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
-	game_over_scene.restart_games.connect(restart_game)
 	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
-
-	# add header to log file
 	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
-
-	log_timer.wait_time = 0.02 # 1 second
-	log_timer.autostart = true # start timer when added to a scene
-	log_timer.timeout.connect(_on_log_timer_timeout)
+	log_timer.wait_time = 0.02 
+	log_timer.autostart = true 
 	add_child(log_timer)
-	
 	timer_panel.visible = true
 	time_label.visible = true
 	game_over_label.visible = false
@@ -102,7 +76,11 @@ func _ready() -> void:
 	logout_button.pressed.connect(_on_logout_button_pressed)
 	retry_button.pressed.connect(_on_retry_button_pressed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
+	game_over_scene.restart_games.connect(restart_game)
+	log_timer.timeout.connect(_on_log_timer_timeout)
 	game_over_label.hide()
+	var top = GlobalScript.get_top_score_for_game("FlyThrough", GlobalSignals.current_patient_id)
+	top_score_label.text = str(top)
 	
 	
 	
@@ -170,12 +148,33 @@ func _on_close_pressed():
 	countdown_display.hide()
 	start_game_without_timer()
 	
+	
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		game_running = true
+		pause_button.text = "Pause"
+		pause_state = 1
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		game_running = false
+		pause_button.text = "Resume"
+		pause_state = 0
+	is_paused = !is_paused
+
 
 func start_game_with_timer():
 	countdown_active = true
-	countdown_timer.wait_time = 1.0 # tick every second
+	countdown_timer.wait_time = 1.0 
 	countdown_timer.start()
 	_update_time_display()
+	game_running = true
+	
+func start_game_without_timer():
+	countdown_active = false
+	GlobalTimer.start_timer()
 	game_running = true
 
 func _on_CountdownTimer_timeout():
@@ -199,10 +198,6 @@ func show_game_over():
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	
-func start_game_without_timer():
-	countdown_active = false
-	GlobalTimer.start_timer()
-	game_running = true
 	
 func _on_logout_button_pressed():
 	get_tree().paused = false
@@ -221,14 +216,11 @@ func _process(delta: float) -> void:
 	
 	if game_running:
 		scroll += SCROLL_SPEED
-		#reset scroll
 		if scroll >= screen_size.x/5:
 			scroll = 0
 		$ground.position.x = -scroll
-		#move pipes
 		for pipe in pipes:
 			pipe.position.x -= SCROLL_SPEED
-	
 	
 func stop_game():
 	timer.stop()
@@ -245,7 +237,6 @@ func generate_pipe():
 	
 		var pipe = pipe_scene.instantiate()
 		pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
-	#pipe.position.y = (screen_size.y - ground_height) / 2  + randi_range(-PIPE_RANGE, PIPE_RANGE)
 		pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
 		pipe.hit.connect(pipe_hit)
 		pipe.scored.connect(scored)

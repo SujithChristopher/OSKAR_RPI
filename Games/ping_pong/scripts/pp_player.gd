@@ -8,11 +8,10 @@ var current_time := 0
 var game_started := false
 var is_paused = false
 var pause_state = 1
-#var player_score = ball.player_score
+
 
 @export var speed = 200
 @onready var adapt_toggle:bool = false
-
 @onready var game_log_file
 @onready var log_timer := Timer.new()
 @onready var ball = $"../Ball"
@@ -30,23 +29,7 @@ var pause_state = 1
 @onready var retry_button = $"../CanvasLayer/GameOverLabel/RetryButton"
 @onready var time_label := $"../CanvasLayer/TimeSelector"
 @onready var pause_button = $"../CanvasLayer/PauseButton"
-
-
-
-func _on_PauseButton_pressed():
-	if is_paused:
-		GlobalTimer.resume_timer()
-		countdown_timer.start()
-		ball.game_started = true
-		pause_button.text = "Pause"
-		pause_state = 1
-	else:
-		GlobalTimer.pause_timer()
-		countdown_timer.stop()
-		ball.game_started = false
-		pause_button.text = "Resume"
-		pause_state = 0
-	is_paused = !is_paused
+@onready var top_score_label = $"../CanvasLayer/TextureRect/TopScoreLabel"
 
 
 func _physics_process(delta):
@@ -88,9 +71,9 @@ func _on_ready():
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	countdown_display.hide()
+	var top = GlobalScript.get_top_score_for_game("PingPong", GlobalSignals.current_patient_id)
+	top_score_label.text = str(top)
 	
-
-
 
 func update_label():
 	time_label.text = str(current_time) + " sec"
@@ -158,7 +141,7 @@ func _on_close_pressed():
 
 func start_game_with_timer():
 	countdown_active = true
-	countdown_timer.wait_time = 1.0 # tick every second
+	countdown_timer.wait_time = 1.0 
 	countdown_timer.start()
 	_update_time_display()
 	
@@ -166,6 +149,21 @@ func start_game_without_timer():
 	game_started = true
 	countdown_active = false
 	GlobalTimer.start_timer()
+	
+func _on_PauseButton_pressed():
+	if is_paused:
+		GlobalTimer.resume_timer()
+		countdown_timer.start()
+		ball.game_started = true
+		pause_button.text = "Pause"
+		pause_state = 1
+	else:
+		GlobalTimer.pause_timer()
+		countdown_timer.stop()
+		ball.game_started = false
+		pause_button.text = "Resume"
+		pause_state = 0
+	is_paused = !is_paused
 
 func _on_CountdownTimer_timeout():
 	if countdown_active:
@@ -189,7 +187,6 @@ func show_game_over():
 	game_over_label.visible = true
 	
 
-	
 func _on_logout_button_pressed():
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")

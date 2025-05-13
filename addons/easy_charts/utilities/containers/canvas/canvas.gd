@@ -7,7 +7,7 @@ class_name Canvas
 @onready var _legend: FunctionLegend = $CanvasContainer/DataContainer/FunctionLegend
 
 func _ready():
-	pass # Replace with function body.
+	pass 
 
 func prepare_canvas(chart_properties: ChartProperties) -> void:
 	

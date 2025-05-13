@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cuej5ryifr164"]
+[gd_scene load_steps=15 format=3 uid="uid://cuej5ryifr164"]
 
 [ext_resource type="Texture2D" uid="uid://cdr4ro16ljvi5" path="res://Assets/pp_assets/arts/background.jpg" id="1_hp74f"]
 [ext_resource type="PackedScene" uid="uid://cqbhdd3f3ysqn" path="res://Games/ping_pong/pp_player.tscn" id="2_x01ca"]
@@ -11,7 +11,8 @@
 [ext_resource type="Script" uid="uid://dj606ct7uo4ou" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="11_5ysxo"]
-[ext_resource type="Theme" path="res://addons/new_theme.tres" id="12_heaje"]
+[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="12_heaje"]
+[ext_resource type="Texture2D" uid="uid://g3xuhbbrhthp" path="res://Games/random_reach/medal.webp" id="13_m35pc"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_heaje"]
 texture = ExtResource("11_5ysxo")
@@ -246,6 +247,21 @@ offset_left = 520.0
 offset_right = 588.0
 offset_bottom = 31.0
 text = "Pause"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 24.0
+offset_right = 79.0
+offset_bottom = 107.0
+texture = ExtResource("13_m35pc")
+expand_mode = 1
+
+[node name="TopScoreLabel" type="Label" parent="CanvasLayer/TextureRect"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 39.0
 
 [connection signal="ready" from="player" to="player" method="_on_ready"]
 [connection signal="ready" from="computer" to="computer" method="_on_ready"]

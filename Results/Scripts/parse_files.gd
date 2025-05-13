@@ -8,7 +8,7 @@ func _ready() -> void:
 	parse_workspace_files()
 
 func parse_workspace_files() -> void:
-	#var path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS) + "/NOARK2/" + GlobalSignals.current_patient_id
+	
 	var path = GlobalSignals.data_path + "//" + GlobalSignals.current_patient_id
 	print("Parsing files in: " + path)
 	var dir = DirAccess.open(path)

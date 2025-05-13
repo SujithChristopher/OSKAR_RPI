@@ -8,15 +8,14 @@ extends Control
 @onready var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 @onready var area_calc := preload("res://Games/assessment/workspace.gd").new()
 @onready var ddl = $DirectionDetailsLabel
+@export var workspace_data = []
 
 var active_areas = []
 var inflated_areas = []
-@export var workspace_data = []
 var date_labels = []
 var x_dates = []
 
 func _ready():
-	# Get patient details
 	var current_id = GlobalSignals.current_patient_id
 	var all_patients = patient_db.list_all_patients()
 	
@@ -39,7 +38,7 @@ func _ready():
 	for i in workspace_data.size():
 		var data = workspace_data[i]
 		var parts = data.date.split("-")
-		var date_str = "%s-%s-%s" % [parts[2], parts[1], parts[0]]  # DD-MM-YYYY
+		var date_str = "%s-%s-%s" % [parts[2], parts[1], parts[0]]  
 		var date_mm = "%s-%s" % [parts[2], parts[1]]
 		date_labels.append(date_str)
 		x_dates.append(date_mm)
@@ -57,8 +56,8 @@ func _ready():
 	
 	var tick_labels := []
 	for data in workspace_data:
-		var parts = data.date.split("-")  # yyyy-mm-dd
-		tick_labels.append(parts[1] + "-" + parts[2])  # MM-DD
+		var parts = data.date.split("-")  
+		tick_labels.append(parts[1] + "-" + parts[2])  
 	
 	
 	for data in workspace_data:
@@ -135,8 +134,6 @@ func _ready():
 	cp.show_legend = true
 	cp.title = "Workspace Directional Values"
 	cp.x_label = "Session Date"
-	#cp.y_label = "Area of Polygon"
-	#cp.x_scale = 1
 	cp.y_scale = 5
 	cp.interactive = true
 	cp.x_scale = max(1, date_labels.size() -1) 
@@ -149,7 +146,6 @@ func _ready():
 
 func _on_logout_pressed() -> void:
 	get_tree().change_scene_to_file("res://Main_screen/main.tscn")
-
 
 func _on_session_list_item_selected(index: int) -> void:
 	var data = workspace_data[index]
