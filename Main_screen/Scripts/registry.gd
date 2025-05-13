@@ -37,7 +37,7 @@ func _on_exit_button_pressed() -> void:
 func save_json(content):
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	print(path)
-	file.store_string(json.stringify(content.list_all_patients()))
+	file.store_string(JSON.stringify(content.list_all_patients()))
 	file.close()
 	GlobalScript._path_checker()
 	

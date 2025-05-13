@@ -171,12 +171,12 @@ func get_xy_cm():
 	
 func inflate_polygon(polygon: Array, distance: float) -> Array:
 	var inflated_polygon = []
-	var len = polygon.size()
+	var length = polygon.size()
 
 
-	for i in range(len):
+	for i in range(length):
 		var current_point = polygon[i]
-		var next_point = polygon[(i + 1) % len]
+		var next_point = polygon[(i + 1) % length]
 
 		# Compute the edge direction
 		var edge_dir = (next_point - current_point).normalized()

@@ -4,3 +4,4 @@
 .vscode/settings.json
 # Godot tmp files (https://github.com/godotengine/godot/issues/82270)
 *.tmp
+.vscode

@@ -7,7 +7,7 @@ var debug:bool
 
 
 func _ready():
-	debug = json.parse_string(FileAccess.get_file_as_string(path))['debug']
+	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
 
 func create_game_log_file(game, p_id):
 
