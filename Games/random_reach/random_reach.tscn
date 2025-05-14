@@ -257,6 +257,7 @@ tile_set = SubResource("TileSet_47021")
 script = ExtResource("7_wrl2s")
 
 [node name="TimerLabel" type="Label" parent="TileMap/CanvasLayer"]
+visible = false
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1067.0
@@ -531,7 +532,6 @@ offset_bottom = 85.5246
 theme_override_styles/panel = SubResource("StyleBoxFlat_un0mj")
 
 [node name="TimeLabel" type="Label" parent="Panel"]
-visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 4

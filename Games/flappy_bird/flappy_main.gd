@@ -197,6 +197,7 @@ func _update_time_display():
 func show_game_over():
 	print("Game Over!")
 	game_running = false
+	save_final_score_to_log(GlobalScript.current_score)
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	

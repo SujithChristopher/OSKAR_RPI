@@ -185,6 +185,7 @@ func _update_time_display():
 func show_game_over():
 	print("Game Over!")
 	ball.game_started = false
+	save_final_score_to_log(GlobalScript.current_score)
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	
@@ -207,7 +208,7 @@ func save_final_score_to_log(player_score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(player_score))
 		game_log_file.flush() 
-		Manager.save_score_only("PingPong", GlobalSignals.current_patient_id, player_score)
+		
 func _on_log_timer_timeout() -> void:
 	if game_log_file:
 		game_log_file.store_csv_line(PackedStringArray([ball.player_score,Time.get_unix_time_from_system(),str(GlobalSignals.ball_position.x), str(GlobalSignals.ball_position.y),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
