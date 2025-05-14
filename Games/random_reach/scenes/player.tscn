@@ -361,7 +361,6 @@ scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_dlft7")
 animation = &"sheep"
 autoplay = "sheep"
-frame_progress = 0.966059
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_y05v0")

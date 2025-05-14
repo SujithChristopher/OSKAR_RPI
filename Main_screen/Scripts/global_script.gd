@@ -186,34 +186,18 @@ func get_next_trial_id(game_name: String) -> int:
 #TODO: change this to file sorting functions and use for loops for finishing the job
 func get_top_score_for_game(game_name: String, p_id: String) -> int:
 	var top_score := 0
-	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+	var file_path = GlobalSignals.data_path + "/" + p_id + "/GameData/" + game_name + "_scores.csv"
 
-	if DirAccess.dir_exists_absolute(folder_path):
-		var dir = DirAccess.open(folder_path)
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-
-		while file_name != "":
-			if file_name.ends_with(".csv") and file_name.begins_with(game_name):
-				var file_path = folder_path + "/" + file_name
-				var file = FileAccess.open(file_path, FileAccess.READ)
-
-				if file:
-					var is_first_line = true
-					while not file.eof_reached():
-						var line = file.get_line()
-						if is_first_line:
-							is_first_line = false  # Skip header
-							continue
-						var fields = line.split(",")
-						if fields.size() > 0:
-							var score_str = fields[0].strip_edges()
-							if score_str.is_valid_int():
-								var score = int(score_str)
-								if score > top_score:
-									top_score = score
-
-					file.close()
-			file_name = dir.get_next()
+	if FileAccess.file_exists(file_path):
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		for i in range(10000):  # limit to prevent infinite loop
+			if file.eof_reached():
+				break
+			var line = file.get_line()
+			if line.is_valid_int():
+				var score = int(line)
+				if score > top_score:
+					top_score = score
+		file.close()
 
 	return top_score

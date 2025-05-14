@@ -5,11 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://cwqtv62nto34u" path="res://Assets/Terrian/Terrain (16x16).png" id="3_ob8gn"]
 [ext_resource type="PackedScene" uid="uid://c6bg6bhe2v1e3" path="res://Games/random_reach/scenes/home_pos.tscn" id="4_816qe"]
 [ext_resource type="Texture2D" uid="uid://cklorvnyyai30" path="res://Games/random_reach/Sprites/AppleStatic.png" id="5_bmawe"]
-[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Background.png" id="5_x1css"]
+[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="5_x1css"]
 [ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="6_lijr8"]
 [ext_resource type="AudioStream" uid="uid://bn4wpjscqoj8b" path="res://Games/random_reach/Sprites/apple_eating1.mp3" id="6_v6jim"]
-[ext_resource type="Texture2D" uid="uid://ctqiqg7oob7yl" path="res://trophy-cup-trophies-picture-png.webp" id="7_4cnmw"]
-[ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://medal.webp" id="7_dr7s7"]
+[ext_resource type="Texture2D" uid="uid://ctqiqg7oob7yl" path="res://Assets/scoring_system/trophy-cup-trophies-picture-png.webp" id="7_4cnmw"]
+[ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://Assets/scoring_system/medal.webp" id="7_dr7s7"]
 [ext_resource type="Script" uid="uid://daqv0t5qiw2d3" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fipgi"]
@@ -424,10 +424,11 @@ expand_mode = 1
 
 [node name="TopScoreLabel" type="Label" parent="TileMap/CanvasLayer/TextureRect"]
 layout_mode = 0
-offset_left = 26.0
+offset_left = 19.0
 offset_top = 16.0
-offset_right = 52.0
+offset_right = 45.0
 offset_bottom = 39.0
+horizontal_alignment = 1
 
 [node name="HomePos" parent="." instance=ExtResource("4_816qe")]
 position = Vector2(568.754, 646.828)
@@ -530,6 +531,7 @@ offset_bottom = 85.5246
 theme_override_styles/panel = SubResource("StyleBoxFlat_un0mj")
 
 [node name="TimeLabel" type="Label" parent="Panel"]
+visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 4

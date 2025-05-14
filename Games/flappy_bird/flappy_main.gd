@@ -284,7 +284,8 @@ func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()
-	
+		Manager.save_score_only("FlyThrough", GlobalSignals.current_patient_id, score)
+		
 func _on_log_timer_timeout():
 	if game_log_file:
 		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
