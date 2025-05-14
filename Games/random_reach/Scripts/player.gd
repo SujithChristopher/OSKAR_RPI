@@ -103,7 +103,11 @@ func _physics_process(delta):
 		network_position = network_position - zero_offset + Vector2(100, 50)
 		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
 		position = position.lerp(network_position, 0.8)
-
+		
+	if current_apple != null:
+		var direction = current_apple.position.x - position.x
+		anim.flip_h = direction < 0  # Flip if apple is to the left
+		
 	if current_apple == null and network_position != Vector2.ZERO:
 		my_timer.start()
 		current_apple = apple.instantiate()
@@ -180,7 +184,6 @@ func _on_play_pressed():
 	start_game_with_timer()
 	
 	
-
 func _on_close_pressed():
 	timer_panel.visible = false
 	add_one_btn.hide()
@@ -253,7 +256,8 @@ func _on_retry_button_pressed():
 func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
-		game_log_file.flush()  # Ensure it's written
+		game_log_file.flush()  
+		Manager.save_score_only("RandomReach", GlobalSignals.current_patient_id, score)
 		
 func _on_log_timer_timeout():
 	if game_log_file and not debug:
