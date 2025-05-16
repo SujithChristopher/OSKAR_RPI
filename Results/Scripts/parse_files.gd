@@ -8,36 +8,22 @@ func _ready() -> void:
 	parse_workspace_files()
 
 func parse_workspace_files() -> void:
-	var path = GlobalSignals.data_path + "/" + GlobalSignals.current_patient_id
+	
+	var path = GlobalSignals.data_path + "//" + GlobalSignals.current_patient_id
 	print("Parsing files in: " + path)
-
 	var dir = DirAccess.open(path)
-	if dir == null:
-		print("An error occurred when trying to access the path.")
-		return
-		
-	dir.list_dir_begin()
-	var files := []
-
-	while true:
+	if dir:
+		dir.list_dir_begin()
 		var file_name = dir.get_next()
-		if file_name == "":
-			break
-		if !dir.current_is_dir() and file_name.ends_with(".json"):
-			files.append(file_name)
-	dir.list_dir_end()
-
-	# Sort files by date 
-	files.sort_custom(func(a, b):
-		var a_date = a.get_basename().trim_prefix("workspace-")
-		var b_date = b.get_basename().trim_prefix("workspace-")
-		return a_date < b_date
-	)
-
-	for file_name in files:
-		var file_data = parse_workspace_file(path + "/" + file_name)
-		if file_data:
-			parsed_data.append(file_data)
+		while file_name != "":
+			if !dir.current_is_dir() and file_name.ends_with(".json"):
+				var file_data = parse_workspace_file(path + "/" + file_name)
+				if file_data:
+					parsed_data.append(file_data)
+			file_name = dir.get_next()
+		parsed_data.sort_custom(func(a, b): return a.date < b.date)
+	else:
+		print("An error occurred when trying to access the path.")
 
 func parse_workspace_file(file_path: String) -> Dictionary:
 	var file = FileAccess.open(file_path, FileAccess.READ)

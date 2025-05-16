@@ -23,8 +23,10 @@ extends CharacterBody2D
 @onready var logout_button = $"../TileMap/CanvasLayer/GameOverLabel/LogoutButton"
 @onready var retry_button = $"../TileMap/CanvasLayer/GameOverLabel/RetryButton"
 @onready var time_label := $"../TileMap/CanvasLayer/TimerSelectorPanel/TimeSelector"
-@onready var top_three_scores_label := $"../TileMap/CanvasLayer/GameOverLabel/TopScores"
 @onready var top_score_label: Label = $"../TileMap/CanvasLayer/TextureRect/TopScoreLabel"
+@onready var first = $"../TileMap/CanvasLayer/GameOverLabel/TextureRect/First"
+@onready var second = $"../TileMap/CanvasLayer/GameOverLabel/TextureRect/Second"
+@onready var third = $"../TileMap/CanvasLayer/GameOverLabel/TextureRect/Third"
 
 @onready var adapt_toggle:bool = false
 @onready var game_log_file
@@ -60,9 +62,17 @@ var is_paused = false
 var pause_state = 1
 var total_time = GlobalTimer.get_time() 
 
+var target_x: float
+var target_y: float
+var target_z: float
+
 func _ready() -> void:
 
 	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
+	
+	var training_hand = GlobalSignals.selected_training_hand
+	if training_hand != "":
+		print("Training for %s hand" % training_hand)
 
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
@@ -87,8 +97,17 @@ func _ready() -> void:
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	GlobalScript.start_new_session()
-	var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
-	top_score_label.text = str(top)
+	#var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
+	#top_score_label.text = str(top)
+	
+	var top_scores = GlobalScript.get_top_scores_for_game("RandomReach", GlobalSignals.current_patient_id)
+	if top_scores.size() > 0:
+		top_score_label.text = str(top_scores[0])
+		first.text = str(top_scores[0])
+	if top_scores.size() > 1:
+		second.text = str(top_scores[1])
+	if top_scores.size() > 2:
+		third.text = str(top_scores[2])
 	
 	
 func _physics_process(delta):
@@ -130,6 +149,11 @@ func _physics_process(delta):
 
 	if current_apple != null:
 		time_display.text = str(round(my_timer.time_left)) + "s"
+		
+	target_x = apple_position.x
+	target_y = apple_position.y
+	target_z = apple_position.z
+	
 	
 
 func update_label():
@@ -323,6 +347,7 @@ func _on_button_pressed() -> void:
 
 func _on_logout_pressed() -> void:
 	GlobalTimer.stop_timer()
+	GlobalSignals.enable_game_buttons(true)
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
 
 

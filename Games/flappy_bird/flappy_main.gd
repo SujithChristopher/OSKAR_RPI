@@ -81,7 +81,7 @@ func _ready() -> void:
 	game_over_scene.restart_games.connect(restart_game)
 	log_timer.timeout.connect(_on_log_timer_timeout)
 	game_over_label.hide()
-	var top = GlobalScript.get_top_score_for_game("FlyThrough", GlobalSignals.current_patient_id)
+	var top = GlobalScript.get_top_scores_for_game("FlyThrough", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
 	
 	

@@ -6,10 +6,14 @@ var session_id: int = 1
 var trial_counts := {} 
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
-
 var current_score: int = 0
 var json = JSON.new()
 var path = "res://debug.json"
+
+
+
+
+
 
 @export var PLAYER_POS_SCALER_X: int = 15 * 100
 @export var PLAYER_POS_SCALER_Y: int = 15 * 100
@@ -22,7 +26,6 @@ var MAX_Y: int = int(screen_size.y - screen_size.y * .15)
 
 var clamp_vector_x = Vector2(MIN_X, MIN_Y)
 var clamp_vector_y = Vector2(MAX_X, MAX_Y)
-
 # UDP and threading
 @onready var udp: PacketPeerUDP = PacketPeerUDP.new()
 @onready var thread_network = Thread.new()
@@ -184,36 +187,72 @@ func get_next_trial_id(game_name: String) -> int:
 
 
 #TODO: change this to file sorting functions and use for loops for finishing the job
-func get_top_score_for_game(game_name: String, p_id: String) -> int:
-	var top_score := 0
-	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+#func get_top_score_for_game(game_name: String, p_id: String) -> int:
+	#var top_score := 0
+	#var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+#
+	#if DirAccess.dir_exists_absolute(folder_path):
+		#var dir = DirAccess.open(folder_path)
+		#dir.list_dir_begin()
+		#var file_name = dir.get_next()
+#
+		#while file_name != "":
+			#if file_name.ends_with(".csv") and file_name.begins_with(game_name):
+				#var file_path = folder_path + "/" + file_name
+				#var file = FileAccess.open(file_path, FileAccess.READ)
+#
+				#if file:
+					#var is_first_line = true
+					#while not file.eof_reached():
+						#var line = file.get_line()
+						#if is_first_line:
+							#is_first_line = false  # Skip header
+							#continue
+						#var fields = line.split(",")
+						#if fields.size() > 0:
+							#var score_str = fields[0].strip_edges()
+							#if score_str.is_valid_int():
+								#var score = int(score_str)
+								#if score > top_score:
+									#top_score = score
+#
+					#file.close()
+			#file_name = dir.get_next()
+#
+	#return top_score
+	
+func get_top_scores_for_game(game_name: String, p_id: String) -> Array[int]:
+	var scores: Array[int] = []
+	var folder_path := GlobalSignals.data_path + "/" + p_id + "/GameData"
 
-	if DirAccess.dir_exists_absolute(folder_path):
-		var dir = DirAccess.open(folder_path)
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
+	if not DirAccess.dir_exists_absolute(folder_path):
+		return scores
 
-		while file_name != "":
-			if file_name.ends_with(".csv") and file_name.begins_with(game_name):
-				var file_path = folder_path + "/" + file_name
-				var file = FileAccess.open(file_path, FileAccess.READ)
+	var dir := DirAccess.open(folder_path)
+	if not dir:
+		return scores
 
-				if file:
-					var is_first_line = true
-					while not file.eof_reached():
-						var line = file.get_line()
-						if is_first_line:
-							is_first_line = false  # Skip header
-							continue
-						var fields = line.split(",")
-						if fields.size() > 0:
-							var score_str = fields[0].strip_edges()
-							if score_str.is_valid_int():
-								var score = int(score_str)
-								if score > top_score:
-									top_score = score
+	dir.list_dir_begin()
+	while true:
+		var file_name := dir.get_next()
+		if file_name == "":
+			break
+		if file_name.begins_with(game_name) and file_name.ends_with(".csv"):
+			var file_path := folder_path + "/" + file_name
+			var file := FileAccess.open(file_path, FileAccess.READ)
+			if not file:
+				continue
 
-					file.close()
-			file_name = dir.get_next()
+			var is_first_line := true
+			for line in file.get_as_text().split("\n"):
+				if is_first_line:
+					is_first_line = false
+					continue
+				var fields := line.split(",")
+				if fields.size() > 0 and fields[0].strip_edges().is_valid_int():
+					scores.append(int(fields[0].strip_edges()))
+			file.close()
 
-	return top_score
+	scores.sort()
+	scores.reverse()
+	return scores.slice(0, 3)

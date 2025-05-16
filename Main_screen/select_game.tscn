@@ -26,6 +26,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 3.0
+offset_right = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_xc818")
@@ -61,7 +63,7 @@ text = "Games"
 label_settings = SubResource("LabelSettings_5h02n")
 horizontal_alignment = 1
 
-[node name="game_reach" type="Button" parent="."]
+[node name="game_reach" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -73,7 +75,7 @@ offset_bottom = 213.0
 grow_horizontal = 2
 text = "RandomReach"
 
-[node name="game_flappy" type="Button" parent="."]
+[node name="game_flappy" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -85,7 +87,7 @@ offset_bottom = 214.0
 grow_horizontal = 2
 text = "FlyThrough"
 
-[node name="game_pingpong" type="Button" parent="."]
+[node name="game_pingpong" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -97,7 +99,7 @@ offset_bottom = 213.0
 grow_horizontal = 2
 text = "PingPong"
 
-[node name="game_spaceshooter" type="Button" parent="."]
+[node name="game_spaceshooter" type="Button" parent="." groups=["GameButtons"]]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -111,7 +113,7 @@ grow_horizontal = 2
 text = "SpaceShooter
 "
 
-[node name="Assessment" type="Button" parent="."]
+[node name="Assessment" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -123,7 +125,7 @@ offset_bottom = 343.0
 grow_horizontal = 2
 text = "Assessment"
 
-[node name="Results" type="Button" parent="."]
+[node name="Results" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -135,7 +137,7 @@ offset_bottom = 475.0
 grow_horizontal = 2
 text = "Results"
 
-[node name="Exit_button" type="Button" parent="."]
+[node name="Exit_button" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 0
 offset_left = 1061.0
 offset_top = 20.0
@@ -144,7 +146,7 @@ offset_bottom = 65.0
 text = "Exit
 "
 
-[node name="logout" type="Button" parent="."]
+[node name="logout" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 0
 offset_left = 25.0
 offset_top = 579.0
@@ -162,6 +164,48 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 22
 text = "Patient: "
 vertical_alignment = 1
+
+[node name="TrainingLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 667.0
+offset_top = 66.0
+offset_right = 916.0
+offset_bottom = 101.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 20
+
+[node name="HandSelectionPopup" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 354.0
+offset_top = 313.0
+offset_right = 749.0
+offset_bottom = 502.0
+
+[node name="Label" type="Label" parent="HandSelectionPopup"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 48.0
+offset_right = 352.0
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 20
+text = "Which hand do you want to train?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HandSelectionPopup"]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 97.0
+offset_right = 287.0
+offset_bottom = 136.0
+theme_override_constants/separation = 15
+
+[node name="LeftButton" type="Button" parent="HandSelectionPopup/HBoxContainer"]
+layout_mode = 2
+text = "Left Hand"
+
+[node name="RightButton" type="Button" parent="HandSelectionPopup/HBoxContainer"]
+layout_mode = 2
+text = "Right Hand"
 
 [connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
 [connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
