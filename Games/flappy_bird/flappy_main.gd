@@ -49,6 +49,13 @@ var countdown_active = false
 var current_time := 0
 var is_paused = false
 var pause_state = 1
+var pos_x : float
+var pos_y : float
+var pos_z : float
+var target_x : float
+var target_y : float
+var target_z : float
+var total_time = GlobalTimer.get_time() 
 
 
 
@@ -61,7 +68,7 @@ func _ready() -> void:
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
 	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','Position_x', 'Position_y', 'Position_z', 'Target_x', 'Target_y','Target_z','Pause_state','Total_time']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	add_child(log_timer)
@@ -81,8 +88,9 @@ func _ready() -> void:
 	game_over_scene.restart_games.connect(restart_game)
 	log_timer.timeout.connect(_on_log_timer_timeout)
 	game_over_label.hide()
-	var top = GlobalScript.get_top_scores_for_game("FlyThrough", GlobalSignals.current_patient_id)
+	var top = GlobalScript.get_top_score_for_game("FlyThrough", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
+	GlobalScript.start_new_session_if_needed()
 	
 	
 	
@@ -219,6 +227,9 @@ func _process(delta: float) -> void:
 	
 	if game_running:
 		scroll += SCROLL_SPEED
+		pos_x = GlobalScript.raw_x
+		pos_y = GlobalScript.raw_x
+		pos_z = GlobalScript.raw_z
 		if scroll >= screen_size.x/5:
 			scroll = 0
 		$ground.position.x = -scroll
@@ -241,6 +252,9 @@ func generate_pipe():
 		var pipe = pipe_scene.instantiate()
 		pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
 		pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
+		target_x = (pipe.position.x * 1.5) / GlobalScript.PLAYER_POS_SCALER_X
+		target_y = pipe.position.y / GlobalScript.PLAYER_POS_SCALER_Y
+		target_z = 0
 		pipe.hit.connect(pipe_hit)
 		pipe.scored.connect(scored)
 		add_child(pipe)
@@ -285,8 +299,8 @@ func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()
-		Manager.save_score_only("FlyThrough", GlobalSignals.current_patient_id, score)
+		
 		
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(pos_x), str(pos_y),str(pos_z), str(target_x), str(target_y), str(target_z),str(pause_state),str(total_time)]))

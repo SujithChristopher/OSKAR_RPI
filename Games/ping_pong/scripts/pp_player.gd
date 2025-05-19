@@ -73,8 +73,9 @@ func _on_ready():
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	countdown_display.hide()
-	var top = GlobalScript.get_top_scores_for_game("PingPong", GlobalSignals.current_patient_id)
+	var top = GlobalScript.get_top_score_for_game("PingPong", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
+	GlobalScript.start_new_session_if_needed()
 	
 
 func update_label():

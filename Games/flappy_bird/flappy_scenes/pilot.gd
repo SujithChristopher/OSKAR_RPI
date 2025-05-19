@@ -22,6 +22,7 @@ func _physics_process(delta: float) -> void:
 		position = position.lerp(network_position, 0.8)
 	position.x = 100
 	
+		
 func pilot_refresh():
 	animated_sprite_2d.animation = 'default'
 

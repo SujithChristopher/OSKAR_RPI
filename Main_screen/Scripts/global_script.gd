@@ -1,17 +1,15 @@
 extends Node
 
 # Constants for screen bounds and scaling
-var current_date: String = ""
 var session_id: int = 1
-var trial_counts := {} 
+var current_date: String = ""
+var trial_counts: Dictionary = {}
+
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
 var current_score: int = 0
 var json = JSON.new()
 var path = "res://debug.json"
-
-
-
 
 
 
@@ -46,6 +44,9 @@ var clamp_vector_y = Vector2(MAX_X, MAX_Y)
 var net_x: float
 var net_y: float
 var net_z: float
+var raw_x: float
+var raw_y: float
+var raw_z: float
 var network_position: Vector2 = Vector2.ZERO
 
 # scaled position
@@ -66,6 +67,9 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 func _ready():
 	
 	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
+	current_date = get_date_string()
+	load_session_info()
+
 	
 	udp.connect_to_host("127.0.0.1", 8000)
 	thread_python.start(python_thread, Thread.PRIORITY_HIGH)
@@ -133,6 +137,9 @@ func handle_udp_packet():
 
 	_incoming_message = my_floats[0]
 	
+	raw_x = my_floats[1]
+	raw_y = my_floats[2]
+	raw_z = my_floats[3]
 	net_x = my_floats[1]*PLAYER_POS_SCALER_X + X_SCREEN_OFFSET
 	net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
 	net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
@@ -169,90 +176,78 @@ func get_date_string() -> String:
 	var time = Time.get_datetime_dict_from_system()
 	return "%04d-%02d-%02d" % [time.year, time.month, time.day]
 
-func start_new_session():
+func start_new_session_if_needed():
 	var today = get_date_string()
 	if today != current_date:
 		current_date = today
 		session_id = 1
+		trial_counts.clear()
+		save_session_info()
 	else:
 		session_id += 1
-	trial_counts.clear()
+		trial_counts.clear()
+		save_session_info()
 
 func get_next_trial_id(game_name: String) -> int:
 	if not trial_counts.has(game_name):
 		trial_counts[game_name] = 1
 	else:
 		trial_counts[game_name] += 1
+	save_session_info()
 	return trial_counts[game_name]
+	
+func load_session_info():
+	if FileAccess.file_exists("user://session.json"):
+		var file = FileAccess.open("user://session.json", FileAccess.READ)
+		var data = JSON.parse_string(file.get_as_text())
+		if typeof(data) == TYPE_DICTIONARY:
+			current_date = data.get("current_date", get_date_string())
+			session_id = data.get("session_id", 1)
+			trial_counts = data.get("trial_counts", {})
+			
+
+func save_session_info():
+	var data = {
+		"current_date": current_date,
+		"session_id": session_id,
+		"trial_counts": trial_counts
+	}
+	var file = FileAccess.open("user://session.json", FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+
 
 
 #TODO: change this to file sorting functions and use for loops for finishing the job
-#func get_top_score_for_game(game_name: String, p_id: String) -> int:
-	#var top_score := 0
-	#var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
-#
-	#if DirAccess.dir_exists_absolute(folder_path):
-		#var dir = DirAccess.open(folder_path)
-		#dir.list_dir_begin()
-		#var file_name = dir.get_next()
-#
-		#while file_name != "":
-			#if file_name.ends_with(".csv") and file_name.begins_with(game_name):
-				#var file_path = folder_path + "/" + file_name
-				#var file = FileAccess.open(file_path, FileAccess.READ)
-#
-				#if file:
-					#var is_first_line = true
-					#while not file.eof_reached():
-						#var line = file.get_line()
-						#if is_first_line:
-							#is_first_line = false  # Skip header
-							#continue
-						#var fields = line.split(",")
-						#if fields.size() > 0:
-							#var score_str = fields[0].strip_edges()
-							#if score_str.is_valid_int():
-								#var score = int(score_str)
-								#if score > top_score:
-									#top_score = score
-#
-					#file.close()
-			#file_name = dir.get_next()
-#
-	#return top_score
-	
-func get_top_scores_for_game(game_name: String, p_id: String) -> Array[int]:
-	var scores: Array[int] = []
-	var folder_path := GlobalSignals.data_path + "/" + p_id + "/GameData"
+func get_top_score_for_game(game_name: String, p_id: String) -> int:
+	var top_score := 0
+	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
 
-	if not DirAccess.dir_exists_absolute(folder_path):
-		return scores
+	if DirAccess.dir_exists_absolute(folder_path):
+		var dir = DirAccess.open(folder_path)
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
 
-	var dir := DirAccess.open(folder_path)
-	if not dir:
-		return scores
+		while file_name != "":
+			if file_name.ends_with(".csv") and file_name.begins_with(game_name):
+				var file_path = folder_path + "/" + file_name
+				var file = FileAccess.open(file_path, FileAccess.READ)
 
-	dir.list_dir_begin()
-	while true:
-		var file_name := dir.get_next()
-		if file_name == "":
-			break
-		if file_name.begins_with(game_name) and file_name.ends_with(".csv"):
-			var file_path := folder_path + "/" + file_name
-			var file := FileAccess.open(file_path, FileAccess.READ)
-			if not file:
-				continue
+				if file:
+					var is_first_line = true
+					while not file.eof_reached():
+						var line = file.get_line()
+						if is_first_line:
+							is_first_line = false  # Skip header
+							continue
+						var fields = line.split(",")
+						if fields.size() > 0:
+							var score_str = fields[0].strip_edges()
+							if score_str.is_valid_int():
+								var score = int(score_str)
+								if score > top_score:
+									top_score = score
 
-			var is_first_line := true
-			for line in file.get_as_text().split("\n"):
-				if is_first_line:
-					is_first_line = false
-					continue
-				var fields := line.split(",")
-				if fields.size() > 0 and fields[0].strip_edges().is_valid_int():
-					scores.append(int(fields[0].strip_edges()))
-			file.close()
+					file.close()
+			file_name = dir.get_next()
 
-	scores.sort()
-	scores.reverse()
-	return scores.slice(0, 3)
+	return top_score

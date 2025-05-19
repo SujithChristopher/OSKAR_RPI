@@ -400,6 +400,7 @@ offset_right = 248.0
 offset_bottom = 246.0
 
 [node name="TextureRect" type="TextureRect" parent="TileMap/CanvasLayer/GameOverLabel"]
+visible = false
 layout_mode = 0
 offset_left = -2.0
 offset_top = 147.0

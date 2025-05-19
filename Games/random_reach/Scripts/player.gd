@@ -33,6 +33,7 @@ extends CharacterBody2D
 @onready var log_timer := Timer.new()
 @onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
 
+
 var json = JSON.new()
 var path = "res://debug.json"
 var debug
@@ -61,10 +62,12 @@ var current_time := 0
 var is_paused = false
 var pause_state = 1
 var total_time = GlobalTimer.get_time() 
-
-var target_x: float
-var target_y: float
-var target_z: float
+var target_x : float
+var target_y : float
+var target_z : float
+var pos_x : float
+var pos_y : float
+var pos_z : float
 
 func _ready() -> void:
 
@@ -76,7 +79,7 @@ func _ready() -> void:
 
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['score','epoch','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y','pause','time_played']))
+	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','Position_x', 'Position_y','Position_z', 'Target_x','Target_y','Target_z','Pause_state','Total_time']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -96,18 +99,10 @@ func _ready() -> void:
 	retry_button.pressed.connect(_on_retry_button_pressed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
-	GlobalScript.start_new_session()
-	#var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
-	#top_score_label.text = str(top)
+	var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
+	top_score_label.text = str(top)
+	GlobalScript.start_new_session_if_needed()
 	
-	var top_scores = GlobalScript.get_top_scores_for_game("RandomReach", GlobalSignals.current_patient_id)
-	if top_scores.size() > 0:
-		top_score_label.text = str(top_scores[0])
-		first.text = str(top_scores[0])
-	if top_scores.size() > 1:
-		second.text = str(top_scores[1])
-	if top_scores.size() > 2:
-		third.text = str(top_scores[2])
 	
 	
 func _physics_process(delta):
@@ -146,13 +141,16 @@ func _physics_process(delta):
 			current_apple.position = apple_position
 		else:
 			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
+			target_x = (current_apple.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+			target_y = (current_apple.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+			target_z = 0
+			pos_x = GlobalScript.raw_x
+			pos_y = GlobalScript.raw_y
+			pos_z = GlobalScript.raw_z
+			
 
 	if current_apple != null:
 		time_display.text = str(round(my_timer.time_left)) + "s"
-		
-	target_x = apple_position.x
-	target_y = apple_position.y
-	target_z = apple_position.z
 	
 	
 
@@ -281,11 +279,11 @@ func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()  
-		Manager.save_score_only("RandomReach", GlobalSignals.current_patient_id, score)
+		
 		
 func _on_log_timer_timeout():
 	if game_log_file and not debug:
-		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y),str(pause_state),str(total_time)]))
+		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(pause_state),str(total_time)]))
 
 func _on_reach_game_ready():
 	rom_x_top = 20
