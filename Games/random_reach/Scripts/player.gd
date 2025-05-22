@@ -68,6 +68,13 @@ var target_z : float
 var pos_x : float
 var pos_y : float
 var pos_z : float
+var game_x : float
+var game_y = 0.0
+var game_z : float
+var status : String = ""
+var error_status = "null"
+var packets = "null"
+
 
 func _ready() -> void:
 
@@ -79,10 +86,10 @@ func _ready() -> void:
 
 	network_position = Vector2.ZERO
 	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','Position_x', 'Position_y','Position_z', 'Target_x','Target_y','Target_z','Pause_state','Total_time']))
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
-	log_timer.timeout.connect(_on_log_timer_timeout)
+	#log_timer.timeout.connect(_on_log_timer_timeout)
 	add_child(log_timer)
 	print("Timer Panel Found:", timer_panel)
 	update_label()
@@ -114,9 +121,20 @@ func _physics_process(delta):
 		network_position = GlobalScript.network_position
 
 	if network_position != Vector2.ZERO:
-		network_position = network_position - zero_offset + Vector2(100, 50)
-		network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
+		network_position = network_position - zero_offset
+		#network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
 		position = position.lerp(network_position, 0.8)
+		pos_x = GlobalScript.raw_x
+		pos_y = GlobalScript.raw_y
+		pos_z = GlobalScript.raw_z
+		if not adapt_toggle:
+			game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+		else:
+			game_x  = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+		
+	
 		
 	if current_apple != null:
 		var direction = current_apple.position.x - position.x
@@ -141,16 +159,19 @@ func _physics_process(delta):
 			current_apple.position = apple_position
 		else:
 			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-			target_x = (current_apple.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-			target_y = (current_apple.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+			target_x = (current_apple.position.x) / GlobalScript.PLAYER_POS_SCALER_X
+			target_y = (current_apple.position.y) / GlobalScript.PLAYER_POS_SCALER_Y
 			target_z = 0
-			pos_x = GlobalScript.raw_x
-			pos_y = GlobalScript.raw_y
-			pos_z = GlobalScript.raw_z
 			
-
 	if current_apple != null:
-		time_display.text = str(round(my_timer.time_left)) + "s"
+		var remaining_time = round(my_timer.time_left)
+		time_display.text = str(remaining_time) + "s"
+		
+		if remaining_time > 0:
+			status = "moving"
+		else:
+			status = "missed"
+		
 	
 	
 
@@ -204,6 +225,7 @@ func _on_play_pressed():
 	sub_one_btn.hide()
 	sub_five_btn.hide()
 	start_game_with_timer()
+	log_timer.timeout.connect(_on_log_timer_timeout)
 	
 	
 func _on_close_pressed():
@@ -215,6 +237,8 @@ func _on_close_pressed():
 	sub_five_btn.hide()    
 	countdown_display.hide()
 	start_game_without_timer()
+	log_timer.timeout.connect(_on_log_timer_timeout)
+	
 	
 func _on_PauseButton_pressed():
 	if is_paused:
@@ -231,7 +255,6 @@ func _on_PauseButton_pressed():
 		pause_state = 0
 	is_paused = !is_paused
 	
-
 func start_game_with_timer():
 	countdown_active = true
 	countdown_timer.wait_time = 1.0 
@@ -259,6 +282,7 @@ func _update_time_display():
 	
 func show_game_over():
 	GlobalTimer.stop_timer()
+	game_started = false
 	save_final_score_to_log(GlobalScript.current_score)
 	game_over_label.visible = true
 	
@@ -283,8 +307,8 @@ func save_final_score_to_log(score: int):
 		
 func _on_log_timer_timeout():
 	if game_log_file and not debug:
-		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(pause_state),str(total_time)]))
-
+		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),score,status,error_status,packets,str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(game_x),str(game_y),str(game_z),str(pause_state)]))
+		
 func _on_reach_game_ready():
 	rom_x_top = 20
 	rom_y_top = 20
@@ -303,6 +327,7 @@ func _on_apple_removed():
 func _on_apple_eaten():
 	if score < max_score:
 		score += 1
+		status = "captured"
 		score_board.text = str(score)
 		if apple_sound:
 			apple_sound.play()

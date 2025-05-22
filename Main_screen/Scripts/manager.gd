@@ -11,7 +11,7 @@ func _ready():
 
 func create_game_log_file(game, p_id):
 	# Start new session if a new day
-	GlobalScript.start_new_session_if_needed()
+	#GlobalScript.start_new_session_if_needed()
 
 	if debug:
 		p_id = 'vvv'

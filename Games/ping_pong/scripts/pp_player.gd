@@ -31,7 +31,6 @@ var pause_state = 1
 @onready var pause_button = $"../CanvasLayer/PauseButton"
 @onready var top_score_label = $"../CanvasLayer/TextureRect/TopScoreLabel"
 
-
 #TODO: convert multiple references to packed scene, its easier
 
 func _physics_process(delta):

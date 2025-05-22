@@ -5,15 +5,6 @@
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
-"2": {
-"affected_hand": "Both",
-"age": 23,
-"comments": "",
-"dominant_hand": "Unspecified",
-"gender": "Male",
-"name": "Hello",
-"stroke_time": 0
-},
 "22": {
 "affected_hand": "unspecified",
 "age": 10,
@@ -23,31 +14,22 @@ patient_register = {
 "name": "Tia",
 "stroke_time": 22
 },
+"CSV": {
+"affected_hand": "Left",
+"age": 22,
+"comments": "",
+"dominant_hand": "Unspecified",
+"gender": "Female",
+"name": "CSV",
+"stroke_time": 0
+},
 "Joe": {
 "affected_hand": "Both",
 "age": 24,
-"comments": "",
-"dominant_hand": "Unspecified",
+"comments": "For Testing",
+"dominant_hand": "Right",
 "gender": "Female",
-"name": "Johanna",
-"stroke_time": 0
-},
-"LT": {
-"affected_hand": "Right",
-"age": 23,
-"comments": "",
-"dominant_hand": "Unspecified",
-"gender": "Female",
-"name": "Lavanya",
-"stroke_time": 0
-},
-"U": {
-"affected_hand": "Right",
-"age": 4,
-"comments": "",
-"dominant_hand": "Unspecified",
-"gender": "Unspecified",
-"name": "H",
+"name": "Joe",
 "stroke_time": 0
 },
 "asdfadsf": {
@@ -78,4 +60,4 @@ patient_register = {
 "stroke_time": 0
 }
 }
-current_patient_id = "sujith"
+current_patient_id = "CSV"
