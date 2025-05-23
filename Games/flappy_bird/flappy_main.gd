@@ -274,8 +274,8 @@ func generate_pipe():
 		var pipe = pipe_scene.instantiate()
 		pipe.position.x = screen_size.x / 1.5 + PIPE_DELAY
 		pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
-		target_x = (pipe.position.x * 1.5) / GlobalScript.PLAYER_POS_SCALER_X
-		target_y = pipe.position.y / (GlobalScript.PLAYER_POS_SCALER_Y - 400)
+		target_x = (pipe.position.x - GlobalScript.X_SCREEN_OFFSET)  / GlobalScript.PLAYER_POS_SCALER_X
+		target_y = (pipe.position.y - GlobalScript.Y_SCREEN_OFFSET)  / (GlobalScript.PLAYER_POS_SCALER_Y)
 		target_z = 0
 		pipe.hit.connect(pipe_hit)
 		pipe.scored.connect(scored)

@@ -159,8 +159,8 @@ func _physics_process(delta):
 			current_apple.position = apple_position
 		else:
 			current_apple.position = Vector2(randi_range(200, 900), randi_range(200, 600))
-			target_x = (current_apple.position.x) / GlobalScript.PLAYER_POS_SCALER_X
-			target_y = (current_apple.position.y) / GlobalScript.PLAYER_POS_SCALER_Y
+			target_x = (current_apple.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+			target_y = (current_apple.position.y - GlobalScript. Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
 			target_z = 0
 			
 	if current_apple != null:
