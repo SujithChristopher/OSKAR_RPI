@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-
-
 @export var max_score = 500
 
 @onready var apple_sound = $"../apple_sound"
@@ -71,13 +69,12 @@ var pos_z : float
 var game_x : float
 var game_y = 0.0
 var game_z : float
-var status : String = ""
+var status := "idle"
 var error_status = "null"
 var packets = "null"
 
 
 func _ready() -> void:
-
 	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
 	
 	var training_hand = GlobalSignals.selected_training_hand
@@ -133,7 +130,7 @@ func _physics_process(delta):
 		else:
 			game_x  = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
 			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
-		
+			
 	
 		
 	if current_apple != null:
@@ -145,6 +142,7 @@ func _physics_process(delta):
 		current_apple = apple.instantiate()
 		add_child(current_apple)
 		current_apple.top_level = true
+		status = ""
 
 		# Connect apple signals
 		current_apple.apple_eaten.connect(_on_apple_eaten)
@@ -168,13 +166,14 @@ func _physics_process(delta):
 		time_display.text = str(remaining_time) + "s"
 		
 		if remaining_time > 0:
-			status = "moving"
+			if status != "captured":
+				status = "moving"
 		else:
-			status = "missed"
+			if status != "captured":
+				status = "missed"
 		
 	
 	
-
 func update_label():
 	time_label.text = str(current_time) + " sec"
 	var minutes = countdown_time / 60
@@ -327,11 +326,10 @@ func _on_apple_removed():
 func _on_apple_eaten():
 	if score < max_score:
 		score += 1
-		status = "captured"
 		score_board.text = str(score)
 		if apple_sound:
 			apple_sound.play()
-	
+	status = "captured"
 	
 func apple_function():
 	if score <= max_score:

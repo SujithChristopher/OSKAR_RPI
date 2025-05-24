@@ -18,12 +18,13 @@ var pos_z : float
 var game_x : float
 var game_y = 0.0
 var game_z : float
-var status : String = "null"
-var error_status = "null"
-var packets = "null"
+var status = ""
+var error_status = ""
+var packets = ""
 var ball_x : float
 var ball_y : float
 var ball_z : float
+var score: int
 
 
 @export var speed = 200
@@ -63,21 +64,28 @@ func _physics_process(delta):
 		position = position.lerp(network_position, 0.8)
 	
 	position.y = 610
-	pos_x = GlobalScript.raw_x
-	pos_y = GlobalScript.raw_y
-	pos_z = GlobalScript.raw_z
-	target_x = (GlobalSignals.ball_position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-	target_y = (GlobalSignals.ball_position.y - GlobalScript. Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
-	ball_x = target_x
-	ball_y = target_y
-	ball_z = target_z
-	print("status:", ball.status)
-	if not adapt_toggle:
-		game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-		game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
-	else:
-		game_x  = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
-		game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+	if ball.game_started:
+		pos_x = GlobalScript.raw_x
+		pos_y = GlobalScript.raw_y
+		pos_z = GlobalScript.raw_z
+		target_x = (GlobalSignals.ball_position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+		target_y = (GlobalSignals.ball_position.y - GlobalScript. Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+		ball_x = target_x
+		ball_y = target_y
+		ball_z = target_z
+		status = ball.status
+		score = ball.player_score
+		error_status = "null"
+		packets = "null"
+			
+	
+	
+		if not adapt_toggle:
+			game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+		else:
+			game_x  = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
 		
 	
 	
@@ -106,6 +114,7 @@ func _on_ready():
 	countdown_display.hide()
 	var top = GlobalScript.get_top_score_for_game("PingPong", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
+	print(top)
 	GlobalScript.start_new_session_if_needed()
 	
 
@@ -161,6 +170,7 @@ func _on_play_pressed():
 	sub_five_btn.hide()
 	start_game_with_timer()
 	time_label.hide()
+	
 
 func _on_close_pressed():
 	timer_panel.visible = false
@@ -243,7 +253,7 @@ func save_final_score_to_log(player_score: int):
 		
 func _on_log_timer_timeout() -> void:
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),ball.player_score,status,error_status,packets,str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(game_x),str(game_y),str(game_z),str(ball_x),str(ball_y),str(ball_z),str(pause_state)]))
+		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),str(score),status,error_status,packets,str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(game_x),str(game_y),str(game_z),str(ball_x),str(ball_y),str(ball_z),str(pause_state)]))
 	
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
