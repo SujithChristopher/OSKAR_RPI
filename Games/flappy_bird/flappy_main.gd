@@ -32,7 +32,7 @@ signal flash_animation
 signal plane_crashed
 signal game_started
 
-const SCROLL_SPEED : float = 4
+const SCROLL_SPEED : float = 7
 const PIPE_DELAY : int = 50
 const PIPE_RANGE : int = 180
 const TIMER_DELAY: int = 2
