@@ -220,8 +220,11 @@ func save_session_info():
 func get_top_score_for_game(game_name: String, p_id: String) -> int:
 	var top_score := 0
 	var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+	
 
 	if DirAccess.dir_exists_absolute(folder_path):
+		
+		print('inside')
 		var dir = DirAccess.open(folder_path)
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
@@ -245,6 +248,7 @@ func get_top_score_for_game(game_name: String, p_id: String) -> int:
 								var score = int(score_str)
 								if score > top_score:
 									top_score = score
+								
 
 					file.close()
 			file_name = dir.get_next()

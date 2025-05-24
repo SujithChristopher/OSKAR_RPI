@@ -5,59 +5,59 @@
 [resource]
 script = ExtResource("1_ypd56")
 patient_register = {
-"22": {
-"affected_hand": "unspecified",
-"age": 10,
+"337315M": {
+"affected_hand": "right",
+"age": 15,
 "comments": "",
-"dominant_hand": "unspecified",
+"dominant_hand": "right",
 "gender": "male",
-"name": "Tia",
-"stroke_time": 22
+"name": "Jeril Abraham Triju",
+"stroke_time": 1
 },
-"CSV": {
-"affected_hand": "Left",
+"479899": {
+"affected_hand": "both",
+"age": 69,
+"comments": "SCI",
+"dominant_hand": "right",
+"gender": "male",
+"name": "Singhal MP Right hand",
+"stroke_time": 48
+},
+"479899H": {
+"affected_hand": "left",
+"age": 69,
+"comments": "",
+"dominant_hand": "right",
+"gender": "male",
+"name": "Singhal M P",
+"stroke_time": 24
+},
+"AI74486": {
+"affected_hand": "left",
+"age": 65,
+"comments": "",
+"dominant_hand": "right",
+"gender": "female",
+"name": "laipubam",
+"stroke_time": 1
+},
+"Debug": {
+"affected_hand": "Unspecified",
 "age": 22,
 "comments": "",
 "dominant_hand": "Unspecified",
-"gender": "Female",
-"name": "CSV",
+"gender": "Unspecified",
+"name": "Debug",
 "stroke_time": 0
-},
-"Joe": {
-"affected_hand": "Both",
-"age": 24,
-"comments": "For Testing",
-"dominant_hand": "Right",
-"gender": "Female",
-"name": "Joe",
-"stroke_time": 0
-},
-"asdfadsf": {
-"affected_hand": "unspecified",
-"age": 44,
-"comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
-"name": "asfdasdf",
-"stroke_time": 0
-},
-"sujith": {
-"affected_hand": "left",
-"age": 29,
-"comments": "asldkfjlsadkjflaksj",
-"dominant_hand": "right",
-"gender": "male",
-"name": "Sujith",
-"stroke_time": 5
 },
 "vvv": {
-"affected_hand": "unspecified",
+"affected_hand": "Unspecified",
 "age": 22,
 "comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
+"dominant_hand": "Unspecified",
+"gender": "Male",
 "name": "vvv",
 "stroke_time": 0
 }
 }
-current_patient_id = "vvv"
+current_patient_id = "Debug"

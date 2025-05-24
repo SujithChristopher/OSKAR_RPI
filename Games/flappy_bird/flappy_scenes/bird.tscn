@@ -98,7 +98,7 @@ frame_progress = 0.628242
 
 [node name="Flash" type="AnimationPlayer" parent="AnimatedSprite2D"]
 libraries = {
-"": SubResource("AnimationLibrary_5n3ro")
+&"": SubResource("AnimationLibrary_5n3ro")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

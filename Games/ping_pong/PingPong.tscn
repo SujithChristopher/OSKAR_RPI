@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bxqi2oc3x6whx" path="res://Games/ping_pong/scripts/pp_computer.gd" id="4_mxgn3"]
 [ext_resource type="Script" uid="uid://qe7u2dgdar7d" path="res://Games/ping_pong/scripts/ball.gd" id="5_cp50h"]
 [ext_resource type="PackedScene" uid="uid://i3uo1tqj0yob" path="res://Games/ping_pong/wall.tscn" id="9_p63tb"]
-[ext_resource type="Script" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
+[ext_resource type="Script" uid="uid://dj606ct7uo4ou" path="res://Games/ping_pong/timer_label.gd" id="10_g2848"]
 [ext_resource type="Texture2D" uid="uid://bl10pbij7t6ge" path="res://Assets/Paddle/paddle.png" id="10_rod25"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="11_5ysxo"]
 [ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="12_heaje"]
