@@ -1,5 +1,9 @@
 extends Node2D
 
+
+@export var PLAYER_POS_SCALER_X: int = 1500 
+@export var PLAYER_POS_SCALER_Y: int = 1500
+
 @onready var points = []
 @onready var convex_hull_points = PackedVector2Array()
 @onready var active_workspace = []
@@ -153,8 +157,8 @@ func calculate_polygon_area(points: Array) -> float:
 		var j = (i + 1) % n
 		area += points[i].x * points[j].y
 		area -= points[j].x * points[i].y
-	return abs(area) * 0.5 * 0.0264583333
-
+	return (abs(area) * 0.5)/ GlobalScript.PLAYER_POS_SCALER_X * 100
+	
 func get_xy_cm():
 	active_pols = get_rect(active_workspace)
 	axdir = abs(active_pols[0][0]-active_pols[1][0]) / GlobalScript.PLAYER_POS_SCALER_X*100

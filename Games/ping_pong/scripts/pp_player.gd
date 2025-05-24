@@ -1,6 +1,7 @@
 extends CharacterBody2D
 var network_position = Vector2.ZERO
 var zero_offset = Vector2.ZERO
+var centre = Vector2(120, 200)
 
 var countdown_time = 0
 var countdown_active = false
@@ -8,6 +9,22 @@ var current_time := 0
 var game_started := false
 var is_paused = false
 var pause_state = 1
+var target_x : float
+var target_y : float
+var target_z = 0.0
+var pos_x : float
+var pos_y : float
+var pos_z : float
+var game_x : float
+var game_y = 0.0
+var game_z : float
+var status = ""
+var error_status = ""
+var packets = ""
+var ball_x : float
+var ball_y : float
+var ball_z : float
+var score: int
 
 
 @export var speed = 200
@@ -31,7 +48,6 @@ var pause_state = 1
 @onready var pause_button = $"../CanvasLayer/PauseButton"
 @onready var top_score_label = $"../CanvasLayer/TextureRect/TopScoreLabel"
 
-
 #TODO: convert multiple references to packed scene, its easier
 
 func _physics_process(delta):
@@ -44,15 +60,38 @@ func _physics_process(delta):
 		network_position = GlobalScript.network_position
 
 	if network_position != Vector2.ZERO:
-		network_position = network_position - zero_offset  + Vector2(600, 200)  
+		network_position = network_position - zero_offset  + centre
 		position = position.lerp(network_position, 0.8)
 	
-	position.y = 600
-
-func _on_ready():
+	position.y = 610
+	if ball.game_started:
+		pos_x = GlobalScript.raw_x
+		pos_y = GlobalScript.raw_y
+		pos_z = GlobalScript.raw_z
+		target_x = (GlobalSignals.ball_position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+		target_y = (GlobalSignals.ball_position.y - GlobalScript. Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+		ball_x = target_x
+		ball_y = target_y
+		ball_z = target_z
+		status = ball.status
+		score = ball.player_score
+		error_status = "null"
+		packets = "null"
+			
 	
+	
+		if not adapt_toggle:
+			game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+		else:
+			game_x  = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
+			game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+		
+	
+	
+func _on_ready():
 	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['score','Epochtime','ball_x','ball_y','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','ball_x','ball_y','ball_z','pause_state']))
 	log_timer.wait_time = 0.02 # 1 second
 	log_timer.autostart = true # start timer when added to a scene
 	log_timer.timeout.connect(_on_log_timer_timeout)
@@ -75,6 +114,8 @@ func _on_ready():
 	countdown_display.hide()
 	var top = GlobalScript.get_top_score_for_game("PingPong", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
+	print(top)
+	GlobalScript.start_new_session_if_needed()
 	
 
 func update_label():
@@ -129,6 +170,7 @@ func _on_play_pressed():
 	sub_five_btn.hide()
 	start_game_with_timer()
 	time_label.hide()
+	
 
 func _on_close_pressed():
 	timer_panel.visible = false
@@ -185,6 +227,7 @@ func _update_time_display():
 func show_game_over():
 	print("Game Over!")
 	ball.game_started = false
+	save_final_score_to_log(GlobalScript.current_score)
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	
@@ -207,11 +250,10 @@ func save_final_score_to_log(player_score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(player_score))
 		game_log_file.flush() 
-		Manager.save_score_only("PingPong", GlobalSignals.current_patient_id, player_score)
+		
 func _on_log_timer_timeout() -> void:
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([ball.player_score,Time.get_unix_time_from_system(),str(GlobalSignals.ball_position.x), str(GlobalSignals.ball_position.y),str(position.x), str(position.y), str(network_position.x), str(network_position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
-
+		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),str(score),status,error_status,packets,str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(game_x),str(game_y),str(game_z),str(ball_x),str(ball_y),str(ball_z),str(pause_state)]))
 	
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:

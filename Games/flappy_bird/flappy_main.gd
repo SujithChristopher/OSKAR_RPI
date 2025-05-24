@@ -49,6 +49,21 @@ var countdown_active = false
 var current_time := 0
 var is_paused = false
 var pause_state = 1
+var pos_x : float
+var pos_y : float
+var pos_z : float
+var target_x : float
+var target_y : float
+var target_z : float
+var total_time = GlobalTimer.get_time() 
+var pilot_node : CharacterBody2D
+var game_x : float
+var game_y = 0.0
+var game_z : float
+var status = ""
+var error_status = "null"
+var packets = "null"
+
 
 
 
@@ -61,7 +76,7 @@ func _ready() -> void:
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
 	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['Score','Epochtime','position_x', 'position_y', 'network_position_x', 'network_position_y', 'scaled_network_position_x', 'scaled_network_position_y']))
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	add_child(log_timer)
@@ -79,10 +94,11 @@ func _ready() -> void:
 	retry_button.pressed.connect(_on_retry_button_pressed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_scene.restart_games.connect(restart_game)
-	log_timer.timeout.connect(_on_log_timer_timeout)
 	game_over_label.hide()
 	var top = GlobalScript.get_top_score_for_game("FlyThrough", GlobalSignals.current_patient_id)
 	top_score_label.text = str(top)
+	GlobalScript.start_new_session_if_needed()
+	pilot_node = $pilot
 	
 	
 	
@@ -138,6 +154,7 @@ func _on_play_pressed():
 	sub_five_btn.hide()
 	time_label.hide()
 	start_game_with_timer()
+	log_timer.timeout.connect(_on_log_timer_timeout)
 
 func _on_close_pressed():
 	game_running = true
@@ -149,6 +166,7 @@ func _on_close_pressed():
 	time_label.hide()
 	countdown_display.hide()
 	start_game_without_timer()
+	log_timer.timeout.connect(_on_log_timer_timeout)
 	
 	
 func _on_PauseButton_pressed():
@@ -197,6 +215,7 @@ func _update_time_display():
 func show_game_over():
 	print("Game Over!")
 	game_running = false
+	save_final_score_to_log(GlobalScript.current_score)
 	GlobalTimer.stop_timer()
 	game_over_label.visible = true
 	
@@ -216,13 +235,28 @@ func _on_retry_button_pressed():
 
 func _process(delta: float) -> void:
 	
+	
 	if game_running:
+		if status != "collided" and status != "reached" and status != "restarting":
+			status = "moving"
+		if pilot_node:
+			if not pilot_node.adapt_toggle:
+				game_x = (pilot_node.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
+				game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+			else:
+				game_x  = (pilot_node.position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
+				game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+			
 		scroll += SCROLL_SPEED
+		pos_x = GlobalScript.raw_x
+		pos_y = GlobalScript.raw_y
+		pos_z = GlobalScript.raw_z
 		if scroll >= screen_size.x/5:
 			scroll = 0
 		$ground.position.x = -scroll
 		for pipe in pipes:
 			pipe.position.x -= SCROLL_SPEED
+			
 	
 func stop_game():
 	timer.stop()
@@ -238,8 +272,11 @@ func generate_pipe():
 	if game_running:
 	
 		var pipe = pipe_scene.instantiate()
-		pipe.position.x = screen_size.x/1.5 + PIPE_DELAY
+		pipe.position.x = screen_size.x / 1.5 + PIPE_DELAY
 		pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
+		target_x = (pipe.position.x - GlobalScript.X_SCREEN_OFFSET)  / GlobalScript.PLAYER_POS_SCALER_X
+		target_y = (pipe.position.y - GlobalScript.Y_SCREEN_OFFSET)  / (GlobalScript.PLAYER_POS_SCALER_Y)
+		target_z = 0
 		pipe.hit.connect(pipe_hit)
 		pipe.scored.connect(scored)
 		add_child(pipe)
@@ -263,13 +300,16 @@ func pipe_hit():
 		
 		heart_array[health].animation = "Dead"
 		game_over_signal.emit()
+		status = "restarting"
 		plane_crashed.emit()
-		
 		stop_game()
+	else:
+		status = "collided"
 	health -=1
 
 func scored():
 	score+= 1
+	status = "reached"
 	score_label.text = str(score)
 
 func _on_logout_pressed() -> void:
@@ -284,8 +324,8 @@ func save_final_score_to_log(score: int):
 	if game_log_file:
 		game_log_file.store_line("Final Score: " + str(score))
 		game_log_file.flush()
-		Manager.save_score_only("FlyThrough", GlobalSignals.current_patient_id, score)
+		
 		
 func _on_log_timer_timeout():
 	if game_log_file:
-		game_log_file.store_csv_line(PackedStringArray([score,Time.get_unix_time_from_system(),str(position.x), str(position.y), str(GlobalScript.scaled_network_position.x), str(GlobalScript.scaled_network_position.y)]))
+		game_log_file.store_csv_line(PackedStringArray([Time.get_unix_time_from_system(),score,status,error_status,packets,str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),str(game_x),str(game_y),str(game_z),str(pause_state)]))

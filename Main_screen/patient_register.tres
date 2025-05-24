@@ -14,13 +14,22 @@ patient_register = {
 "name": "Tia",
 "stroke_time": 22
 },
-"Yuvan": {
-"affected_hand": "Unspecified",
-"age": 24,
+"CSV": {
+"affected_hand": "Left",
+"age": 22,
 "comments": "",
 "dominant_hand": "Unspecified",
-"gender": "Male",
-"name": "Yuvan",
+"gender": "Female",
+"name": "CSV",
+"stroke_time": 0
+},
+"Joe": {
+"affected_hand": "Both",
+"age": 24,
+"comments": "For Testing",
+"dominant_hand": "Right",
+"gender": "Female",
+"name": "Joe",
 "stroke_time": 0
 },
 "asdfadsf": {
@@ -51,4 +60,4 @@ patient_register = {
 "stroke_time": 0
 }
 }
-current_patient_id = "sujith"
+current_patient_id = "vvv"

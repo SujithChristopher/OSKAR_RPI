@@ -107,6 +107,15 @@ func _on_patient_list_item_selected(index: int) -> void:
 						"Affected hand: " + current_patient['affected_hand'] + "\n" + \
 						"Comments: " + "\n" + \
 						current_patient['comments']
+						
+	if current_patient["affected_hand"] == "left" or current_patient["affected_hand"] == "Right":
+		GlobalSignals.selected_training_hand = current_patient["affected_hand"]
+		
+
+	elif current_patient["affected_hand"] == "Both":
+		pass
+		GlobalSignals.selected_training_hand = ""  
+		
 	
 	patient_display.clear()
 	patient_display.add_text(text_display)
@@ -145,9 +154,11 @@ func _on_patient_list_item_activated(index: int) -> void:
 	patient_name_label.visible = true
 	
 func _on_login_button_pressed() -> void:
+	var current_patient = allpatients[patient_selected]
 	patient_db.current_patient_id = allpatients[patient_selected]['hospital_id']
 	GlobalScript.change_patient()
 	GlobalSignals.current_patient_id = allpatients[patient_selected]['hospital_id']
+	GlobalSignals.affected_hand = current_patient["affected_hand"] 
 	save_json(patient_db)
 	
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")

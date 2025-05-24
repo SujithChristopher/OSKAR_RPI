@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://bn4wpjscqoj8b" path="res://Games/random_reach/Sprites/apple_eating1.mp3" id="6_v6jim"]
 [ext_resource type="Texture2D" uid="uid://ctqiqg7oob7yl" path="res://Assets/scoring_system/trophy-cup-trophies-picture-png.webp" id="7_4cnmw"]
 [ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://Assets/scoring_system/medal.webp" id="7_dr7s7"]
-[ext_resource type="Script" uid="uid://daqv0t5qiw2d3" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
+[ext_resource type="Script" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fipgi"]
 texture = ExtResource("3_ob8gn")
@@ -257,6 +257,7 @@ tile_set = SubResource("TileSet_47021")
 script = ExtResource("7_wrl2s")
 
 [node name="TimerLabel" type="Label" parent="TileMap/CanvasLayer"]
+visible = false
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1067.0
@@ -399,13 +400,29 @@ offset_right = 248.0
 offset_bottom = 246.0
 
 [node name="TextureRect" type="TextureRect" parent="TileMap/CanvasLayer/GameOverLabel"]
+visible = false
 layout_mode = 0
 offset_left = -2.0
-offset_top = 149.0
+offset_top = 147.0
 offset_right = 242.0
-offset_bottom = 291.0
+offset_bottom = 289.0
 texture = ExtResource("7_4cnmw")
 expand_mode = 3
+
+[node name="First" type="Label" parent="TileMap/CanvasLayer/GameOverLabel/TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Second" type="Label" parent="TileMap/CanvasLayer/GameOverLabel/TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Third" type="Label" parent="TileMap/CanvasLayer/GameOverLabel/TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="PauseButton" type="Button" parent="TileMap/CanvasLayer"]
 offset_left = 528.0
@@ -531,7 +548,6 @@ offset_bottom = 85.5246
 theme_override_styles/panel = SubResource("StyleBoxFlat_un0mj")
 
 [node name="TimeLabel" type="Label" parent="Panel"]
-visible = false
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 4
