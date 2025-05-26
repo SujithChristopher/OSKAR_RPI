@@ -215,39 +215,57 @@ func save_session_info():
 	file.store_string(JSON.stringify(data))
 
 
-
-#TODO: change this to file sorting functions and use for loops for finishing the job
+	
 #func get_top_score_for_game(game_name: String, p_id: String) -> int:
 	#var top_score := 0
-	#var folder_path = GlobalSignals.data_path + "/" + p_id + "/GameData"
+	#var folder_path := GlobalSignals.data_path + "/" + p_id + "/GameData"
 #
-	#if DirAccess.dir_exists_absolute(folder_path):
-		#var dir = DirAccess.open(folder_path)
-		#dir.list_dir_begin()
-		#var file_name = dir.get_next()
+	#if not DirAccess.dir_exists_absolute(folder_path):
+		#return top_score
 #
-		#while file_name != "":
-			#if file_name.ends_with(".csv") and file_name.begins_with(game_name):
-				#var file_path = folder_path + "/" + file_name
-				#var file = FileAccess.open(file_path, FileAccess.READ)
+	#var dir := DirAccess.open(folder_path)
+	#dir.list_dir_begin()
 #
-				#if file:
-					#var is_first_line = true
-					#while not file.eof_reached():
-						#var line = file.get_line()
-						#if is_first_line:
-							#is_first_line = false  # Skip header
-							#continue
-						#var fields = line.split(",")
-						#if fields.size() > 0:
-							#var score_str = fields[0].strip_edges()
-							#if score_str.is_valid_int():
-								#var score = int(score_str)
-								#if score > top_score:
-									#top_score = score
+	#while true:
+		#var file_name := dir.get_next()
+		#if file_name == "":
+			#break
 #
-					#file.close()
-			#file_name = dir.get_next()
+		#if not (file_name.ends_with(".csv") and file_name.begins_with(game_name)):
+			#continue
+#
+		#var file_path := folder_path + "/" + file_name
+		#var file := FileAccess.open(file_path, FileAccess.READ)
+		#if not file:
+			#continue
+#
+		## Read and parse the header
+		#if file.eof_reached():
+			#file.close()
+			#continue
+#
+		#var headers := file.get_line().split(",", false)
+		#var score_col := headers.find("score")
+#
+		#if score_col == -1:
+			#file.close()
+			#continue  # Skip if "score" column not found
+#
+		## Process remaining lines
+		#while not file.eof_reached():
+			#var line := file.get_line()
+			#var fields := line.split(",", false)
+#
+			#if fields.size() <= score_col:
+				#continue
+#
+			#var score_str := fields[score_col].strip_edges()
+			#if score_str.is_valid_int():
+				#var score := int(score_str)
+				#if score > top_score:
+					#top_score = score
+#
+		#file.close()
 #
 	#return top_score
 	
@@ -261,45 +279,47 @@ func get_top_score_for_game(game_name: String, p_id: String) -> int:
 	var dir := DirAccess.open(folder_path)
 	dir.list_dir_begin()
 
-	while true:
-		var file_name := dir.get_next()
-		if file_name == "":
-			break
-
-		if not (file_name.ends_with(".csv") and file_name.begins_with(game_name)):
-			continue
-
-		var file_path := folder_path + "/" + file_name
-		var file := FileAccess.open(file_path, FileAccess.READ)
-		if not file:
-			continue
-
-		# Read and parse the header
-		if file.eof_reached():
-			file.close()
-			continue
-
-		var headers := file.get_line().split(",", false)
-		var score_col := headers.find("score")
-
-		if score_col == -1:
-			file.close()
-			continue  # Skip if "score" column not found
-
-		# Process remaining lines
-		while not file.eof_reached():
-			var line := file.get_line()
-			var fields := line.split(",", false)
-
-			if fields.size() <= score_col:
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".csv") and file_name.begins_with(game_name):
+			var file_path := folder_path + "/" + file_name
+			var file := FileAccess.open(file_path, FileAccess.READ)
+			if not file:
+				file_name = dir.get_next()
 				continue
 
-			var score_str := fields[score_col].strip_edges()
-			if score_str.is_valid_int():
-				var score := int(score_str)
-				if score > top_score:
-					top_score = score
+			
+			if file.eof_reached():
+				file.close()
+				file_name = dir.get_next()
+				continue
 
-		file.close()
+			var headers := file.get_line().split(",", false)
+			var score_col := headers.find("score")
+
+			if score_col == -1:
+				file.close()
+				file_name = dir.get_next()
+				continue
+
+			
+			while not file.eof_reached():
+				var line := file.get_line()
+				if line.strip_edges() == "":
+					continue
+
+				var fields := line.split(",", false)
+				if fields.size() <= score_col:
+					continue
+
+				var score_str := fields[score_col].strip_edges()
+				if score_str.is_valid_int():
+					var score := int(score_str)
+					if score > top_score:
+						top_score = score
+
+			file.close()
+
+		file_name = dir.get_next()
 
 	return top_score
