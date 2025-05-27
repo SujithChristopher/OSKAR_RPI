@@ -32,7 +32,7 @@ func _on_window_close_requested() -> void:
 	popup.hide()
 
 func _on_new_patient_pressed() -> void:
-	get_tree().change_scene_to_file("res://Main_screen/registry.tscn") # Replace with function body.
+	get_tree().change_scene_to_file("res://Main_screen/registry.tscn") 
 	
 
 func _on_assess_button_pressed() -> void:
@@ -52,7 +52,7 @@ func _on_hosp_id_text_submitted(new_text: String) -> void:
 			patient_db.current_patient_id = hosp_id
 			GlobalScript.change_patient()
 			GlobalSignals.current_patient_id = hosp_id
-			ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")			
-			get_tree().change_scene_to_file("res://Main_screen/select_game.tscn") # Replace with function body.\
+			ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
+			get_tree().change_scene_to_file("res://Main_screen/select_game.tscn") 
 		else:
 			patient_notfound.show()

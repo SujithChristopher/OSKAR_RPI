@@ -10,7 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://bn4wpjscqoj8b" path="res://Games/random_reach/Sprites/apple_eating1.mp3" id="6_v6jim"]
 [ext_resource type="Texture2D" uid="uid://ctqiqg7oob7yl" path="res://Assets/scoring_system/trophy-cup-trophies-picture-png.webp" id="7_4cnmw"]
 [ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://Assets/scoring_system/medal.webp" id="7_dr7s7"]
-[ext_resource type="Script" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
+[ext_resource type="Script" uid="uid://daqv0t5qiw2d3" path="res://Games/random_reach/timer_label.gd" id="7_wrl2s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fipgi"]
 texture = ExtResource("3_ob8gn")

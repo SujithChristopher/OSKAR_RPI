@@ -108,7 +108,7 @@ func _on_patient_list_item_selected(index: int) -> void:
 						"Comments: " + "\n" + \
 						current_patient['comments']
 						
-	if current_patient["affected_hand"] == "left" or current_patient["affected_hand"] == "Right":
+	if current_patient["affected_hand"] == "Left" or current_patient["affected_hand"] == "Right":
 		GlobalSignals.selected_training_hand = current_patient["affected_hand"]
 		
 
@@ -163,13 +163,4 @@ func _on_login_button_pressed() -> void:
 	
 	ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")
 	get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
-	
-	
-	
-	
-	
-
-
-
-	
 	

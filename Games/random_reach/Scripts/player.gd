@@ -103,9 +103,13 @@ func _ready() -> void:
 	retry_button.pressed.connect(_on_retry_button_pressed)
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
-	var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
-	top_score_label.text = str(top)
+	#var top = GlobalScript.get_top_score_for_game("RandomReach", GlobalSignals.current_patient_id)
+	#top_score_label.text = str(top)
 	GlobalScript.start_new_session_if_needed()
+	var current_top = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "RandomReach")
+	if score > current_top:
+		ScoreManager.update_top_score(GlobalSignals.current_patient_id, "RandomReach", round(score))
+		top_score_label.text = str(round(score))
 	
 	
 	
@@ -329,6 +333,8 @@ func _on_apple_eaten():
 		score_board.text = str(score)
 		if apple_sound:
 			apple_sound.play()
+		ScoreManager.update_top_score(GlobalSignals.current_patient_id, "RandomReach", score)
+
 	status = "captured"
 	
 func apple_function():
