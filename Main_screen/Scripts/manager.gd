@@ -10,8 +10,6 @@ func _ready():
 	debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
 
 func create_game_log_file(game, p_id):
-	# Start new session if a new day
-	#GlobalScript.start_new_session_if_needed()
 
 	if debug:
 		p_id = 'vvv'
@@ -38,5 +36,12 @@ func create_game_log_file(game, p_id):
 		return game_file
 	else:
 		var game_file = FileAccess.open(game_file_path, FileAccess.WRITE)
+		game_file.store_line("headerrows,7")
+		game_file.store_line("game_name,%s" % game)
+		game_file.store_line("h_id,%s" % GlobalSignals.current_patient_id)
+		game_file.store_line("device_location,PMR")
+		game_file.store_line("device_version,NOARK-0.1.0")
+		game_file.store_line("protocol_version,0.1.0")
+		game_file.store_line("start_time,%s" % Time.get_datetime_string_from_system())
 		return game_file
 		
