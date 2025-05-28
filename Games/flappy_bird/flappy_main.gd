@@ -95,10 +95,11 @@ func _ready() -> void:
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_scene.restart_games.connect(restart_game)
 	game_over_label.hide()
-	var top = GlobalScript.get_top_score_for_game("FlyThrough", GlobalSignals.current_patient_id)
-	top_score_label.text = str(top)
 	GlobalScript.start_new_session_if_needed()
 	pilot_node = $pilot
+	var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "FlyThrough")
+	top_score_label.text = str(top_score)
+	GlobalScript.start_new_session_if_needed()
 	
 	
 	
@@ -309,6 +310,9 @@ func pipe_hit():
 
 func scored():
 	score+= 1
+	ScoreManager.update_top_score(GlobalSignals.current_patient_id, "FlyThrough", score)
+	var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "FlyThrough")
+	top_score_label.text = str(top_score)
 	status = "reached"
 	score_label.text = str(score)
 

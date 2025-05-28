@@ -15,6 +15,13 @@ signal SignalBus
 
 @export var ball_position: Vector2
 
+var hit_ground = Vector2.ZERO
+var hit_top = Vector2.ZERO
+var hit_left = Vector2.ZERO
+var hit_right = Vector2.ZERO
+var hit_player = Vector2.ZERO
+var hit_computer = Vector2.ZERO
+
 func enable_game_buttons(enable: bool) -> void:
 	for button in get_tree().get_nodes_in_group("GameButtons"):
 		button.disabled = not enable

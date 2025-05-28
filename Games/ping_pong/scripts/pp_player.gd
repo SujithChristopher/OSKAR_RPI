@@ -26,7 +26,6 @@ var ball_y : float
 var ball_z : float
 var score: int
 
-
 @export var speed = 200
 @onready var adapt_toggle:bool = false
 @onready var game_log_file
@@ -112,10 +111,11 @@ func _on_ready():
 	pause_button.pressed.connect(_on_PauseButton_pressed)
 	game_over_label.hide()
 	countdown_display.hide()
-	var top = GlobalScript.get_top_score_for_game("PingPong", GlobalSignals.current_patient_id)
-	top_score_label.text = str(top)
-	print(top)
 	GlobalScript.start_new_session_if_needed()
+	var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "PingPong")
+	top_score_label.text = str(top_score)
+	GlobalScript.start_new_session_if_needed()
+	
 	
 
 func update_label():

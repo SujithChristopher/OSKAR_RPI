@@ -26,6 +26,7 @@ GlobalSignals="*res://Main_screen/Scripts/global_signals.gd"
 GlobalScript="*res://Main_screen/Scripts/global_script.gd"
 SoundFx="*res://Main_screen/SoundFx.tscn"
 GlobalTimer="*res://Main_screen/Scripts/global_timer.gd"
+ScoreManager="*res://Main_screen/Scripts/score_manager.gd"
 
 [display]
 
