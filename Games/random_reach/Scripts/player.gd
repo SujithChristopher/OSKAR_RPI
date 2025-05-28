@@ -108,10 +108,6 @@ func _ready() -> void:
 	var top_score = ScoreManager.get_top_score(patient_id, game_name)
 	top_score_label.text = str(top_score)
 	GlobalScript.start_new_session_if_needed()
-	var current_top = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "RandomReach")
-	if score > current_top:
-		ScoreManager.update_top_score(GlobalSignals.current_patient_id, "RandomReach", round(score))
-		top_score_label.text = str(round(score))
 	
 	
 	

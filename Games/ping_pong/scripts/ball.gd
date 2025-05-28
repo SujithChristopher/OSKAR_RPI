@@ -12,7 +12,7 @@ var status = ""
 @export var speed_multiplier = 1
 @onready var player_score_label = $"../PlayerScore"
 @onready var computer_score_label: Label = $"../ComputerScore"
-
+@onready var top_score_label = $"../CanvasLayer/TextureRect/TopScoreLabel"
 var ball_speed = INITIAL_BALL_SPEED
 var collision_point = Vector2.ZERO
 
@@ -34,8 +34,7 @@ func _physics_process(delta):
 				player_score += 1
 				ScoreManager.update_top_score(GlobalSignals.current_patient_id, "PingPong", player_score)
 				var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "PingPong")
-				var pp = get_node("res://Games/ping_pong/scripts/pp_player.gd")
-				pp.top_score_label.text = str(top_score)
+				top_score_label.text = str(top_score)
 				status = "top"
 				GlobalSignals.hit_top = collision_point
 				print("Hit top at:", collision_point)

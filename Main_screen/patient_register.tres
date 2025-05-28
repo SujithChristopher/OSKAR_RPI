@@ -41,6 +41,15 @@ patient_register = {
 "name": "asfdasdf",
 "stroke_time": 0
 },
+"hvg": {
+"affected_hand": "Unspecified",
+"age": 76,
+"comments": "",
+"dominant_hand": "Unspecified",
+"gender": "Unspecified",
+"name": "hughu",
+"stroke_time": 0
+},
 "score": {
 "affected_hand": "Unspecified",
 "age": 23,
@@ -69,4 +78,4 @@ patient_register = {
 "stroke_time": 0
 }
 }
-current_patient_id = "score"
+current_patient_id = "hvg"
