@@ -9,7 +9,7 @@ patient_register = {
 "affected_hand": "unspecified",
 "age": 10,
 "comments": "",
-"dominant_hand": "unspecified",
+"dominant_hand": "right",
 "gender": "male",
 "name": "Tia",
 "stroke_time": 22
@@ -68,12 +68,14 @@ patient_register = {
 "name": "Sujith",
 "stroke_time": 5
 },
+=======
+>>>>>>> origin/yuv
 "vvv": {
-"affected_hand": "unspecified",
+"affected_hand": "Unspecified",
 "age": 22,
 "comments": "",
-"dominant_hand": "unspecified",
-"gender": "male",
+"dominant_hand": "Unspecified",
+"gender": "Male",
 "name": "vvv",
 "stroke_time": 0
 }
