@@ -337,7 +337,7 @@ func _on_apple_eaten():
 			apple_sound.play()
 	ScoreManager.update_top_score(patient_id, game_name, score)
 	var top_score = ScoreManager.get_top_score(patient_id, game_name)
-	top_score_label.text = "Top Score: " + str(top_score)
+	top_score_label.text = str(top_score)
 	
 
 	status = "captured"

@@ -1,6 +1,6 @@
 extends Node
 
-var score_data_path := "user://score_data.tres"  # Save actual data here
+var score_data_path := "user://score_data.tres"  
 var score_data: ScoreData
 
 func _ready():

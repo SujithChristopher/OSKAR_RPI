@@ -32,6 +32,10 @@ func _physics_process(delta):
 				print("Hit bottom at:", collision_point)
 			"top":
 				player_score += 1
+				ScoreManager.update_top_score(GlobalSignals.current_patient_id, "PingPong", player_score)
+				var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "PingPong")
+				var pp = get_node("res://Games/ping_pong/scripts/pp_player.gd")
+				pp.top_score_label.text = str(top_score)
 				status = "top"
 				GlobalSignals.hit_top = collision_point
 				print("Hit top at:", collision_point)

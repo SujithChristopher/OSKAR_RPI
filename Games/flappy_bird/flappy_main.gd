@@ -99,6 +99,13 @@ func _ready() -> void:
 	top_score_label.text = str(top)
 	GlobalScript.start_new_session_if_needed()
 	pilot_node = $pilot
+	var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "FlyThrough")
+	top_score_label.text = str(top_score)
+	GlobalScript.start_new_session_if_needed()
+	var current_top = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "RandomReach")
+	if score > current_top:
+		ScoreManager.update_top_score(GlobalSignals.current_patient_id, "RandomReach", round(score))
+		top_score_label.text = str(round(score))
 	
 	
 	
@@ -309,6 +316,9 @@ func pipe_hit():
 
 func scored():
 	score+= 1
+	ScoreManager.update_top_score(GlobalSignals.current_patient_id, "FlyThrough", score)
+	var top_score = ScoreManager.get_top_score(GlobalSignals.current_patient_id, "FlyThrough")
+	top_score_label.text = str(top_score)
 	status = "reached"
 	score_label.text = str(score)
 
