@@ -1,3 +1,3 @@
 extends Resource
 class_name ScoreData
-@export var scores := {}  
+@export var scores : Dictionary = {}  
