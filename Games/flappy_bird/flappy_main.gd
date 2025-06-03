@@ -75,8 +75,6 @@ func _ready() -> void:
 	ground_height = $ground.get_node("Sprite2D").texture.get_height()
 	$ground.position.x = screen_size.x /2
 	timer.wait_time = TIMER_DELAY/0.5
-	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	add_child(log_timer)
@@ -156,6 +154,8 @@ func _on_play_pressed():
 	time_label.hide()
 	start_game_with_timer()
 	log_timer.timeout.connect(_on_log_timer_timeout)
+	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 
 func _on_close_pressed():
 	game_running = true
@@ -168,6 +168,8 @@ func _on_close_pressed():
 	countdown_display.hide()
 	start_game_without_timer()
 	log_timer.timeout.connect(_on_log_timer_timeout)
+	game_log_file = Manager.create_game_log_file('FlyThrough', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	
 	
 func _on_PauseButton_pressed():
@@ -235,7 +237,6 @@ func _on_retry_button_pressed():
 	sub_five_btn.show()
 
 func _process(delta: float) -> void:
-	
 	
 	if game_running:
 		if status != "collided" and status != "reached" and status != "restarting":

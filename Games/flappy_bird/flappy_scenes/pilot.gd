@@ -5,17 +5,21 @@ var zero_offset = Vector2.ZERO
 @onready var adapt_toggle:bool = false
 @onready var flash: AnimationPlayer = $AnimatedSprite2D/Flash
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-
+@export var debug_mode: bool = true
 func _ready() -> void:
 	get_parent().flash_animation.connect(anim_change)
 	get_parent().plane_crashed.connect(plane_anim_change)
 	get_parent().game_started.connect(pilot_refresh)
 
 func _physics_process(delta: float) -> void:
-	if adapt_toggle:
+	
+	if debug_mode:
+		network_position = get_global_mouse_position()
+	elif adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
 	else:
 		network_position = GlobalScript.network_position
+
 		
 	if network_position != Vector2.ZERO:
 		network_position = network_position - zero_offset  + Vector2(600, 100)  

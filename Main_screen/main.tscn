@@ -46,18 +46,18 @@ color = Color(0.537255, 0.760784, 0.482353, 0.686275)
 
 [node name="ColorRect2" type="ColorRect" parent="TextureRect"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 311.0
-offset_right = 1126.0
-offset_bottom = 546.0
+offset_left = 388.0
+offset_top = 206.0
+offset_right = 819.0
+offset_bottom = 446.0
 color = Color(0.995516, 0.730933, 0.879764, 0.6)
 
 [node name="Label2" type="Label" parent="TextureRect"]
 layout_mode = 0
-offset_left = 89.0
-offset_top = 350.0
-offset_right = 416.0
-offset_bottom = 392.0
+offset_left = 441.0
+offset_top = 206.0
+offset_right = 768.0
+offset_bottom = 248.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_shadow_color = Color(0.776471, 0.364706, 1, 1)
 theme_override_font_sizes/font_size = 30
@@ -73,27 +73,27 @@ text = "EXIT"
 
 [node name="HospID" type="LineEdit" parent="TextureRect"]
 layout_mode = 0
-offset_left = 85.0
-offset_top = 400.0
-offset_right = 443.0
-offset_bottom = 466.0
+offset_left = 429.0
+offset_top = 266.0
+offset_right = 787.0
+offset_bottom = 332.0
 placeholder_text = "Eg 1234567H"
 
 [node name="NewPatient" type="Button" parent="TextureRect"]
 texture_filter = 1
 layout_mode = 0
-offset_left = 755.0
-offset_top = 400.0
-offset_right = 913.0
-offset_bottom = 465.0
+offset_left = 614.0
+offset_top = 355.0
+offset_right = 772.0
+offset_bottom = 420.0
 text = "New Patient"
 
 [node name="PlayButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 560.0
-offset_top = 400.0
-offset_right = 721.0
-offset_bottom = 465.0
+offset_left = 428.0
+offset_top = 355.0
+offset_right = 589.0
+offset_bottom = 420.0
 text = "Play"
 script = ExtResource("2_71nsx")
 

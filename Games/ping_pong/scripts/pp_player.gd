@@ -25,7 +25,7 @@ var ball_x : float
 var ball_y : float
 var ball_z : float
 var score: int
-
+@export var debug_mode: bool = true
 @export var speed = 200
 @onready var adapt_toggle:bool = false
 @onready var game_log_file
@@ -53,7 +53,9 @@ func _physics_process(delta):
 	
 	if not game_started:
 		return
-	if adapt_toggle:
+	if debug_mode:
+		network_position = get_global_mouse_position()
+	elif adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
 	else:
 		network_position = GlobalScript.network_position
@@ -89,10 +91,8 @@ func _physics_process(delta):
 	
 	
 func _on_ready():
-	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','ball_x','ball_y','ball_z','pause_state']))
-	log_timer.wait_time = 0.02 # 1 second
-	log_timer.autostart = true # start timer when added to a scene
+	log_timer.wait_time = 0.02 
+	log_timer.autostart = true 
 	log_timer.timeout.connect(_on_log_timer_timeout)
 	add_child(log_timer)
 	update_label()
@@ -170,6 +170,8 @@ func _on_play_pressed():
 	sub_five_btn.hide()
 	start_game_with_timer()
 	time_label.hide()
+	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','ball_x','ball_y','ball_z','pause_state']))
 	
 
 func _on_close_pressed():
@@ -182,6 +184,8 @@ func _on_close_pressed():
 	countdown_display.hide()
 	start_game_without_timer()
 	time_label.hide()
+	game_log_file = Manager.create_game_log_file('PingPong', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','ball_x','ball_y','ball_z','pause_state']))
 
 func start_game_with_timer():
 	countdown_active = true

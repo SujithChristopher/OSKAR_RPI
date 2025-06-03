@@ -50,6 +50,15 @@ patient_register = {
 "name": "Debug",
 "stroke_time": 0
 },
+"Hill": {
+"affected_hand": "Unspecified",
+"age": 24,
+"comments": "",
+"dominant_hand": "Unspecified",
+"gender": "Male",
+"name": "Hill top",
+"stroke_time": 0
+},
 "vvv": {
 "affected_hand": "Unspecified",
 "age": 22,
@@ -60,4 +69,4 @@ patient_register = {
 "stroke_time": 0
 }
 }
-current_patient_id = "vvv"
+current_patient_id = "Hill"
