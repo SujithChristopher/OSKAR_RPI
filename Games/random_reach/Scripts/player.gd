@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var max_score = 500
-
+@export var debug_mode: bool = true
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
@@ -84,8 +84,6 @@ func _ready() -> void:
 		print("Training for %s hand" % training_hand)
 
 	network_position = Vector2.ZERO
-	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
-	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	log_timer.wait_time = 0.02 
 	log_timer.autostart = true 
 	#log_timer.timeout.connect(_on_log_timer_timeout)
@@ -114,7 +112,9 @@ func _ready() -> void:
 func _physics_process(delta):
 	if not game_started:
 		return
-	if adapt_toggle:
+	if debug_mode:
+		network_position = get_global_mouse_position()
+	elif adapt_toggle:
 		network_position = GlobalScript.scaled_network_position
 	else:
 		network_position = GlobalScript.network_position
@@ -139,7 +139,8 @@ func _physics_process(delta):
 		var direction = current_apple.position.x - position.x
 		anim.flip_h = direction < 0  # Flip if apple is to the left
 		
-	if current_apple == null and network_position != Vector2.ZERO:
+	#if current_apple == null and network_position != Vector2.ZERO:
+	if current_apple == null and (debug_mode or network_position != Vector2.ZERO):
 		my_timer.start()
 		current_apple = apple.instantiate()
 		add_child(current_apple)
@@ -153,7 +154,11 @@ func _physics_process(delta):
 		# Spawn position
 		if adapt_toggle:
 			while true:
-				apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
+				#apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
+				if debug_mode:
+					apple_position = get_global_mouse_position()
+				else:
+					apple_position = Vector2(randi_range(200, 900), randi_range(200, 600))
 				if Geometry2D.is_point_in_polygon(apple_position, GlobalSignals.inflated_workspace):
 					break
 			current_apple.position = apple_position
@@ -227,7 +232,8 @@ func _on_play_pressed():
 	sub_five_btn.hide()
 	start_game_with_timer()
 	log_timer.timeout.connect(_on_log_timer_timeout)
-	
+	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	
 func _on_close_pressed():
 	timer_panel.visible = false
@@ -239,6 +245,8 @@ func _on_close_pressed():
 	countdown_display.hide()
 	start_game_without_timer()
 	log_timer.timeout.connect(_on_log_timer_timeout)
+	game_log_file = Manager.create_game_log_file('RandomReach', GlobalSignals.current_patient_id)
+	game_log_file.store_csv_line(PackedStringArray(['epochtime','score','status','error_status','packets','device_x', 'device_y','device_z', 'target_x','target_y','target_z','player_x','player_y','player_z','pause_state']))
 	
 	
 func _on_PauseButton_pressed():
