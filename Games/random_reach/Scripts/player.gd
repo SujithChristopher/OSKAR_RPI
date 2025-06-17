@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var max_score = 500
-@export var debug_mode: bool = true
+@export var debug_mode: bool = false
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
