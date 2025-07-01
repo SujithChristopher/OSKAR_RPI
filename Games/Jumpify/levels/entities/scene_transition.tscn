@@ -1,0 +1,374 @@
+[gd_scene load_steps=22 format=3 uid="uid://cyjt21e1c6nhw"]
+
+[ext_resource type="Script" uid="uid://birv2h356fly0" path="res://scripts/scene_transition.gd" id="1_nnjgw"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ker2a"]
+animation = &"closed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nnjgw"]
+animation = &"closing"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_74f8q"]
+animation = &"opened"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xgod8"]
+animation = &"closing"
+play_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dywod"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ddwh6"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dlf86"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_pky6y"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "closed == true"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j55pg"]
+switch_mode = 2
+advance_mode = 2
+advance_expression = "closed == false"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_l8f41"]
+states/closed/node = SubResource("AnimationNodeAnimation_ker2a")
+states/closed/position = Vector2(544, 217)
+states/closing/node = SubResource("AnimationNodeAnimation_nnjgw")
+states/closing/position = Vector2(544, 100)
+states/opened/node = SubResource("AnimationNodeAnimation_74f8q")
+states/opened/position = Vector2(334, 100)
+states/opening/node = SubResource("AnimationNodeAnimation_xgod8")
+states/opening/position = Vector2(334, 217)
+transitions = ["Start", "opened", SubResource("AnimationNodeStateMachineTransition_dywod"), "closing", "closed", SubResource("AnimationNodeStateMachineTransition_ddwh6"), "opening", "opened", SubResource("AnimationNodeStateMachineTransition_dlf86"), "opened", "closing", SubResource("AnimationNodeStateMachineTransition_pky6y"), "closed", "opening", SubResource("AnimationNodeStateMachineTransition_j55pg")]
+graph_offset = Vector2(-189, -26)
+
+[sub_resource type="Animation" id="Animation_nnjgw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BottomFlap:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5708, 0, -3.14159)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftFlap:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightFlap:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5708, -1.5708)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TopFlap:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.00584686, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xgod8"]
+resource_name = "closed"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopFlap:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftFlap:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightFlap:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -1.5708)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BottomFlap:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -3.14159)]
+}
+
+[sub_resource type="Animation" id="Animation_ker2a"]
+resource_name = "closing"
+length = 0.65
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopFlap:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.266667, 0.633333),
+"transitions": PackedFloat32Array(0.34151, 1),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftFlap:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.366667),
+"transitions": PackedFloat32Array(0.4, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 1.5708), Vector3(0, 0, 1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightFlap:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.123115, 1),
+"update": 0,
+"values": [Vector3(0, 1.5708, -1.5708), Vector3(0, 0, -1.5708)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BottomFlap:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.266667, 0.633333),
+"transitions": PackedFloat32Array(0.101532, 1),
+"update": 0,
+"values": [Vector3(1.5708, 0, -3.14159), Vector3(0, 0, -3.14159)]
+}
+
+[sub_resource type="Animation" id="Animation_74f8q"]
+resource_name = "opened"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopFlap:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.34151),
+"update": 0,
+"values": [Vector3(-1.5708, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftFlap:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.4),
+"update": 0,
+"values": [Vector3(0, -1.5708, 1.5708)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("RightFlap:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.123115),
+"update": 0,
+"values": [Vector3(0, 1.5708, -1.5708)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BottomFlap:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0.101532),
+"update": 0,
+"values": [Vector3(1.5708, 0, -3.14159)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_74f8q"]
+_data = {
+&"RESET": SubResource("Animation_nnjgw"),
+&"closed": SubResource("Animation_xgod8"),
+&"closing": SubResource("Animation_ker2a"),
+&"opened": SubResource("Animation_74f8q")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ker2a"]
+albedo_color = Color(0.843137, 0.505882, 0.356863, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_ker2a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnjgw"]
+albedo_color = Color(0.94902, 0.74902, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74f8q"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_xgod8"]
+
+[node name="SceneTransition" type="Node3D" node_paths=PackedStringArray("animator")]
+script = ExtResource("1_nnjgw")
+animator = NodePath("SubViewportContainer/SubViewport/CardboardBox/AnimationPlayer")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+z_index = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.67241)
+keep_aspect = 0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.63963)
+light_energy = 2.722
+spot_range = 5.60754
+spot_angle = 42.1875
+
+[node name="CardboardBox" type="Node3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="AnimationTree" type="AnimationTree" parent="SubViewportContainer/SubViewport/CardboardBox"]
+active = false
+tree_root = SubResource("AnimationNodeStateMachine_l8f41")
+advance_expression_base_node = NodePath("../../../..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SubViewportContainer/SubViewport/CardboardBox"]
+libraries = {
+&"": SubResource("AnimationLibrary_74f8q")
+}
+autoplay = "opened"
+
+[node name="TopFlap" type="Node3D" parent="SubViewportContainer/SubViewport/CardboardBox"]
+transform = Transform3D(3.47535, 0, 0, 0, 1.29537, -0.00584683, 0, 0.00757393, 0.999983, 0, 1.30992, 0)
+
+[node name="Cardboard" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/TopFlap"]
+transform = Transform3D(1, -0.000160427, 0.000930678, 0.000167558, 0.99997, -0.00767376, -0.00092942, 0.00767392, 0.99997, 0, -0.506923, 5.29205e-05)
+material_override = SubResource("StandardMaterial3D_ker2a")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="Tape" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/TopFlap"]
+transform = Transform3D(0.99954, -1.67309e-05, 0.000941818, 0.000167481, 0.104291, -0.00776561, -0.000928992, 0.000800343, 1.01194, 0, -0.9584, 0.00330258)
+material_override = SubResource("StandardMaterial3D_nnjgw")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="BottomFlap" type="Node3D" parent="SubViewportContainer/SubViewport/CardboardBox"]
+transform = Transform3D(-3.47535, 3.28405e-06, 0, 3.18944e-11, 4.6893e-06, -1, -8.81064e-06, -1.29539, -3.61999e-06, 0, -1.30544, 0)
+
+[node name="Cardboard" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/BottomFlap"]
+transform = Transform3D(1, -0.000160427, 0.000930678, 0.000167558, 0.99997, -0.00767376, -0.00092942, 0.00767392, 0.99997, 0, -0.499936, 0)
+material_override = SubResource("StandardMaterial3D_ker2a")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="Tape" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/BottomFlap"]
+transform = Transform3D(-0.99954, 1.67224e-05, -0.000941813, -0.000178245, -0.104274, 0.0195981, -0.000926971, 0.00201981, 1.01178, -8.2745e-08, -0.94649, 0.00322055)
+material_override = SubResource("StandardMaterial3D_nnjgw")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="LeftFlap" type="Node3D" parent="SubViewportContainer/SubViewport/CardboardBox"]
+transform = Transform3D(4.55421e-11, 4.6893e-06, -1, 3.47535, -4.6893e-06, 0, -1.25807e-05, -1.29539, -3.61999e-06, -1.77164, 0, -0.0461121)
+
+[node name="Cardboard" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/LeftFlap"]
+transform = Transform3D(0.760762, -0.000120501, 0.000931533, 0.000127472, 0.751108, -0.00768081, -0.000707068, 0.00576411, 1.00089, -1.5081e-08, -0.377134, 0.00285643)
+material_override = SubResource("StandardMaterial3D_ker2a")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="RightFlap" type="Node3D" parent="SubViewportContainer/SubViewport/CardboardBox"]
+transform = Transform3D(4.55421e-11, -4.6893e-06, 1, -3.47535, -4.6893e-06, 0, 1.25807e-05, -1.29539, -3.61999e-06, 1.77294, 0, -0.0461121)
+
+[node name="Cardboard" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox/RightFlap"]
+transform = Transform3D(0.760762, -0.000120501, 0.000931533, 0.000127472, 0.751108, -0.00768081, -0.000707068, 0.00576411, 1.00089, -1.5081e-08, -0.377134, 0.00285643)
+material_override = SubResource("StandardMaterial3D_ker2a")
+mesh = SubResource("QuadMesh_ker2a")
+skeleton = NodePath("../../../../..")
+
+[node name="BlackScreen" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/CardboardBox"]
+transform = Transform3D(2.91345, 0, 0, 0, 1.78384, 0, 0, 0, 1, 3.36864, 0, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_74f8q")
+mesh = SubResource("QuadMesh_xgod8")

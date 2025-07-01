@@ -1,0 +1,406 @@
+[gd_scene load_steps=27 format=3 uid="uid://daoxmv24h418s"]
+
+[ext_resource type="Script" uid="uid://dr88v4qxnfc0h" path="res://Games/Jumpify/scripts/main_level_2.gd" id="1_blmwd"]
+[ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="1_wltgx"]
+[ext_resource type="PackedScene" uid="uid://doxjbwhfys3ot" path="res://Games/Jumpify/levels/entities/player.tscn" id="2_h88os"]
+[ext_resource type="PackedScene" uid="uid://c2ylr46gjf4kj" path="res://Games/Jumpify/levels/entities/enemy2.tscn" id="3_5lul5"]
+[ext_resource type="PackedScene" uid="uid://c8s4ao5i71dfq" path="res://Games/Jumpify/art/models/floor-large.glb" id="3_yltwl"]
+[ext_resource type="PackedScene" uid="uid://d3m5ivu4q1nnd" path="res://Games/Jumpify/art/models/structure-doorway-wide.glb" id="4_lfbu2"]
+[ext_resource type="PackedScene" uid="uid://b7tk7vsuo4mij" path="res://Games/Jumpify/art/models/structure-corner-inner.glb" id="5_nkn22"]
+[ext_resource type="PackedScene" uid="uid://vd3he2p4uukm" path="res://Games/Jumpify/art/models/structure-wall.glb" id="6_mli6f"]
+[ext_resource type="PackedScene" uid="uid://1xqly1idy830" path="res://Games/Jumpify/art/models/door-wide-half.glb" id="7_4r8ag"]
+[ext_resource type="PackedScene" uid="uid://dofkraukpc7th" path="res://Games/Jumpify/art/models/structure-yellow-medium.glb" id="8_d8jfb"]
+[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://Games/Jumpify/art/models/box-small.glb" id="9_2wxg7"]
+[ext_resource type="PackedScene" uid="uid://6sa0jkg1dpcd" path="res://Games/Jumpify/art/models/box-long.glb" id="10_5xxv5"]
+[ext_resource type="Theme" uid="uid://cp8rplq3o7x85" path="res://Games/Jumpify/art/ui/theme.tres" id="11_7peo0"]
+[ext_resource type="Script" uid="uid://mo0xbedty1be" path="res://Games/Jumpify/scripts/score_label.gd" id="12_sdwwi"]
+[ext_resource type="Script" uid="uid://b5de622hhnufx" path="res://Games/Jumpify/scripts/high_score_label.gd" id="13_1vvh4"]
+[ext_resource type="Script" uid="uid://brhqxj7gggoux" path="res://Games/Jumpify/scripts/new_record_label.gd" id="14_o3m72"]
+[ext_resource type="PackedScene" uid="uid://dfwga62dvbqw7" path="res://Games/Jumpify/levels/entities/coin.tscn" id="15_jx510"]
+[ext_resource type="Script" uid="uid://cytoghuj3ttu8" path="res://Games/Jumpify/scripts/coin_spawner.gd" id="17_gjgg2"]
+
+[sub_resource type="Environment" id="Environment_m1504"]
+background_mode = 1
+background_color = Color(0.0980392, 0.109804, 0.176471, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.234504, 0.243243, 0.311212, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1fput"]
+size = Vector3(6.06056, 3.37207, 0.700684)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sugp2"]
+size = Vector3(2.00354, 0.167053, 2.01003)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xdh4e"]
+size = Vector3(1.85059, 2.95654, 1.19336)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_c7dyn"]
+size = Vector3(1.3258, 3.40051, 0.549072)
+
+[sub_resource type="Animation" id="Animation_jkag2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.5, 1.5)]
+}
+
+[sub_resource type="Animation" id="Animation_p0d6h"]
+resource_name = "pulse"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ol2u7"]
+_data = {
+&"RESET": SubResource("Animation_jkag2"),
+&"pulse": SubResource("Animation_p0d6h")
+}
+
+[node name="Main" type="Node3D" node_paths=PackedStringArray("player", "coinTimer", "scoreLabel", "retryRectangle")]
+script = ExtResource("1_blmwd")
+coin_scene = ExtResource("15_jx510")
+enemy_scene = ExtResource("3_5lul5")
+player = NodePath("Entities/Player")
+coinTimer = NodePath("CoinSpawner/CoinTimer")
+scoreLabel = NodePath("UI/ScoreLabel")
+retryRectangle = NodePath("UI/Retry")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_m1504")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Environment"]
+transform = Transform3D(1, -5.42345e-05, 0.000908782, -0.000908683, 0.00180832, 0.999998, -5.58729e-05, -0.999998, 0.00180827, 0, 3.60697, 0.540072)
+light_energy = 2.415
+light_indirect_energy = 1.61
+shadow_enabled = true
+shadow_bias = 0.37
+shadow_normal_bias = 0.048
+shadow_opacity = 0.7
+spot_range = 9.01766
+spot_angle = 57.3293
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -0.541136, 0.840935, 0, -0.840935, -0.541136, -0.200143, 0.521956, -5.25617)
+light_color = Color(1, 0.00784314, 0, 1)
+light_energy = 9.381
+light_indirect_energy = 1.61
+shadow_enabled = true
+shadow_opacity = 0.7
+spot_range = 5.94487
+spot_angle = 66.9757
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="CameraShake" type="Node3D" parent="Entities" node_paths=PackedStringArray("camera")]
+script = ExtResource("1_wltgx")
+camera = NodePath("../CameraPivot/Camera3D")
+shake_intensity = 0.025
+shake_duration = 0.1
+
+[node name="CameraPivot" type="Marker3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 0.605988, 0.795473, 0, -0.795473, 0.605988, 0, 0, 0.915)
+
+[node name="Camera3D" type="Camera3D" parent="Entities/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.015)
+fov = 48.1
+size = 4.882
+far = 137.24
+
+[node name="Player" parent="Entities" instance=ExtResource("2_h88os")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1)
+jump_impulse = 15
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Back wall" type="StaticBody3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.71473)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Back wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017662, 0.21875, 0.149658)
+shape = SubResource("BoxShape3D_1fput")
+
+[node name="floor-large" parent="Level" groups=["floor"] instance=ExtResource("3_yltwl")]
+transform = Transform3D(6.11215, 0, 0, 0, 1.01405, 0, 0, 0, 6.43752, 0, -1, 0)
+metadata/_edit_group_ = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/floor-large" groups=["floor"]]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/floor-large/StaticBody3D" groups=["floor"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000211131, -0.056305, -0.00285749)
+shape = SubResource("BoxShape3D_sugp2")
+
+[node name="structure-doorway-wide2" parent="Level" instance=ExtResource("4_lfbu2")]
+transform = Transform3D(-3.13735, 0, -8.74228e-08, 0, 1, 0, 2.74276e-07, 0, -1, 0, -1, -1.77144)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Level/structure-doorway-wide2"]
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-doorway-wide2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00744633, 1.43542, 0.710464)
+shape = SubResource("BoxShape3D_xdh4e")
+
+[node name="structure-corner-inner2" parent="Level" instance=ExtResource("5_nkn22")]
+transform = Transform3D(-4.38264e-08, 0, 0.60448, 0, 1.00263, 0, -1.00263, 0, -2.64227e-08, 3.436, -1, -1.763)
+
+[node name="structure-corner-inner3" parent="Level" instance=ExtResource("5_nkn22")]
+transform = Transform3D(-1.31134e-07, 0, -0.604, 0, 1.003, 0, -1, 0, 7.9205e-08, -3.43568, -1, -1.77206)
+
+[node name="structure-wall2" parent="Level" instance=ExtResource("6_mli6f")]
+transform = Transform3D(-4.32567e-07, 0, 1, 0, 1, 0, -9.89597, 0, -4.37114e-08, 3.171, -0.987839, 1.95706)
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Level/structure-wall2"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.37677, -0.012161, -3.171)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-wall2/StaticBody3D2"]
+transform = Transform3D(1, 0, -2.0691e-11, 0, 1, 0, 0, 0, 1, -3.38004, 1.20833, -0.263306)
+shape = SubResource("BoxShape3D_c7dyn")
+
+[node name="structure-wall3" parent="Level" instance=ExtResource("6_mli6f")]
+transform = Transform3D(-4.32567e-07, 0, -1, 0, 1, 0, 9.89597, 0, -4.37114e-08, -3.17071, -0.988235, 1.9575)
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="Level/structure-wall3"]
+transform = Transform3D(5.25456e-08, 0, -1, 0, 1, 0, 1, 0, 9.08845e-07, -0.376814, -0.011765, 3.52697)
+collision_layer = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-wall3/StaticBody3D3"]
+transform = Transform3D(1, 0, -2.34763e-11, 0, 1, 0, 0, 0, 1, -3.51221, 1.20026, -0.263306)
+shape = SubResource("BoxShape3D_c7dyn")
+
+[node name="door-wide-half2" parent="Level" instance=ExtResource("7_4r8ag")]
+transform = Transform3D(-3.14561, 0, -8.74228e-08, 0, 1, 0, 2.74998e-07, 0, -1, 0, -1, -1.84997)
+
+[node name="Guides" type="Node3D" parent="Level"]
+
+[node name="Details" type="Node3D" parent="Level"]
+
+[node name="structure-yellow-medium2" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, -1.3398)
+
+[node name="structure-yellow-medium3" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, -0.233148)
+
+[node name="structure-yellow-medium4" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 0.828048)
+
+[node name="structure-yellow-medium5" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 1.9347)
+
+[node name="structure-yellow-medium6" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 0.828048)
+
+[node name="structure-yellow-medium7" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 1.9347)
+
+[node name="structure-yellow-medium8" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 3.02637)
+
+[node name="structure-yellow-medium9" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89139, -0.972396, 4.13302)
+
+[node name="structure-yellow-medium10" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, -1.3398)
+
+[node name="structure-yellow-medium11" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, -0.233148)
+
+[node name="structure-yellow-medium12" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, 1.9347)
+
+[node name="structure-yellow-medium13" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, 0.828048)
+
+[node name="structure-yellow-medium14" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, 3.02637)
+
+[node name="structure-yellow-medium15" parent="Level/Details" instance=ExtResource("8_d8jfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.93285, -0.972396, 4.13302)
+
+[node name="box-small3" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.999965, -7.01773e-05, 0.00830738, 0, 0.999964, 0.00844729, -0.00830767, -0.008447, 0.99993, -3.30818, -0.981945, 1.89577)
+
+[node name="box-small5" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.30792, -0.981661, 1.32295)
+
+[node name="box-small9" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-0.99729, 0, 0.0735689, 0, 1, 0, -0.0735689, 0, -0.99729, -3.30792, -0.479696, -0.477799)
+
+[node name="box-small10" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.30792, -0.981661, -0.477799)
+
+[node name="box-small12" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.00740016, 0, -0.999973, 0, 1, 0, 0.999973, 0, 0.00740016, -3.30792, -0.981661, -1.81878)
+
+[node name="box-small6" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-0.170059, 0.0049176, 0.985422, -0.00866232, 0.999941, -0.00648496, -0.985396, -0.00963886, -0.170006, -3.30792, -0.479696, 0.233744)
+
+[node name="box-small11" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.981685, 0.00973808, 0.190263, -0.00866231, 0.999941, -0.00648496, -0.190315, 0.00471806, 0.981712, -3.30792, -0.970694, 3.40698)
+
+[node name="box-small4" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.999965, -7.01773e-05, 0.00830738, 0, 0.999964, 0.00844729, -0.00830767, -0.008447, 0.99993, 3.34588, -0.981946, -0.950007)
+
+[node name="box-small19" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.981685, 0.00973808, 0.190263, -0.00866231, 0.999941, -0.00648496, -0.190315, 0.00471806, 0.981712, 3.34615, -0.970694, 0.561199)
+
+[node name="box-small8" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.30792, -0.981661, 0.113989)
+
+[node name="box-small7" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.30792, -0.981661, 0.688648)
+
+[node name="box-small13" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.99729, 0, -0.0735688, 0, 1, 0, 0.0735688, 0, 0.99729, 3.39439, -0.479696, 2.22842)
+
+[node name="box-small14" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.39439, -0.981661, 2.22842)
+
+[node name="box-small15" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-0.00740025, 0, 0.999973, 0, 1, 0, -0.999973, 0, -0.00740025, 3.39439, -0.981661, 2.97648)
+
+[node name="box-small16" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(0.170059, -0.0049176, -0.985422, -0.00866231, 0.999941, -0.00648496, 0.985396, 0.00963885, 0.170006, 3.39439, -0.479696, 1.51687)
+
+[node name="box-small17" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.39439, -0.981661, 1.63663)
+
+[node name="box-small18" parent="Level/Details" instance=ExtResource("9_2wxg7")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.39439, -0.981661, 1.06197)
+
+[node name="box-long2" parent="Level/Details" instance=ExtResource("10_5xxv5")]
+transform = Transform3D(0.0383003, -7.01773e-05, -0.999266, 0.00844349, 0.999965, 0.000253399, 0.999231, -0.008447, 0.0382995, -3.26877, -0.456296, 1.54672)
+
+[node name="box-long3" parent="Level/Details" instance=ExtResource("10_5xxv5")]
+transform = Transform3D(0.0114055, 0.0390824, -0.999171, -0.853361, 0.521212, 0.0106461, 0.521196, 0.852532, 0.0392961, -3.2902, -0.545063, 2.34117)
+
+[node name="box-long4" parent="Level/Details" instance=ExtResource("10_5xxv5")]
+transform = Transform3D(0.0383003, -7.01773e-05, -0.999266, 0.00844349, 0.999965, 0.000253399, 0.999231, -0.008447, 0.0382995, 3.3853, -0.456297, -1.29906)
+
+[node name="box-long5" parent="Level/Details" instance=ExtResource("10_5xxv5")]
+transform = Transform3D(0.0114055, 0.0390824, -0.999171, -0.853361, 0.521212, 0.0106461, 0.521196, 0.852532, 0.0392961, 3.36387, -0.545063, -0.504603)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("11_7peo0")
+metadata/_edit_use_anchors_ = true
+
+[node name="ScoreLabel" type="Label" parent="UI"]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -117.0
+offset_top = 3.0
+offset_right = 111.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "game.score"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("12_sdwwi")
+
+[node name="HighScoreLabel" type="Label" parent="UI"]
+layout_direction = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -97.0
+offset_top = 50.0
+offset_right = 93.0
+offset_bottom = 71.47
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 15
+text = "game.highscore"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("13_1vvh4")
+
+[node name="Retry" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.729412)
+
+[node name="Label" type="Label" parent="UI/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -8.5
+offset_right = 74.5
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 31
+text = "game.restart"
+
+[node name="NewRecordLabel" type="Label" parent="UI/Retry"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.5
+offset_top = -133.0
+offset_right = 178.5
+offset_bottom = -67.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+pivot_offset = Vector2(178, 33)
+theme_override_colors/font_color = Color(0.972549, 0.4, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "game.new_record"
+script = ExtResource("14_o3m72")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Retry/NewRecordLabel"]
+libraries = {
+&"": SubResource("AnimationLibrary_ol2u7")
+}
+autoplay = "pulse"
+
+[node name="CoinSpawner" type="Node3D" parent="."]
+script = ExtResource("17_gjgg2")
+
+[node name="CoinTimer" type="Timer" parent="CoinSpawner"]
+wait_time = 10.0

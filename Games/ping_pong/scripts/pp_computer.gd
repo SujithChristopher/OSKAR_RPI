@@ -9,12 +9,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var ball = $"../Ball"
 
 func _physics_process(delta):
-	
-	# Add the gravity.
-	var direction = (ball.position - position).normalized()
-	velocity.x = direction.x * SPEED * delta
-	position.y = 20
-	move_and_slide()
+    
+    # Add the gravity.
+    var direction = (ball.position - position).normalized()
+    velocity.x = direction.x * SPEED * delta
+    position.y = 20
+    move_and_slide()
 
 func _on_ready():
-	pass
+    pass

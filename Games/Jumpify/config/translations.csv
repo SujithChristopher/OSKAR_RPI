@@ -1,0 +1,14 @@
+key,en,es
+"menu.title","Box\nJumper","Salta\nCajas"
+"menu.highscore","High score: %s","Récord: %s"
+"menu.play","Play","Jugar"
+"menu.tutorial","How to play","Cómo jugar"
+"menu.tutorial.title","How to play","Cómo jugar"
+"menu.tutorial.summary","Boxes will come out from the top of the screen. Jump on them to score more points. If you get hit by them, the game is over! Good luck!","Las cajas aparecerán desde la parte superior de la pantalla. Salta sobre ellas para conseguir más puntos. Si te golpean, ¡el juego se acaba! ¡Buena suerte!"
+"menu.tutorial.movement",Movement,Movimiento
+"menu.tutorial.jump",Jump,Salto
+"menu.tutorial.ok","Got it!","¡Entendido!"
+"game.score","Score: %s","Puntos: %s"
+"game.highscore","High score: %s","Récord: %s"
+"game.new_record","New record!","¡Nuevo récord!"
+"game.restart","Press ENTER to retry","Presiona ENTER para volver a jugar"

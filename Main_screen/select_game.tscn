@@ -26,8 +26,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 3.0
-offset_right = 3.0
+offset_left = -9.0
+offset_top = 2.0
+offset_right = -9.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_xc818")
@@ -71,7 +73,7 @@ anchor_right = 0.5
 offset_left = -392.0
 offset_top = 137.0
 offset_right = -240.0
-offset_bottom = 213.0
+offset_bottom = 202.0
 grow_horizontal = 2
 text = "RandomReach"
 
@@ -80,10 +82,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -193.0
+offset_left = -217.0
 offset_top = 138.0
-offset_right = -72.0
-offset_bottom = 214.0
+offset_right = -65.0
+offset_bottom = 203.0
 grow_horizontal = 2
 text = "FlyThrough"
 
@@ -92,26 +94,12 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -25.0
+offset_left = -38.0
 offset_top = 137.0
-offset_right = 96.0
-offset_bottom = 213.0
+offset_right = 114.0
+offset_bottom = 202.0
 grow_horizontal = 2
 text = "PingPong"
-
-[node name="game_spaceshooter" type="Button" parent="." groups=["GameButtons"]]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 141.0
-offset_top = 137.0
-offset_right = 262.0
-offset_bottom = 213.0
-grow_horizontal = 2
-text = "SpaceShooter
-"
 
 [node name="Assessment" type="Button" parent="." groups=["GameButtons"]]
 layout_mode = 1
@@ -207,11 +195,19 @@ text = "Left Hand"
 layout_mode = 2
 text = "Right Hand"
 
+[node name="game_jumpify" type="Button" parent="."]
+layout_mode = 0
+offset_left = 724.0
+offset_top = 136.0
+offset_right = 880.0
+offset_bottom = 199.0
+text = "Jumpify"
+
 [connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
 [connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
 [connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]
-[connection signal="pressed" from="game_spaceshooter" to="." method="_on_game_spaceshooter_pressed"]
 [connection signal="pressed" from="Assessment" to="." method="_on_assessment_pressed"]
 [connection signal="pressed" from="Results" to="." method="_on_results_pressed"]
 [connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
+[connection signal="pressed" from="game_jumpify" to="." method="_on_game_jumpify_pressed"]

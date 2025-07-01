@@ -1,0 +1,46 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cp8rplq3o7x85"]
+
+[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="1_1q40c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1q40c"]
+bg_color = Color(0.78484, 0.315089, 0, 1)
+border_width_left = 10
+border_color = Color(1, 0.878431, 0.827451, 1)
+shadow_color = Color(0, 0, 0, 0.294118)
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oa48i"]
+bg_color = Color(0.972549, 0.4, 0, 1)
+border_width_left = 10
+border_color = Color(1, 0.879811, 0.829027, 1)
+shadow_color = Color(0, 0, 0, 0.294118)
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhmkl"]
+bg_color = Color(0.597603, 0.234376, 0, 1)
+border_width_left = 10
+shadow_color = Color(0, 0, 0, 0.294118)
+shadow_size = 2
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3sgex"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 0.929412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c81ik"]
+border_width_left = 3
+border_color = Color(0.882353, 0.803922, 0.717647, 1)
+
+[resource]
+default_font = ExtResource("1_1q40c")
+default_font_size = 12
+BoxContainer/constants/separation = 12
+Button/colors/font_color = Color(1, 0.878431, 0.827451, 1)
+Button/font_sizes/font_size = 20
+Button/styles/hover = SubResource("StyleBoxFlat_1q40c")
+Button/styles/normal = SubResource("StyleBoxFlat_oa48i")
+Button/styles/pressed = SubResource("StyleBoxFlat_qhmkl")
+Label/colors/font_color = Color(0.882129, 0.804206, 0.716801, 1)
+Panel/styles/panel = SubResource("StyleBoxFlat_3sgex")
+VSeparator/styles/separator = SubResource("StyleBoxFlat_c81ik")

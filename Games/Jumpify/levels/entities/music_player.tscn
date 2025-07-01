@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://caybfentanwqq"]
+
+[ext_resource type="AudioStream" uid="uid://b724agqel1kcb" path="res://audio/music/music-theme.ogg" id="1_bj522"]
+
+[node name="MusicPlayer" type="AudioStreamPlayer"]
+stream = ExtResource("1_bj522")
+volume_db = -1.0
+autoplay = true
+parameters/looping = true
