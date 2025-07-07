@@ -607,6 +607,7 @@ offset_bottom = 615.0
 text = "Re-rotate"
 
 [node name="Button" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 34.9235
 offset_top = 581.751
@@ -616,9 +617,9 @@ text = "Exit"
 
 [node name="logout" type="Button" parent="."]
 layout_mode = 0
-offset_left = 112.753
+offset_left = 54.8797
 offset_top = 578.793
-offset_right = 204.753
+offset_right = 146.88
 offset_bottom = 610.793
 text = "⬅️ logout"
 
