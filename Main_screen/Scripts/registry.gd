@@ -32,6 +32,7 @@ func _on_back_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
+    GlobalScript.handle_quit_request()
     get_tree().quit()
 
 func save_json(content):

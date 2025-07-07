@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://c08vrtkbstupy"]
 
-[ext_resource type="Script" uid="uid://bdyepyfe8ejmp" path="res://scripts/enemy.gd" id="1_pqe15"]
-[ext_resource type="AudioStream" uid="uid://cl4mjlmpxh67l" path="res://audio/sfx/hurt-2.ogg" id="3_50pm5"]
-[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://art/models/box-small.glb" id="3_odhf8"]
+[ext_resource type="Script" uid="uid://bdyepyfe8ejmp" path="res://Games/Jumpify/scripts/enemy.gd" id="1_pqe15"]
+[ext_resource type="AudioStream" uid="uid://cl4mjlmpxh67l" path="res://Games/Jumpify/audio/sfx/hurt-2.ogg" id="3_50pm5"]
+[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://Games/Jumpify/art/models/box-small.glb" id="3_odhf8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pqe15"]
 size = Vector3(0.517269, 0.442566, 0.424416)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dcenckqywoa6x"]
 
-[ext_resource type="ArrayMesh" uid="uid://clhhkuqf8n7f2" path="res://art/models/coin_new.res" id="2_02ixy"]
-[ext_resource type="AudioStream" uid="uid://d0aig0gv17ubb" path="res://audio/sfx/subway-surfers-coin-collect.mp3" id="3_k4ror"]
+[ext_resource type="ArrayMesh" uid="uid://clhhkuqf8n7f2" path="res://Games/Jumpify/art/models/coin_new.res" id="2_02ixy"]
+[ext_resource type="AudioStream" uid="uid://d0aig0gv17ubb" path="res://Games/Jumpify/audio/sfx/subway-surfers-coin-collect.mp3" id="3_k4ror"]
 
 [sub_resource type="GDScript" id="GDScript_oepdr"]
 script/source = "extends Area3D

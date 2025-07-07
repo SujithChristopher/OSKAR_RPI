@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cxm3jwu56bcev"]
 
-[ext_resource type="Script" uid="uid://62g5a102kry7" path="res://scripts/smoke_particles.gd" id="1_0snfp"]
+[ext_resource type="Script" uid="uid://62g5a102kry7" path="res://Games/Jumpify/scripts/smoke_particles.gd" id="1_0snfp"]
 
 [sub_resource type="Gradient" id="Gradient_b3wg6"]
 offsets = PackedFloat32Array(0.640845, 0.922535)
@@ -45,6 +45,7 @@ radial_segments = 8
 rings = 2
 
 [node name="SmokeParticles" type="Node3D" node_paths=PackedStringArray("particles")]
+visibility_parent = NodePath("ParticleSystem")
 script = ExtResource("1_0snfp")
 particles = NodePath("ParticleSystem")
 

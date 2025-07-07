@@ -5,7 +5,7 @@ var zero_offset = Vector2.ZERO
 @onready var adapt_toggle:bool = false
 @onready var flash: AnimationPlayer = $AnimatedSprite2D/Flash
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-@export var debug_mode: bool = true
+@export var debug_mode: bool = false
 func _ready() -> void:
     get_parent().flash_animation.connect(anim_change)
     get_parent().plane_crashed.connect(plane_anim_change)

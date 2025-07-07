@@ -1,9 +1,9 @@
 [gd_scene load_steps=27 format=3 uid="uid://doxjbwhfys3ot"]
 
 [ext_resource type="PackedScene" uid="uid://diuf4ysd58lwj" path="res://Games/Jumpify/art/models/character-male-e.glb" id="1_mibvx"]
-[ext_resource type="Script" uid="uid://bghl6tcpon1yn" path="res://Games/Jumpify/scripts/player.gd" id="1_vfbym"]
-[ext_resource type="PackedScene" uid="uid://de00m6ji8pugo" path="res://Games/Jumpify/levels/entities/ko-stars.tscn" id="2_c6rqd"]
-[ext_resource type="PackedScene" uid="uid://cxm3jwu56bcev" path="res://Games/Jumpify/levels/entities/smoke_particles.tscn" id="3_38v7o"]
+[ext_resource type="Script" uid="uid://bghl6tcpon1yn" path="res://Games/Jumpify/scripts/jplayer.gd" id="1_vfbym"]
+[ext_resource type="PackedScene" uid="uid://de00m6ji8pugo" path="res://Games/Jumpify/levels/entities/ko-stars.tscn" id="2_xr7go"]
+[ext_resource type="PackedScene" uid="uid://cxm3jwu56bcev" path="res://Games/Jumpify/levels/entities/smoke_particles.tscn" id="3_g00be"]
 [ext_resource type="PackedScene" uid="uid://dupw6vr5pmmt4" path="res://Games/Jumpify/art/models/hat-hard.glb" id="3_ojwqx"]
 [ext_resource type="AudioStream" uid="uid://b2jdugmgf32f8" path="res://Games/Jumpify/audio/sfx/jump-1.ogg" id="4_faqc7"]
 [ext_resource type="AudioStream" uid="uid://b6ipjxhd00lq6" path="res://Games/Jumpify/audio/sfx/hurt-1.ogg" id="5_faqc7"]
@@ -89,31 +89,29 @@ radius = 0.205566
 height = 0.49476
 radius = 0.222656
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "rigidbody", "jump_sound", "death_sound", "ko_pivot")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "jump_sound", "death_sound", "ko_pivot")]
 collision_mask = 6
 script = ExtResource("1_vfbym")
-bounce_factor = 0.9
 animation_player = NodePath("Pivot/Character/AnimationPlayer")
-rigidbody = NodePath(".")
 jump_sound = NodePath("Audio/Jump")
 death_sound = NodePath("Audio/Hurt")
 ko_pivot = NodePath("Pivot/Character/HeadAttachment/KO Stars pivot")
-ko_effect = ExtResource("2_c6rqd")
-smoke_particles = ExtResource("3_38v7o")
+ko_effect = ExtResource("2_xr7go")
+smoke_particles = ExtResource("3_g00be")
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_mibvx")]
 
 [node name="Skeleton3D" parent="Pivot/Character/character-male-e" index="0"]
-bones/1/rotation = Quaternion(-0.440716, 0.409034, 0.236156, 0.763342)
-bones/2/rotation = Quaternion(-0.337309, -0.436359, -0.180746, 0.814337)
-bones/4/rotation = Quaternion(-0.0667479, 0.250011, 0.24917, 0.933249)
-bones/5/rotation = Quaternion(-0.0667479, -0.250011, -0.24917, 0.933249)
-bones/6/rotation = Quaternion(0.00411672, 0, 0, 0.999992)
+bones/1/rotation = Quaternion(-0.441088, 0.407827, 0.235459, 0.763987)
+bones/2/rotation = Quaternion(-0.337595, -0.435072, -0.180213, 0.815025)
+bones/4/rotation = Quaternion(-0.0669133, 0.250002, 0.249752, 0.933084)
+bones/5/rotation = Quaternion(-0.0669133, -0.250002, -0.249752, 0.933084)
+bones/6/rotation = Quaternion(0.0044125, 0, 0, 0.99999)
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Pivot/Character"]
-transform = Transform3D(1, 0, 0, 0, 0.999966, -0.00823338, 0, 0.00823338, 0.999966, 1.81969e-09, 0.34325, -0.00236122)
+transform = Transform3D(1, 0, 0, 0, 0.999961, -0.00882491, 0, 0.00882491, 0.999961, 1.81969e-09, 0.34325, -0.00236122)
 bone_name = "head"
 bone_idx = 6
 use_external_skeleton = true

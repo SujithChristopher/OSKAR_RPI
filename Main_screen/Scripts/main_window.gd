@@ -12,6 +12,7 @@ var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 
 
 func _on_exit_button_pressed():
+    GlobalScript.handle_quit_request()
     GlobalSignals.SignalBus.emit()
     get_tree().quit()
     

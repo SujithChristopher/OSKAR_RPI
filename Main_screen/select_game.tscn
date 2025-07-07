@@ -197,10 +197,10 @@ text = "Right Hand"
 
 [node name="game_jumpify" type="Button" parent="."]
 layout_mode = 0
-offset_left = 724.0
-offset_top = 136.0
-offset_right = 880.0
-offset_bottom = 199.0
+offset_left = 754.0
+offset_top = 137.0
+offset_right = 906.0
+offset_bottom = 202.0
 text = "Jumpify"
 
 [connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]

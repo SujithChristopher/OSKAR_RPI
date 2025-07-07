@@ -76,6 +76,7 @@ func _on_logout_pressed() -> void:
     get_tree().change_scene_to_packed(main_menu_scene)
     
 func _on_exit_button_pressed() -> void:
+    GlobalScript.handle_quit_request()
     GlobalSignals.selected_training_hand == ""
     GlobalSignals.affected_hand = ""
     get_tree().quit()

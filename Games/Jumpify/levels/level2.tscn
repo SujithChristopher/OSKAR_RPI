@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dr88v4qxnfc0h" path="res://Games/Jumpify/scripts/main_level_2.gd" id="1_blmwd"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="1_wltgx"]
+[ext_resource type="PackedScene" uid="uid://dcenckqywoa6x" path="res://Games/Jumpify/levels/entities/box_coin.tscn" id="2_be7sx"]
 [ext_resource type="PackedScene" uid="uid://doxjbwhfys3ot" path="res://Games/Jumpify/levels/entities/player.tscn" id="2_h88os"]
 [ext_resource type="PackedScene" uid="uid://c2ylr46gjf4kj" path="res://Games/Jumpify/levels/entities/enemy2.tscn" id="3_5lul5"]
 [ext_resource type="PackedScene" uid="uid://c8s4ao5i71dfq" path="res://Games/Jumpify/art/models/floor-large.glb" id="3_yltwl"]
@@ -16,7 +17,6 @@
 [ext_resource type="Script" uid="uid://mo0xbedty1be" path="res://Games/Jumpify/scripts/score_label.gd" id="12_sdwwi"]
 [ext_resource type="Script" uid="uid://b5de622hhnufx" path="res://Games/Jumpify/scripts/high_score_label.gd" id="13_1vvh4"]
 [ext_resource type="Script" uid="uid://brhqxj7gggoux" path="res://Games/Jumpify/scripts/new_record_label.gd" id="14_o3m72"]
-[ext_resource type="PackedScene" uid="uid://dfwga62dvbqw7" path="res://Games/Jumpify/levels/entities/coin.tscn" id="15_jx510"]
 [ext_resource type="Script" uid="uid://cytoghuj3ttu8" path="res://Games/Jumpify/scripts/coin_spawner.gd" id="17_gjgg2"]
 
 [sub_resource type="Environment" id="Environment_m1504"]
@@ -77,7 +77,7 @@ _data = {
 
 [node name="Main" type="Node3D" node_paths=PackedStringArray("player", "coinTimer", "scoreLabel", "retryRectangle")]
 script = ExtResource("1_blmwd")
-coin_scene = ExtResource("15_jx510")
+coin_scene = ExtResource("2_be7sx")
 enemy_scene = ExtResource("3_5lul5")
 player = NodePath("Entities/Player")
 coinTimer = NodePath("CoinSpawner/CoinTimer")
@@ -129,7 +129,8 @@ far = 137.24
 
 [node name="Player" parent="Entities" instance=ExtResource("2_h88os")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 1)
-jump_impulse = 15
+ko_effect = null
+smoke_particles = null
 
 [node name="Level" type="Node3D" parent="."]
 

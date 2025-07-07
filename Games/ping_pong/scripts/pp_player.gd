@@ -25,7 +25,7 @@ var ball_x : float
 var ball_y : float
 var ball_z : float
 var score: int
-@export var debug_mode: bool = true
+@export var debug_mode: bool = false
 @export var speed = 200
 @onready var adapt_toggle:bool = false
 @onready var game_log_file

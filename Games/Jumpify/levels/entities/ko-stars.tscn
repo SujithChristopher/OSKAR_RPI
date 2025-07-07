@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://de00m6ji8pugo"]
 
-[ext_resource type="Shader" uid="uid://qyud3f5yxxui" path="res://scripts/shaders/billboard.gdshader" id="1_pkcqn"]
-[ext_resource type="Texture2D" uid="uid://b7qmr7kvy6b8c" path="res://art/ui/textures/star.png" id="2_msevs"]
+[ext_resource type="Shader" uid="uid://qyud3f5yxxui" path="res://Games/Jumpify/scripts/shaders/billboard.gdshader" id="1_pkcqn"]
+[ext_resource type="Texture2D" uid="uid://b7qmr7kvy6b8c" path="res://Games/Jumpify/art/ui/textures/star.png" id="2_msevs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4fc0e"]
 render_priority = 0
@@ -100,7 +100,7 @@ transitions = ["Start", "start", SubResource("AnimationNodeStateMachineTransitio
 graph_offset = Vector2(-19, -73)
 
 [node name="KO Stars" type="Node3D"]
-transform = Transform3D(0.409548, 0, -0.286828, 0, 0.5, 0, 0.286828, 0, 0.409548, 0, 0, 0)
+transform = Transform3D(-0.254459, 0, -0.430407, 0, 0.5, 0, 0.430407, 0, -0.254459, 0, 0, 0)
 
 [node name="Star 1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.4, 0, 0)

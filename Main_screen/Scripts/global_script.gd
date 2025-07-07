@@ -93,9 +93,9 @@ func _ready():
         pypath_checker_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\file_integrity.py"
         interpreter_path = "E:\\CMC\\py_env\\venv\\Scripts\\python.exe"
     else:
-        pyscript_path = "/home/sujith/Documents/programs/stream_optimize.py"
-        pypath_checker_path = "/home/sujith/Documents/programs/file_integrity.py"
-        interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
+        pyscript_path = "/home/sujith/Documents/rpi_python/stream_optimize.py"
+        pypath_checker_path = "/home/sujith/Documents/rpi_python/file_integrity.py"
+        interpreter_path = "/home/sujith/Documents/rpi_python/.venv/bin/python"
     
 func _process(_delta: float) -> void:
     if not thread_python.is_alive() and not endgame and not debug:
@@ -127,6 +127,7 @@ func network_thread():
             break
 func handle_quit_request():
     _outgoing_message = "STOP"
+    print("Camera closed properly")
     udp.put_packet(_outgoing_message.to_utf8_buffer())
 
 func handle_udp_packet():
