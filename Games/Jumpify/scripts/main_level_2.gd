@@ -18,7 +18,7 @@ const MAX_Z = 3.407
 
 # Game settings
 const SPAWN_INTERVAL = 8.0  # Slightly faster than level 1
-const COINS_TO_NEXT_LEVEL = 15  # More coins required
+const COINS_TO_NEXT_LEVEL = 1  # More coins required
 const NUM_ENEMIES = 6
 
 # Game state variables
@@ -29,6 +29,9 @@ var enemies: Array[CharacterBody3D] = []  # Store all spawned enemies
 var occupied_positions: Array[Vector3] = []  # Track occupied positions
 
 func _ready() -> void:
+    # Seed the random number generator with current time
+    randomize()
+    
     setup_level2()
     retryRectangle.hide()
     
@@ -69,9 +72,13 @@ func spawn_static_enemies():
         # Generate position that doesn't overlap with other enemies
         var enemy_position = generate_non_overlapping_position(1.2)  # 1.2 meter minimum distance
         
-        # Initialize the enemy as static (no movement)
-        enemy.global_position = enemy_position
-        enemy.velocity = Vector3.ZERO  # Make it static
+        # Use the enemy's initialize method if available
+        if enemy.has_method("initialize_as_static_hazard"):
+            enemy.initialize_as_static_hazard(enemy_position)
+        else:
+            # Fallback positioning
+            enemy.global_position = enemy_position
+            enemy.velocity = Vector3.ZERO  # Make it static
         
         # Disable the screen exit detection since they're static
         var screen_notifier = enemy.find_child("VisibleOnScreenNotifier3D")
@@ -122,9 +129,9 @@ func generate_non_overlapping_position(min_distance: float) -> Vector3:
     var attempts = 0
     
     while attempts < max_attempts:
+        randomize()
         var x = randf_range(MIN_X, MAX_X)
         var z = randf_range(MIN_Z, MAX_Z)
-        #var test_position = Vector3(x, FLOOR_Y, z)
         var test_position = Vector3(x, FLOOR_Y - 0.5, z)
         
         # Check if this position is far enough from existing enemies
@@ -142,14 +149,16 @@ func generate_non_overlapping_position(min_distance: float) -> Vector3:
     
     # Fallback: return a position even if not ideal
     print("Warning: Could not find ideal enemy position after ", max_attempts, " attempts")
-    return Vector3(randf_range(MIN_X, MAX_X), FLOOR_Y, randf_range(MIN_Z, MAX_Z))
+    return Vector3(randf_range(MIN_X, MAX_X), FLOOR_Y - 0.5, randf_range(MIN_Z, MAX_Z))
 
 func spawn_coin():
     if not game_active:
         return
+    
+    debug_coin_spawning()  # Debug info
         
     # Remove existing coin if present
-    if current_coin != null:
+    if current_coin != null and is_instance_valid(current_coin):
         current_coin.queue_free()
         current_coin = null
     
@@ -174,6 +183,8 @@ func generate_coin_position_avoiding_enemies() -> Vector3:
     var min_distance_from_enemy = 1.8  # Minimum distance from any enemy
     
     while attempts < max_attempts:
+        # Use Time.get_ticks_msec() for better randomization
+        randomize()
         var x = randf_range(MIN_X, MAX_X)
         var z = randf_range(MIN_Z, MAX_Z)
         var test_position = Vector3(x, FLOOR_Y + 0.5, z)  # Coin floats above floor
@@ -195,9 +206,21 @@ func generate_coin_position_avoiding_enemies() -> Vector3:
         
         attempts += 1
     
-    # Fallback position if no safe spot found
-    print("Warning: Using fallback coin position")
-    return Vector3(0, FLOOR_Y + 0.5, 0)  # Center position as fallback
+    # Better fallback positions - cycle through different safe spots
+    var fallback_positions = [
+        Vector3(0, FLOOR_Y + 0.5, 0),           # Center
+        Vector3(MIN_X + 0.5, FLOOR_Y + 0.5, MIN_Z + 0.5),  # Corner 1
+        Vector3(MAX_X - 0.5, FLOOR_Y + 0.5, MIN_Z + 0.5),  # Corner 2
+        Vector3(MIN_X + 0.5, FLOOR_Y + 0.5, MAX_Z - 0.5),  # Corner 3
+        Vector3(MAX_X - 0.5, FLOOR_Y + 0.5, MAX_Z - 0.5),  # Corner 4
+        Vector3(0, FLOOR_Y + 0.5, MAX_Z - 0.5),            # Back center
+        Vector3(0, FLOOR_Y + 0.5, MIN_Z + 0.5),            # Front center
+    ]
+    
+    # Use coins_collected to cycle through fallback positions
+    var fallback_index = coins_collected % fallback_positions.size()
+    print("Warning: Using fallback coin position #", fallback_index)
+    return fallback_positions[fallback_index]
 
 func _on_coin_timer_timeout() -> void:
     if not game_active:
@@ -298,6 +321,17 @@ func is_game_active() -> bool:
 
 func get_active_enemies() -> Array[CharacterBody3D]:
     return enemies.duplicate()
+
+# Debug function to help troubleshoot
+func debug_coin_spawning():
+    print("=== COIN SPAWN DEBUG ===")
+    print("Coins collected: ", coins_collected)
+    print("Occupied positions: ", occupied_positions.size())
+    for i in range(occupied_positions.size()):
+        print("Enemy ", i, " at: ", occupied_positions[i])
+    if current_coin:
+        print("Current coin at: ", current_coin.global_position)
+    print("========================")
 
 # Debug function to visualize enemy positions
 func debug_print_positions():

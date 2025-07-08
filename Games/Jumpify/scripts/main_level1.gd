@@ -17,7 +17,7 @@ const MAX_Z = 3.407
 
 # Game settings
 const SPAWN_INTERVAL = 10.0  # seconds
-const COINS_TO_NEXT_LEVEL = 10
+const COINS_TO_NEXT_LEVEL = 1
 
 # Game state variables
 var current_coin: Node3D = null
@@ -128,7 +128,7 @@ func complete_level():
     else:
         # Fallback: load level 2 scene directly
         # Replace "res://level2.tscn" with your actual level 2 scene path
-        get_tree().change_scene_to_file("res://level2.tscn")
+        get_tree().change_scene_to_file("res://Games/Jumpify/levels/level2.tscn")
 
 func update_score_display():
     if scoreLabel:

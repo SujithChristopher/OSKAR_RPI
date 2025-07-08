@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://c2ylr46gjf4kj"]
 
-[ext_resource type="Script" uid="uid://rd50acdq7kkm" path="res://scripts/enemy_2.gd" id="1_inql6"]
-[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://art/models/box-small.glb" id="2_vhwfe"]
-[ext_resource type="AudioStream" uid="uid://cl4mjlmpxh67l" path="res://audio/sfx/hurt-2.ogg" id="3_lbwtg"]
+[ext_resource type="Script" uid="uid://rd50acdq7kkm" path="res://Games/Jumpify/scripts/enemy_2.gd" id="1_inql6"]
+[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://Games/Jumpify/art/models/box-small.glb" id="2_vhwfe"]
+[ext_resource type="AudioStream" uid="uid://cl4mjlmpxh67l" path="res://Games/Jumpify/audio/sfx/hurt-2.ogg" id="3_lbwtg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pqe15"]
 size = Vector3(0.517269, 0.442566, 0.424416)
@@ -64,7 +64,7 @@ aabb = AABB(-0.29262, 0.00587893, -0.279743, 0.585238, 0.546836, 0.570228)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_50pm5")
+&"": SubResource("AnimationLibrary_50pm5")
 }
 
 [node name="Audio" type="Node" parent="."]

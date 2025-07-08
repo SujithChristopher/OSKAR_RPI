@@ -75,13 +75,14 @@ _data = {
 &"pulse": SubResource("Animation_p0d6h")
 }
 
-[node name="Main" type="Node3D" node_paths=PackedStringArray("player", "coinTimer", "scoreLabel", "retryRectangle")]
+[node name="Main" type="Node3D" node_paths=PackedStringArray("player", "coinTimer", "scoreLabel", "level3_transition", "retryRectangle")]
 script = ExtResource("1_blmwd")
 coin_scene = ExtResource("2_be7sx")
 enemy_scene = ExtResource("3_5lul5")
 player = NodePath("Entities/Player")
 coinTimer = NodePath("CoinSpawner/CoinTimer")
 scoreLabel = NodePath("UI/ScoreLabel")
+level3_transition = NodePath("")
 retryRectangle = NodePath("UI/Retry")
 
 [node name="Environment" type="Node3D" parent="."]
