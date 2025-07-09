@@ -7,7 +7,7 @@ extends Node3D
 @export var enemyTimer: Timer
 @export var scoreLabel: Label
 @export var retryRectangle: ColorRect
-@export var reload_game_transition: SceneTransition
+
 
 # Spawn settings
 @export_group("Spawn Settings")

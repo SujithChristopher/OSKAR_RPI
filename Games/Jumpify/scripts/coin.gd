@@ -2,8 +2,8 @@ extends Area3D
 
 # Simple coin script that works with the main level system
 @export var rotation_speed = 2.0
-#@export var bob_height = 0.2
-#@export var bob_speed = 3.0
+@export var bob_height = 0.2
+@export var bob_speed = 3.0
 
 # Movement properties (similar to enemy)
 @export_group("Movement")
@@ -39,8 +39,8 @@ func _process(delta):
     
     # Add bobbing motion
     time_passed += delta
-    #var bob_offset = sin(time_passed * bob_speed) * bob_height
-    #global_position.y = initial_y_position + bob_offset
+    var bob_offset = sin(time_passed * bob_speed) * bob_height
+    global_position.y = initial_y_position + bob_offset
 
 func initialize(start_position: Vector3) -> void:
     # Similar to enemy initialization but simpler

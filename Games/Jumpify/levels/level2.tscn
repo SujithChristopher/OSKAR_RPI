@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://daoxmv24h418s"]
+[gd_scene load_steps=32 format=3 uid="uid://daoxmv24h418s"]
 
 [ext_resource type="Script" uid="uid://dr88v4qxnfc0h" path="res://Games/Jumpify/scripts/main_level_2.gd" id="1_blmwd"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="1_wltgx"]
@@ -18,6 +18,9 @@
 [ext_resource type="Script" uid="uid://b5de622hhnufx" path="res://Games/Jumpify/scripts/high_score_label.gd" id="13_1vvh4"]
 [ext_resource type="Script" uid="uid://brhqxj7gggoux" path="res://Games/Jumpify/scripts/new_record_label.gd" id="14_o3m72"]
 [ext_resource type="Script" uid="uid://cytoghuj3ttu8" path="res://Games/Jumpify/scripts/coin_spawner.gd" id="17_gjgg2"]
+[ext_resource type="Script" uid="uid://d2xjm2g8360l6" path="res://Games/Jumpify/scripts/scene_transition2.gd" id="19_3dfmp"]
+[ext_resource type="PackedScene" uid="uid://x87sa7slpi1" path="res://Games/Jumpify/levels/level3.tscn" id="20_lwwou"]
+[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="21_xsjlw"]
 
 [sub_resource type="Environment" id="Environment_m1504"]
 background_mode = 1
@@ -75,6 +78,15 @@ _data = {
 &"pulse": SubResource("Animation_p0d6h")
 }
 
+[sub_resource type="Animation" id="Animation_6ym0d"]
+resource_name = "closing"
+length = 2.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i2gkc"]
+_data = {
+&"closing": SubResource("Animation_6ym0d")
+}
+
 [node name="Main" type="Node3D" node_paths=PackedStringArray("player", "coinTimer", "scoreLabel", "level3_transition", "retryRectangle")]
 script = ExtResource("1_blmwd")
 coin_scene = ExtResource("2_be7sx")
@@ -82,7 +94,7 @@ enemy_scene = ExtResource("3_5lul5")
 player = NodePath("Entities/Player")
 coinTimer = NodePath("CoinSpawner/CoinTimer")
 scoreLabel = NodePath("UI/ScoreLabel")
-level3_transition = NodePath("")
+level3_transition = NodePath("SceneTransition")
 retryRectangle = NodePath("UI/Retry")
 
 [node name="Environment" type="Node3D" parent="."]
@@ -406,3 +418,37 @@ script = ExtResource("17_gjgg2")
 
 [node name="CoinTimer" type="Timer" parent="CoinSpawner"]
 wait_time = 10.0
+
+[node name="SceneTransition" type="Node3D" parent="." node_paths=PackedStringArray("subviewport", "level_label", "animator")]
+script = ExtResource("19_3dfmp")
+next_scene = ExtResource("20_lwwou")
+subviewport = NodePath("SubViewport")
+level_label = NodePath("CanvasLayer/ColorRect/LevelLabel")
+animator = NodePath("AnimationPlayer")
+
+[node name="SubViewport" type="SubViewport" parent="SceneTransition"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SceneTransition"]
+libraries = {
+&"": SubResource("AnimationLibrary_i2gkc")
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SceneTransition"]
+
+[node name="ColorRect" type="ColorRect" parent="SceneTransition/CanvasLayer"]
+visible = false
+offset_right = 1692.0
+offset_bottom = 995.0
+color = Color(0, 0, 0, 0.537255)
+
+[node name="LevelLabel" type="Label" parent="SceneTransition/CanvasLayer/ColorRect"]
+visible = false
+layout_mode = 0
+offset_left = 412.0
+offset_top = 272.0
+offset_right = 806.0
+offset_bottom = 378.0
+theme_override_colors/font_color = Color(0.972549, 0.4, 0, 1)
+theme_override_fonts/font = ExtResource("21_xsjlw")
+theme_override_font_sizes/font_size = 80
+text = "LEVEL 3 !"

@@ -8,7 +8,7 @@ extends Node3D
 @export var scoreLabel: Label
 @export var retryRectangle: ColorRect
 
-@export var reload_game_transition: SceneTransition
+@export var reload_game_transition: Node3D
 
 var timer = Timer.new()
 

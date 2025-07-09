@@ -6,7 +6,7 @@ extends Node3D
 @export var player: Player
 @export var coinTimer: Timer
 @export var scoreLabel: Label
-@export var level3_transition: SceneTransition  # Transition to next level (if exists)
+@export var level3_transition: SceneTransition2 # Transition to next level (if exists)
 @export var retryRectangle: ColorRect
 
 # Spawn boundaries (same as level 1)
@@ -18,8 +18,8 @@ const MAX_Z = 3.407
 
 # Game settings
 const SPAWN_INTERVAL = 8.0  # Slightly faster than level 1
-const COINS_TO_NEXT_LEVEL = 1  # More coins required
-const NUM_ENEMIES = 6
+const COINS_TO_NEXT_LEVEL = 2  # More coins required
+const NUM_ENEMIES = 8
 
 # Game state variables
 var current_coin: Node3D = null
@@ -289,7 +289,7 @@ func complete_level():
     else:
         # Fallback: You can load level 3 or go back to main menu
         print("Level 2 completed! Add your next level transition here.")
-        # get_tree().change_scene_to_file("res://main_menu.tscn")  # or level 3
+        get_tree().change_scene_to_file("res://Games/Jumpify/levels/level3.tscn")  # or level 3
 
 func update_score_display():
     if scoreLabel:
@@ -331,7 +331,7 @@ func debug_coin_spawning():
         print("Enemy ", i, " at: ", occupied_positions[i])
     if current_coin:
         print("Current coin at: ", current_coin.global_position)
-    print("========================")
+    print("====")
 
 # Debug function to visualize enemy positions
 func debug_print_positions():
@@ -341,4 +341,4 @@ func debug_print_positions():
         if enemies[i] != null:
             print("Enemy ", i, " at: ", enemies[i].global_position)
     print("Occupied positions: ", occupied_positions.size())
-    print("=========================")
+    print("=====")

@@ -335,6 +335,8 @@ albedo_color = Color(0, 0, 0, 1)
 [node name="SceneTransition" type="Node3D" node_paths=PackedStringArray("animator")]
 script = SubResource("GDScript_sl3ws")
 animator = NodePath("SubViewportContainer/SubViewport/CardboardBox/AnimationPlayer")
+animation = null
+playback_speed = null
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 z_index = 100

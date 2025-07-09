@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b6tjvvjwk51j0"]
 
-[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://art/models/box-small.glb" id="1_ldod4"]
+[ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://Games/Jumpify/art/models/box-small.glb" id="1_ldod4"]
 
 [node name="EnemyPreview" type="Node3D"]
 

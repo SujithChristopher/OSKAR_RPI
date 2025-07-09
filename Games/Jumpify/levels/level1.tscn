@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://7e3crly8y1uw"]
+[gd_scene load_steps=31 format=3 uid="uid://7e3crly8y1uw"]
 
 [ext_resource type="Script" uid="uid://ij1iucowaxmn" path="res://Games/Jumpify/scripts/main_level1.gd" id="1_6qr60"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="3_m0uu3"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://dfwga62dvbqw7" path="res://Games/Jumpify/levels/entities/coin.tscn" id="17_xqip7"]
 [ext_resource type="Script" uid="uid://cq7arxgat2yw3" path="res://Games/Jumpify/scripts/scene_transition.gd" id="18_3wofb"]
 [ext_resource type="PackedScene" uid="uid://daoxmv24h418s" path="res://Games/Jumpify/levels/level2.tscn" id="19_x546g"]
+[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="20_brjkg"]
 
 [sub_resource type="Environment" id="Environment_m1504"]
 background_mode = 1
@@ -78,6 +79,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_x546g"]
 resource_name = "closing"
+length = 2.0
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_brjkg"]
 _data = {
@@ -417,10 +419,11 @@ script = ExtResource("16_emeai")
 [node name="CoinTimer" type="Timer" parent="CoinSpawner"]
 wait_time = 10.0
 
-[node name="SceneTransition" type="Node3D" parent="." node_paths=PackedStringArray("subviewport", "animator")]
+[node name="SceneTransition" type="Node3D" parent="." node_paths=PackedStringArray("subviewport", "level_label", "animator")]
 script = ExtResource("18_3wofb")
 next_scene = ExtResource("19_x546g")
 subviewport = NodePath("SubViewport")
+level_label = NodePath("CanvasLayer/ColorRect/LevelLabel")
 animator = NodePath("AnimationPlayer")
 
 [node name="SubViewport" type="SubViewport" parent="SceneTransition"]
@@ -429,3 +432,23 @@ animator = NodePath("AnimationPlayer")
 libraries = {
 &"": SubResource("AnimationLibrary_brjkg")
 }
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SceneTransition"]
+
+[node name="ColorRect" type="ColorRect" parent="SceneTransition/CanvasLayer"]
+visible = false
+offset_right = 2048.0
+offset_bottom = 1106.0
+color = Color(0, 0, 0, 0.729412)
+
+[node name="LevelLabel" type="Label" parent="SceneTransition/CanvasLayer/ColorRect"]
+visible = false
+layout_mode = 0
+offset_left = 400.0
+offset_top = 248.0
+offset_right = 783.0
+offset_bottom = 354.0
+theme_override_colors/font_color = Color(0.972549, 0.4, 0, 1)
+theme_override_fonts/font = ExtResource("20_brjkg")
+theme_override_font_sizes/font_size = 80
+text = "LEVEL 2!"

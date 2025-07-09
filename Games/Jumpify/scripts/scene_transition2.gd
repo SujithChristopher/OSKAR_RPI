@@ -1,5 +1,5 @@
 extends Node3D
-class_name SceneTransition1
+class_name SceneTransition2
 
 @export_group("References")
 @export var next_scene: PackedScene
@@ -31,13 +31,10 @@ func transition() -> void:
     transitioning = true
     
     if level_label:
-        level_label.text = "LEVEL 2!"  # Or any level text
+        level_label.text = "LEVEL 3!"  # Or any level text
         level_label.visible = true
         color_rect.visible = true
-        
 
-        
-        
     if animator.has_animation(animation):
         print("Playing animation: ", animation)
         animator.play(animation)
@@ -46,8 +43,6 @@ func transition() -> void:
         if level_label:
           level_label.visible = false
           color_rect.visible = false
-          
-
     else:
         print("❌ ERROR: Animation not found: ", animation)
         return
@@ -63,6 +58,10 @@ func transition() -> void:
     print("Scene changed, now playing animation backwards...")
     animator.play_backwards(animation)
     await animator.animation_finished
+    
+    if level_label:
+        level_label.visible = false
+        
     print("Finished transition.")
     queue_free()
 

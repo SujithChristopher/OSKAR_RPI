@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbxplnwxbictr"]
+[gd_scene load_steps=8 format=3 uid="uid://cr2miucwgnuk1"]
 
 [ext_resource type="PackedScene" uid="uid://u314npnfkxtw" path="res://Games/Jumpify/art/models/box-small.glb" id="2_0mhg1"]
 [ext_resource type="AudioStream" uid="uid://cl4mjlmpxh67l" path="res://Games/Jumpify/audio/sfx/hurt-2.ogg" id="3_ypncc"]

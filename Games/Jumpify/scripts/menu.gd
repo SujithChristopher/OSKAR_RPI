@@ -3,8 +3,7 @@ extends Node3D
 @export var play_button: Button
 @export var game_scene: PackedScene
 @export var tutorial_panel: Control
-
-@export var scene_transition: SceneTransition
+@export var scene_transition: Node3D
 
 func _ready() -> void:
   tutorial_panel.visible = false

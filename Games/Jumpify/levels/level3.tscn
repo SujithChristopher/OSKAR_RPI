@@ -391,7 +391,7 @@ offset_bottom = 8.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 31
-text = "game.restart"
+text = "PRESS ENTER TO RESTART"
 
 [node name="NewRecordLabel" type="Label" parent="UI/Retry"]
 layout_mode = 1

@@ -5,7 +5,7 @@ extends Node3D
 @export var player: Player
 @export var coinTimer: Timer
 @export var scoreLabel: Label
-@export var level2_transition: SceneTransition  # Transition to level 2
+@export var level2_transition: SceneTransition1 # Transition to level 2
 @export var retryRectangle: ColorRect
 
 # Coin spawning boundaries
