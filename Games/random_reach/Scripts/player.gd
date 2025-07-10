@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var max_score = 500
-@export var debug_mode: bool = false
+@export var debug_mode: bool = true
 @onready var apple_sound = $"../apple_sound"
 @onready var score_board = $"../ScoreBoard/Score"
 @onready var anim = $Sprite2D
@@ -30,7 +30,8 @@ extends CharacterBody2D
 @onready var game_log_file
 @onready var log_timer := Timer.new()
 @onready var pause_button = $"../TileMap/CanvasLayer/PauseButton"
-
+const MIN_BOUNDS = Vector2(44, 40)
+const MAX_BOUNDS = Vector2(1105, 600)
 
 
 var json = JSON.new()
@@ -123,6 +124,8 @@ func _physics_process(delta):
         network_position = network_position - zero_offset
         #network_position.clamp(Vector2.ZERO, Vector2(DisplayServer.window_get_size()) - Vector2(50, 50))
         position = position.lerp(network_position, 0.8)
+        position.x = clamp(position.x, MIN_BOUNDS.x, MAX_BOUNDS.x)
+        position.y = clamp(position.y, MIN_BOUNDS.y, MAX_BOUNDS.y)
         pos_x = GlobalScript.raw_x
         pos_y = GlobalScript.raw_y
         pos_z = GlobalScript.raw_z

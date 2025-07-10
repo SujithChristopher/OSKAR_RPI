@@ -17,7 +17,7 @@ const MAX_Z = 3.407
 
 # Game settings
 const SPAWN_INTERVAL = 10.0  # seconds
-const COINS_TO_NEXT_LEVEL = 1
+const COINS_TO_NEXT_LEVEL = 5
 
 # Game state variables
 var current_coin: Node3D = null

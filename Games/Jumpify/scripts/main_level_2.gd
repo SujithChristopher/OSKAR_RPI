@@ -18,8 +18,8 @@ const MAX_Z = 3.407
 
 # Game settings
 const SPAWN_INTERVAL = 8.0  # Slightly faster than level 1
-const COINS_TO_NEXT_LEVEL = 2  # More coins required
-const NUM_ENEMIES = 8
+const COINS_TO_NEXT_LEVEL = 10 # More coins required
+const NUM_ENEMIES = 4
 
 # Game state variables
 var current_coin: Node3D = null
