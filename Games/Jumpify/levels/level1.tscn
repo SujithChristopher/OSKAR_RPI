@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://7e3crly8y1uw"]
+[gd_scene load_steps=34 format=3 uid="uid://7e3crly8y1uw"]
 
 [ext_resource type="Script" uid="uid://ij1iucowaxmn" path="res://Games/Jumpify/scripts/main_level1.gd" id="1_6qr60"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="3_m0uu3"]
@@ -16,8 +16,10 @@
 [ext_resource type="Script" uid="uid://b5de622hhnufx" path="res://Games/Jumpify/scripts/high_score_label.gd" id="15_cxbin"]
 [ext_resource type="Script" uid="uid://brhqxj7gggoux" path="res://Games/Jumpify/scripts/new_record_label.gd" id="16_a7jxe"]
 [ext_resource type="Script" uid="uid://cytoghuj3ttu8" path="res://Games/Jumpify/scripts/coin_spawner.gd" id="16_emeai"]
+[ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="17_lkeu8"]
 [ext_resource type="PackedScene" uid="uid://dfwga62dvbqw7" path="res://Games/Jumpify/levels/entities/coin.tscn" id="17_xqip7"]
 [ext_resource type="Script" uid="uid://cq7arxgat2yw3" path="res://Games/Jumpify/scripts/scene_transition.gd" id="18_3wofb"]
+[ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="18_f58y4"]
 [ext_resource type="PackedScene" uid="uid://daoxmv24h418s" path="res://Games/Jumpify/levels/level2.tscn" id="19_x546g"]
 [ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="20_brjkg"]
 
@@ -76,6 +78,9 @@ _data = {
 &"RESET": SubResource("Animation_jkag2"),
 &"pulse": SubResource("Animation_p0d6h")
 }
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_68u2d"]
+texture = ExtResource("17_lkeu8")
 
 [sub_resource type="Animation" id="Animation_x546g"]
 resource_name = "closing"
@@ -413,6 +418,109 @@ libraries = {
 }
 autoplay = "pulse"
 
+[node name="Logout" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 596.0
+offset_right = 231.0
+offset_bottom = 636.0
+text = "Logout"
+
+[node name="TimerSelectorPanel" type="Panel" parent="UI"]
+offset_left = 386.0
+offset_top = 180.0
+offset_right = 745.0
+offset_bottom = 464.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_68u2d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 39.0
+offset_right = 321.0
+offset_bottom = 248.0
+theme_override_constants/separation = 120
+
+[node name="Label" type="Label" parent="UI/TimerSelectorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.701961, 0.12549, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 25
+text = "SET TIME TO PLAY !"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TimerSelectorPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="UI/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_colors/font_disabled_color = Color(0.901961, 0.701961, 0.12549, 1)
+theme_override_fonts/font = ExtResource("20_brjkg")
+theme_override_font_sizes/font_size = 20
+text = "   Play Game    "
+
+[node name="CloseButton" type="Button" parent="UI/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_fonts/font = ExtResource("20_brjkg")
+theme_override_font_sizes/font_size = 20
+text = "  Close  "
+
+[node name="TimeSelector" type="Label" parent="UI/TimerSelectorPanel"]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 113.0
+offset_right = 215.0
+offset_bottom = 142.0
+theme = ExtResource("18_f58y4")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/TimerSelectorPanel"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 47.0
+offset_top = 112.0
+offset_right = 149.0
+offset_bottom = 152.0
+theme_override_constants/separation = 10
+
+[node name="SubOneButton" type="Button" parent="UI/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_fonts/font = ExtResource("20_brjkg")
+text = "   -1  "
+
+[node name="SubFiveButton" type="Button" parent="UI/TimerSelectorPanel/HBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("20_brjkg")
+text = "  -5   "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TimerSelectorPanel"]
+modulate = Color(0.952941, 1, 1, 1)
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 221.0
+offset_top = 111.0
+offset_right = 317.0
+offset_bottom = 151.0
+theme_override_constants/separation = 6
+
+[node name="AddOneButton" type="Button" parent="UI/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_fonts/font = ExtResource("20_brjkg")
+text = "  +1  "
+
+[node name="AddFiveButton" type="Button" parent="UI/TimerSelectorPanel/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("18_f58y4")
+theme_override_fonts/font = ExtResource("20_brjkg")
+text = "  +5  "
+
 [node name="CoinSpawner" type="Node3D" parent="."]
 script = ExtResource("16_emeai")
 
@@ -452,3 +560,5 @@ theme_override_colors/font_color = Color(0.972549, 0.4, 0, 1)
 theme_override_fonts/font = ExtResource("20_brjkg")
 theme_override_font_sizes/font_size = 80
 text = "LEVEL 2!"
+
+[connection signal="pressed" from="UI/Logout" to="." method="_on_logout_pressed"]

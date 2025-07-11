@@ -8,6 +8,7 @@ extends Node3D
 @export var level2_transition: SceneTransition1 # Transition to level 2
 @export var retryRectangle: ColorRect
 
+
 # Coin spawning boundaries
 const FLOOR_Y = -0.328
 const MIN_X = -2.321
@@ -157,3 +158,7 @@ func get_coins_remaining() -> int:
 
 func is_game_active() -> bool:
     return game_active
+
+
+func _on_logout_pressed() -> void:
+   get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")

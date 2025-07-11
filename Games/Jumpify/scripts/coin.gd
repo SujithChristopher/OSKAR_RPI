@@ -61,22 +61,23 @@ func _on_body_entered(body):
     # Check if it's the player
     if body.has_method("is_player") or body.name == "Player":
         collected = true
-        SignalBus.coin_collected.emit()  # Signal the main game
+        #SignalBus.coin_collected.emit()  # Signal the main game
         play_collection_effect()
 
 func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
     queue_free()
 
 func play_collection_effect():
-    # Simple scale animation
+    SignalBus.coin_collected.emit()
     coin_sound.play()
+
     var tween = create_tween()
     tween.tween_property(self, "scale", Vector3(1.5, 1.5, 1.5), 0.1)
     tween.tween_property(self, "scale", Vector3.ZERO, 0.2)
-    
+
     # Disable collision to prevent multiple collections
     set_collision_layer_value(1, false)
     set_collision_mask_value(1, false)
-    
-    # Remove the coin after animation
-    tween.tween_callback(queue_free)
+
+    await tween.finished  # <--- This line is critical
+    queue_free()

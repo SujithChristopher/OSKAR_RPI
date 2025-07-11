@@ -25,7 +25,7 @@ var high_score_text = "High Score: %d"
 
 func _ready() -> void:
     # Optional: For translations (if needed)
-    high_score_text = tr(high_score_text)
+    high_score_text = tr(self.text)
     SignalBus.score_new_record.connect(_on_new_record.bind())
     _update_text()
 
