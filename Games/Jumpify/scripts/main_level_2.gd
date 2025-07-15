@@ -309,7 +309,7 @@ func debug_coin_spawning():
 
 
 func _on_logout_button_pressed() -> void:
-    get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+    get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn")
 
 
 func _on_retry_button_pressed() -> void:

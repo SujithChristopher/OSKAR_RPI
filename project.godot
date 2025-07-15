@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Oskar_RPI"
-run/main_scene="res://Main_screen/main.tscn"
+run/main_scene="res://Main_screen/Scenes/main.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/fullsize=false
@@ -24,17 +24,18 @@ boot_splash/minimum_display_time=2000
 Manager="*res://Main_screen/Scripts/manager.gd"
 GlobalSignals="*res://Main_screen/Scripts/global_signals.gd"
 GlobalScript="*res://Main_screen/Scripts/global_script.gd"
-SoundFx="*res://Main_screen/SoundFx.tscn"
+SoundFx="*res://Main_screen/Scenes/SoundFx.tscn"
 GlobalTimer="*res://Main_screen/Scripts/global_timer.gd"
 ScoreManager="*res://Main_screen/Scripts/score_manager.gd"
 SignalBus="*res://Games/Jumpify/scripts/signal_bus.gd"
 Scoreboard="*res://Games/Jumpify/scripts/scoreboard.gd"
+DebugSettings="*res://Main_screen/Scripts/debug_settings.gd"
 
 [display]
 
 window/size/mode=2
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="ignore"
 
 [dotnet]
 

@@ -157,7 +157,6 @@ shape = SubResource("BoxShape3D_1fput")
 
 [node name="floor-large" parent="Level" groups=["floor"] instance=ExtResource("3_yltwl")]
 transform = Transform3D(6.11215, 0, 0, 0, 1.01405, 0, 0, 0, 6.43752, 0, -1, 0)
-metadata/_edit_group_ = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Level/floor-large" groups=["floor"]]
 collision_layer = 4

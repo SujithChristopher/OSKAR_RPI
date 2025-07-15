@@ -7,8 +7,8 @@ extends Area3D
 
 # Movement properties (similar to enemy)
 @export_group("Movement")
-@export var min_speed = 2.0
-@export var max_speed = 4.0
+@export var min_speed = 1.0
+@export var max_speed = 2.0
 
 @onready var coin_sound: AudioStreamPlayer3D = $CoinSound
 

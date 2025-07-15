@@ -161,4 +161,4 @@ func is_game_active() -> bool:
 
 
 func _on_logout_pressed() -> void:
-   get_tree().change_scene_to_file("res://Main_screen/select_game.tscn")
+   get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn")

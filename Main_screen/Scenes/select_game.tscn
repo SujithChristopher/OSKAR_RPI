@@ -1,0 +1,221 @@
+[gd_scene load_steps=5 format=3 uid="uid://w7m2uhyqp1ir"]
+
+[ext_resource type="Script" uid="uid://l80o1fuw3l58" path="res://Main_screen/Scripts/select_game.gd" id="1_ghqbc"]
+[ext_resource type="FontFile" uid="uid://26gpa7mi2g8w" path="res://Assets/Fonts/HeavyDataNerdFont-Regular.ttf" id="2_h1wm0"]
+[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="3_fliu1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5h02n"]
+font = ExtResource("2_h1wm0")
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(1, 0.694118, 0.835294, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ghqbc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 11.0
+offset_right = 19.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -137.0
+offset_top = 69.0
+offset_right = 138.0
+offset_bottom = 128.0
+grow_horizontal = 2
+text = "Assessment"
+label_settings = SubResource("LabelSettings_5h02n")
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.5
+offset_top = 340.0
+offset_right = 100.5
+offset_bottom = 399.0
+grow_horizontal = 2
+text = "Games"
+label_settings = SubResource("LabelSettings_5h02n")
+horizontal_alignment = 1
+
+[node name="game_reach" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -346.0
+offset_top = 215.0
+offset_right = -194.0
+offset_bottom = 280.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "RandomReach"
+
+[node name="game_flappy" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -162.0
+offset_top = 213.0
+offset_right = -10.0
+offset_bottom = 278.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "FlyThrough"
+
+[node name="game_pingpong" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 25.0
+offset_top = 212.0
+offset_right = 177.0
+offset_bottom = 277.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "PingPong"
+
+[node name="Assessment" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -224.0
+offset_top = 350.0
+offset_right = -72.0
+offset_bottom = 426.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Assessment"
+
+[node name="Results" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -9.0
+offset_top = 349.0
+offset_right = 143.0
+offset_bottom = 425.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Results"
+
+[node name="Exit_button" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 0
+offset_left = 1061.0
+offset_top = 20.0
+offset_right = 1132.0
+offset_bottom = 65.0
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Exit
+"
+
+[node name="logout" type="Button" parent="." groups=["GameButtons"]]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 579.0
+offset_right = 134.0
+offset_bottom = 624.0
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "⬅️ Log-out"
+
+[node name="LoggedInAs" type="Label" parent="."]
+layout_mode = 0
+offset_left = 441.0
+offset_top = 96.0
+offset_right = 779.0
+offset_bottom = 141.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fliu1")
+theme_override_font_sizes/font_size = 22
+text = "Patient: "
+vertical_alignment = 1
+
+[node name="TrainingLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 407.0
+offset_top = 146.0
+offset_right = 656.0
+offset_bottom = 181.0
+theme_override_colors/font_color = Color(0.984546, 0.984547, 0.984546, 1)
+theme_override_fonts/font = ExtResource("3_fliu1")
+theme_override_font_sizes/font_size = 20
+
+[node name="HandSelectionPopup" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 354.0
+offset_top = 313.0
+offset_right = 749.0
+offset_bottom = 502.0
+
+[node name="Label" type="Label" parent="HandSelectionPopup"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 48.0
+offset_right = 352.0
+offset_bottom = 76.0
+theme_override_font_sizes/font_size = 20
+text = "Which hand do you want to train?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HandSelectionPopup"]
+layout_mode = 0
+offset_left = 94.0
+offset_top = 97.0
+offset_right = 287.0
+offset_bottom = 136.0
+theme_override_constants/separation = 15
+
+[node name="LeftButton" type="Button" parent="HandSelectionPopup/HBoxContainer"]
+layout_mode = 2
+text = "Left Hand"
+
+[node name="RightButton" type="Button" parent="HandSelectionPopup/HBoxContainer"]
+layout_mode = 2
+text = "Right Hand"
+
+[node name="game_jumpify" type="Button" parent="."]
+layout_mode = 0
+offset_left = 785.0
+offset_top = 211.0
+offset_right = 937.0
+offset_bottom = 276.0
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Jumpify"
+
+[connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
+[connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
+[connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]
+[connection signal="pressed" from="Assessment" to="." method="_on_assessment_pressed"]
+[connection signal="pressed" from="Results" to="." method="_on_results_pressed"]
+[connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
+[connection signal="pressed" from="game_jumpify" to="." method="_on_game_jumpify_pressed"]

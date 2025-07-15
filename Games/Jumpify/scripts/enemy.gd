@@ -58,3 +58,4 @@ func _play_squash_sound() -> void:
 
 func is_alive() -> bool:
   return !is_dead
+ 

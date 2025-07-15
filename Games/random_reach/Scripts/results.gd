@@ -1,4 +1,3 @@
-
 extends Control
 var interpreter_path = ""
 var pyscript_path = r"D:\CMC\ArmBo_games\OSKAR_GAME_v3\pyfiles\analysis.py"
