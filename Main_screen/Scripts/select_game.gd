@@ -7,12 +7,12 @@ extends Control
 @onready var right_button = $HandSelectionPopup/HBoxContainer/RightButton
 
 # Preload all scenes at start (loads into memory for faster switching)
-var random_reach_scene = preload("res://Games/random_reach/Scenes/random_reach.tscn")
+var random_reach_scene = preload("res://Games/random_reach/scenes/random_reach.tscn")
 var flappy_scene = preload("res://Games/flappy_bird/Scenes/flappy_main.tscn")
 var pingpong_scene = preload("res://Games/ping_pong/Scenes/PingPong.tscn")
 var jumpify = preload("res://Games/Jumpify/levels/level1.tscn")
 var assessment_scene = preload("res://Games/assessment/workspace.tscn")
-var results_scene = preload("res://Games/random_reach/results.tscn")
+var results_scene = preload("res://Results/scenes/user_progress.tscn")
 var main_menu_scene = preload("res://Main_screen/Scenes/main.tscn")
 
 

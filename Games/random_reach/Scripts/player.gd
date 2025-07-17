@@ -1,7 +1,7 @@
 #extends CharacterBody2D
 #
 #@export var max_score = 500
-#@export var debug_mode: bool = true
+#@onready var debug_mode = DebugSettings.debug_mode
 #@onready var apple_sound = $"../apple_sound"
 #@onready var score_board = $"../ScoreBoard/Score"
 #@onready var anim = $Sprite2D
@@ -399,7 +399,7 @@
         #adapt_toggle = true
     #else:
         #adapt_toggle = false
-        #
+        
 
 extends CharacterBody2D
 
@@ -782,8 +782,10 @@ func _on_logout_button_pressed() -> void:
 
 func _on_retry_button_pressed() -> void:
     get_tree().paused = false
+    _ui_nodes.color_rect.visible = false
     _ui_nodes.game_over_label.hide()
     _panel_nodes.timer_panel.show()
+    
     _show_timer_buttons()
 
 func save_final_score_to_log(score: int) -> void:

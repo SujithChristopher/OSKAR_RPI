@@ -145,7 +145,7 @@ func _ready():
     print("Chart created with " + str(workspace_data.size()) + " data points")
 
 func _on_logout_pressed() -> void:
-    get_tree().change_scene_to_file("res://Main_screen/main.tscn")
+    get_tree().change_scene_to_file("res://Main_screen/Scenes/main.tscn")
 
 func _on_session_list_item_selected(index: int) -> void:
     var data = workspace_data[index]
