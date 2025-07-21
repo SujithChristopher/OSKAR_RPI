@@ -25,6 +25,8 @@ Manager="*res://Main_screen/Scripts/manager.gd"
 GlobalSignals="*res://Main_screen/Scripts/global_signals.gd"
 GlobalScript="*res://Main_screen/Scripts/global_script.gd"
 SoundFx="*res://Main_screen/SoundFx.tscn"
+GlobalTimer="*res://Main_screen/Scripts/global_timer.gd"
+ScoreManager="*res://Main_screen/Scripts/score_manager.gd"
 
 [display]
 
@@ -39,6 +41,10 @@ project/assembly_name="Oskar Game v2"
 [editor]
 
 version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/easy_charts/plugin.cfg")
 
 [input]
 

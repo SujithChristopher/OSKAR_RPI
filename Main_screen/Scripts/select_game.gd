@@ -2,40 +2,83 @@ extends Control
 
 @onready var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
 @onready var logged_in_as = $LoggedInAs
-# Called when the node enters the scene tree for the first time.
+@onready var training_label = $TrainingLabel
+@onready var left_button = $HandSelectionPopup/HBoxContainer/LeftButton
+@onready var right_button = $HandSelectionPopup/HBoxContainer/RightButton
+
+# Preload all scenes at start (loads into memory for faster switching)
+var random_reach_scene = preload("res://Games/random_reach/random_reach.tscn")
+var flappy_scene = preload("res://Games/flappy_bird/flappy_main.tscn")
+var pingpong_scene = preload("res://Games/ping_pong/PingPong.tscn")
+var space_shooter_scene = preload("res://Games/space_shooter/ss_scenes/game.tscn")
+var assessment_scene = preload("res://Games/assessment/workspace.tscn")
+var results_scene = preload("res://Results/user_progress.tscn")
+var main_menu_scene = preload("res://Main_screen/main.tscn")
+
 
 func _ready() -> void:
-	logged_in_as.text = "Patient: " + patient_db.current_patient_id
+    left_button.pressed.connect(_on_LeftButton_pressed)
+    right_button.pressed.connect(_on_RightButton_pressed)
+    
+    logged_in_as.text = "Patient: " + patient_db.current_patient_id
+    var affected_hand = GlobalSignals.affected_hand
+    
+    if affected_hand == "Left":
+        training_label.text = "Training for left hand"
+        GlobalSignals.selected_training_hand = "Left"
+    elif affected_hand == "Right":
+        training_label.text = "Training for right  hand"
+        GlobalSignals.selected_training_hand = "Right"
+    elif affected_hand == "Both":
+        if GlobalSignals.selected_training_hand == "":
+            $HandSelectionPopup.visible = true
+            GlobalSignals.enable_game_buttons(false)
+        else:
+            training_label.text = "Training for %s hand" % GlobalSignals.selected_training_hand
+        
+        
+func _on_LeftButton_pressed():
+    GlobalSignals.selected_training_hand = "Left"
+    $HandSelectionPopup.hide()
+    $TrainingLabel.text = "Training for Left Hand"
+    GlobalSignals.enable_game_buttons(true)
+
+func _on_RightButton_pressed():
+    GlobalSignals.selected_training_hand = "Right"
+    $HandSelectionPopup.hide()
+    $TrainingLabel.text = "Training for Right Hand"
+    GlobalSignals.enable_game_buttons(true)
+
 
 func _process(delta: float) -> void:
-	pass
+    pass
 
 
 func _on_game_reach_pressed() -> void:
-	get_tree().change_scene_to_file("res://Games/random_reach/random_reach.tscn") 
-
-func _on_exit_button_pressed() -> void:
-	get_tree().quit()
-
-
-func _on_logout_pressed() -> void:
-	get_tree().change_scene_to_file("res://Main_screen/main.tscn") 
+    get_tree().change_scene_to_packed(random_reach_scene)
 
 func _on_game_flappy_pressed() -> void:
-	get_tree().change_scene_to_file("res://Games/flappy_bird/flappy_main.tscn")
-
+    get_tree().change_scene_to_packed(flappy_scene)
 
 func _on_game_pingpong_pressed() -> void:
-	get_tree().change_scene_to_file("res://Games/ping_pong/PingPong.tscn")
-
+    get_tree().change_scene_to_packed(pingpong_scene)
 
 func _on_game_spaceshooter_pressed() -> void:
-	get_tree().change_scene_to_file("res://Games/space_shooter/ss_scenes/game.tscn")
-
+    get_tree().change_scene_to_packed(space_shooter_scene)
 
 func _on_assessment_pressed() -> void:
-	get_tree().change_scene_to_file("res://Games/assessment/workspace.tscn") 
-
+    get_tree().change_scene_to_packed(assessment_scene)
 
 func _on_results_pressed() -> void:
-	get_tree().change_scene_to_file("res://Results/user_progress.tscn")
+    get_tree().change_scene_to_packed(results_scene)
+
+func _on_logout_pressed() -> void:
+    GlobalSignals.selected_training_hand == ""
+    GlobalSignals.affected_hand = ""
+    get_tree().change_scene_to_packed(main_menu_scene)
+    
+func _on_exit_button_pressed() -> void:
+    GlobalScript.handle_quit_request()
+    GlobalSignals.selected_training_hand == ""
+    GlobalSignals.affected_hand = ""
+    get_tree().quit()

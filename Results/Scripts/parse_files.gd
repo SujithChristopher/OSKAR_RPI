@@ -1,15 +1,16 @@
 extends Node
-
-var path = GlobalSignals.data_path + "//" + GlobalSignals.current_patient_id
-
 # var current_patient_id = GlobalSignals.current_patient_id
 var parsed_data = []
+@onready var area = $"."
 
 func _ready() -> void:
-	print("Parsing files in: " + path)
+	
 	parse_workspace_files()
 
 func parse_workspace_files() -> void:
+	
+	var path = GlobalSignals.data_path + "//" + GlobalSignals.current_patient_id
+	print("Parsing files in: " + path)
 	var dir = DirAccess.open(path)
 	if dir:
 		dir.list_dir_begin()
@@ -92,6 +93,7 @@ func parse_polygon_string(polygon_string: String) -> Array[Vector2]:
 			result.append(Vector2(x, y))
 	
 	return result
+	
 
 func get_parsed_data() -> Array:
 	return parsed_data
