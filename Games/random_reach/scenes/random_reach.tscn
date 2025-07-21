@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=4 uid="uid://dcremoelo5qoc"]
+[gd_scene load_steps=17 format=4 uid="uid://dcremoelo5qoc"]
 
 [ext_resource type="Texture2D" uid="uid://gg6ifqkacfba" path="res://Assets/Background/SheepBG.png" id="1_v066f"]
 [ext_resource type="PackedScene" uid="uid://ciht5nisjgbqp" path="res://Games/random_reach/scenes/player.tscn" id="2_7fnnd"]
 [ext_resource type="Texture2D" uid="uid://cwqtv62nto34u" path="res://Assets/Terrian/Terrain (16x16).png" id="3_o6ju6"]
-[ext_resource type="Script" path="res://Games/random_reach/timer_label.gd" id="4_ehmh4"]
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="5_j2tbw"]
 [ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="6_t38m8"]
 [ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="7_xn8jd"]
@@ -265,7 +264,6 @@ tile_map_data = PackedByteArray("AAAwAAAAAAASAAUAAAAwAAEAAAASAAUAAAAwAAIAAAASAAU
 tile_set = SubResource("TileSet_47021")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="TileMap"]
-script = ExtResource("4_ehmh4")
 
 [node name="TimerLabel" type="Label" parent="TileMap/CanvasLayer"]
 visible = false

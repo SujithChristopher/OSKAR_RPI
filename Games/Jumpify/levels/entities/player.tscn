@@ -104,14 +104,14 @@ smoke_particles = ExtResource("3_g00be")
 [node name="Character" parent="Pivot" instance=ExtResource("1_mibvx")]
 
 [node name="Skeleton3D" parent="Pivot/Character/character-male-e" index="0"]
-bones/1/rotation = Quaternion(-0.448905, 0.381383, 0.220191, 0.777526)
-bones/2/rotation = Quaternion(-0.343577, -0.406861, -0.168527, 0.829468)
-bones/4/rotation = Quaternion(-0.0608609, 0.250451, 0.228267, 0.938863)
-bones/5/rotation = Quaternion(-0.0608609, -0.250451, -0.228267, 0.938863)
-bones/6/rotation = Quaternion(0.0162287, 0, 0, 0.999868)
+bones/1/rotation = Quaternion(-0.448006, 0.384541, 0.222015, 0.775969)
+bones/2/rotation = Quaternion(-0.342889, -0.41023, -0.169923, 0.827807)
+bones/4/rotation = Quaternion(-0.0424639, 0.253817, 0.160112, 0.952963)
+bones/5/rotation = Quaternion(-0.0424639, -0.253817, -0.160112, 0.952963)
+bones/6/rotation = Quaternion(0.0277132, 0, 0, 0.999616)
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Pivot/Character"]
-transform = Transform3D(1, 0, 0, 0, 0.999473, -0.032453, 0, 0.032453, 0.999473, 1.81969e-09, 0.34325, -0.00236122)
+transform = Transform3D(1, 0, 0, 0, 0.998464, -0.0554052, 0, 0.0554052, 0.998464, 1.81969e-09, 0.34325, -0.00236122)
 bone_name = "head"
 bone_idx = 6
 use_external_skeleton = true
