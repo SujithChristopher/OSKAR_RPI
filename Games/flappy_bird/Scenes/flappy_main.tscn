@@ -24,14 +24,6 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6kp5"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 2
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywesg"]
 bg_color = Color(0.857629, 0.665457, 0.907348, 1)
 border_width_left = 3
@@ -44,6 +36,14 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c6kp5"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 2
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_oy1mx"]
 animations = [{
@@ -106,79 +106,18 @@ text = "⬅️ logout
 "
 
 [node name="ScoreBoard" type="Panel" parent="."]
+visible = false
 z_index = 11
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 889.0
-offset_top = 177.0
-offset_right = 1117.0
-offset_bottom = 241.0
+offset_left = 886.0
+offset_top = 179.0
+offset_right = 1114.0
+offset_bottom = 243.0
 grow_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ovamc")
-
-[node name="ApplePic" type="Panel" parent="ScoreBoard"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -869.0
-offset_top = -192.0
-offset_right = -805.0
-offset_bottom = -139.0
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_c6kp5")
-
-[node name="TextureRect" type="TextureRect" parent="ScoreBoard/ApplePic"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -13.0
-offset_top = 2.0
-offset_right = 10.3444
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_sq106")
-expand_mode = 3
-
-[node name="ScoreLabel" type="Label" parent="ScoreBoard"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.557
-anchor_bottom = 0.5
-offset_left = -893.0
-offset_top = -185.0
-offset_right = -819.996
-offset_bottom = -150.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("7_jtf2p")
-theme_override_font_sizes/font_size = 25
-text = "Score"
-
-[node name="Score" type="Label" parent="ScoreBoard"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -910.0
-offset_top = -185.0
-offset_right = -862.0
-offset_bottom = -150.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("7_jtf2p")
-theme_override_font_sizes/font_size = 25
-text = "0"
 
 [node name="Health" type="Panel" parent="."]
 z_index = 10
@@ -429,7 +368,71 @@ offset_left = 15.0
 offset_top = 16.0
 offset_right = 49.0
 offset_bottom = 41.0
+theme_override_fonts/font = ExtResource("7_jtf2p")
 horizontal_alignment = 1
+
+[node name="ApplePic" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = 19.0
+offset_right = 81.0
+offset_bottom = 72.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c6kp5")
+
+[node name="TextureRect" type="TextureRect" parent="ApplePic"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = 2.0
+offset_right = 10.3442
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_sq106")
+expand_mode = 3
+
+[node name="ScoreLabel" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.557
+anchor_bottom = 0.5
+offset_left = 107.0
+offset_top = 26.0
+offset_right = 192.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_font_sizes/font_size = 25
+text = "Score"
+
+[node name="Score" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 204.0
+offset_top = 26.0
+offset_right = 252.0
+offset_bottom = 61.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_font_sizes/font_size = 25
+text = "0"
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]

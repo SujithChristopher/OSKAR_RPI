@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://7nr2tlykv2n5"]
+[gd_scene load_steps=3 format=3 uid="uid://7nr2tlykv2n5"]
 
 [ext_resource type="Script" uid="uid://bxjnhknp5qmc4" path="res://Games/flappy_bird/Scripts/game_over.gd" id="1_uusqj"]
+[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="2_y2x4k"]
 
 [node name="GameOver" type="CanvasLayer"]
 script = ExtResource("1_uusqj")
@@ -11,10 +12,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -234.0
-offset_top = -83.0
-offset_right = 234.0
-offset_bottom = 83.0
+offset_left = -577.0
+offset_top = -321.0
+offset_right = 576.0
+offset_bottom = 325.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -34,6 +35,7 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.671644, 0.192915, 0.553253, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_y2x4k")
 theme_override_font_sizes/font_size = 25
 text = "Restarting Game in "
 uppercase = true

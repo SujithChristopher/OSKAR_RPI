@@ -19,6 +19,7 @@ var velocity: Vector3
 
 func _ready():
     # Store initial Y position for bobbing animation
+    add_to_group("coins")
     initial_y_position = global_position.y
     
     # Set up collision layers - coins should not collide with enemies

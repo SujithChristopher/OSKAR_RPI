@@ -33,7 +33,7 @@ signal game_started
 }
 
 @onready var _ui_nodes = {
-    "score_label": $ScoreBoard/Score,
+    "score_label": $Score,
     "countdown_display": $CanvasLayer/CountdownTimer/CountdownLabel,
     "game_over_label": $CanvasLayer/GameOverLabel,
     "time_label": $CanvasLayer/TimeSelector,

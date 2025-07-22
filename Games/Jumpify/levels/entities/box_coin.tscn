@@ -20,6 +20,7 @@ var move_direction: Vector3
 func _ready():
     # Store initial Y position for bobbing animation
     initial_y_position = global_position.y
+    add_to_group(\"coins\")
     
     # Make sure collision is set up properly
     set_collision_layer_value(1, false)  # Don't collide with other objects
