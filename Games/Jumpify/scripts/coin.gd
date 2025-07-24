@@ -7,8 +7,8 @@ extends Area3D
 
 # Movement properties (similar to enemy)
 @export_group("Movement")
-@export var min_speed = 1.0
-@export var max_speed = 2.0
+@export var min_speed = 0.5
+@export var max_speed = 1.0
 
 @onready var coin_sound: AudioStreamPlayer3D = $CoinSound
 
@@ -69,6 +69,7 @@ func _on_visible_on_screen_notifier_3d_screen_exited() -> void:
     queue_free()
 
 func play_collection_effect():
+    
     SignalBus.coin_collected.emit()
     coin_sound.play()
 

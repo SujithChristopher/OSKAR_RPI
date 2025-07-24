@@ -55,7 +55,7 @@ func spawn_coin():
             current_coin.collected.connect(_on_coin_collected)
     else:
         push_error("Current coin became invalid during spawn process!")
-
+        
 func cleanup_current_coin():
     if current_coin and is_instance_valid(current_coin):
         current_coin.queue_free()

@@ -104,18 +104,18 @@ smoke_particles = ExtResource("3_g00be")
 [node name="Character" parent="Pivot" instance=ExtResource("1_mibvx")]
 
 [node name="Skeleton3D" parent="Pivot/Character/character-male-e" index="0"]
-bones/1/rotation = Quaternion(-0.458141, 0.346874, 0.200268, 0.793523)
-bones/2/rotation = Quaternion(-0.350646, -0.370047, -0.153278, 0.846533)
-bones/4/rotation = Quaternion(-0.0431045, 0.254089, 0.162059, 0.952532)
-bones/5/rotation = Quaternion(-0.0431045, -0.254089, -0.162059, 0.952532)
-bones/6/rotation = Quaternion(0.0348452, 0, 0, 0.999393)
+bones/1/rotation = Quaternion(-0.458717, 0.344583, 0.198945, 0.79452)
+bones/2/rotation = Quaternion(-0.351087, -0.367602, -0.152266, 0.847598)
+bones/4/rotation = Quaternion(-0.0417211, 0.254486, 0.15672, 0.953381)
+bones/5/rotation = Quaternion(-0.0417211, -0.254486, -0.15672, 0.953381)
+bones/6/rotation = Quaternion(0.0361505, 0, 0, 0.999346)
 
 [node name="AnimationPlayer" parent="Pivot/Character" index="1"]
 autoplay = "attack-kick-left"
 speed_scale = 20.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Pivot/Character"]
-transform = Transform3D(1, 0, 0, 0, 0.997572, -0.0696481, 0, 0.0696481, 0.997572, 1.81969e-09, 0.34325, -0.00236122)
+transform = Transform3D(1, 0, 0, 0, 0.997386, -0.0722537, 0, 0.0722537, 0.997386, 1.81969e-09, 0.34325, -0.00236122)
 bone_name = "head"
 bone_idx = 6
 use_external_skeleton = true

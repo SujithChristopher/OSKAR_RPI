@@ -46,7 +46,7 @@ var packets: String = ""
 var game_log_file
 
 # Settings
-@export var speed: int = 200
+#@export var speed: int = 500
 @onready var adapt_toggle: bool = false
 @onready var debug_mode = DebugSettings.debug_mode
 

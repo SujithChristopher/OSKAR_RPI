@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://daoxmv24h418s"]
+[gd_scene load_steps=31 format=3 uid="uid://daoxmv24h418s"]
 
 [ext_resource type="Script" uid="uid://dr88v4qxnfc0h" path="res://Games/Jumpify/scripts/main_level_2.gd" id="1_blmwd"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="1_wltgx"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" uid="uid://mo0xbedty1be" path="res://Games/Jumpify/scripts/score_label.gd" id="12_sdwwi"]
 [ext_resource type="Script" uid="uid://b5de622hhnufx" path="res://Games/Jumpify/scripts/high_score_label.gd" id="13_1vvh4"]
 [ext_resource type="Script" uid="uid://brhqxj7gggoux" path="res://Games/Jumpify/scripts/new_record_label.gd" id="14_o3m72"]
-[ext_resource type="Script" uid="uid://cytoghuj3ttu8" path="res://Games/Jumpify/scripts/coin_spawner.gd" id="17_gjgg2"]
 [ext_resource type="Script" uid="uid://d2xjm2g8360l6" path="res://Games/Jumpify/scripts/scene_transition2.gd" id="19_3dfmp"]
 [ext_resource type="PackedScene" uid="uid://x87sa7slpi1" path="res://Games/Jumpify/levels/level3.tscn" id="20_lwwou"]
 [ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="21_xsjlw"]
@@ -429,7 +428,6 @@ libraries = {
 autoplay = "pulse"
 
 [node name="CoinSpawner" type="Node3D" parent="."]
-script = ExtResource("17_gjgg2")
 
 [node name="CoinTimer" type="Timer" parent="CoinSpawner"]
 wait_time = 10.0

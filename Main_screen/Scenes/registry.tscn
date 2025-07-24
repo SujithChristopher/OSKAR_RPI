@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dna3kovngiew3"]
 
 [ext_resource type="Script" uid="uid://ckiph54obfh1t" path="res://Main_screen/Scripts/registry.gd" id="1_tjqgy"]
-[ext_resource type="Texture2D" uid="uid://55rxnr1pl2v0" path="res://Assets/Background/Green.png" id="2_m584y"]
+[ext_resource type="Texture2D" uid="uid://s48uvbgatc0w" path="res://Assets/Background/Pink.png" id="2_tjqgy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5sax6"]
 bg_color = Color(0.22736, 0.641662, 0.870024, 1)
@@ -44,8 +44,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_m584y")
-stretch_mode = 1
+texture = ExtResource("2_tjqgy")
 
 [node name="PatientRegistryLabel" type="Label" parent="TextureRect"]
 layout_mode = 0

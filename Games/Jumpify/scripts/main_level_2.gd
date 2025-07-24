@@ -1,321 +1,3 @@
-#extends Node3D
-#
-## Level 2 - Coin Collection + Static Enemy Hazards
-#@export var coin_scene: PackedScene
-#@export var enemy_scene: PackedScene
-#@export var player: Player
-#@export var coinTimer: Timer
-#@export var scoreLabel: Label
-#@export var level3_transition: SceneTransition2
-#@export var retryRectangle: ColorRect
-#@onready var logout_button: Button = $UI/Retry/Label/LogoutButton
-#@onready var retry_button: Button = $UI/Retry/Label/RetryButton
-#
-## Spawn boundaries
-#const FLOOR_Y = -0.328
-#const MIN_X = -2.321
-#const MAX_X = 2.059
-#const MIN_Z = -1.179
-#const MAX_Z = 3.407
-#
-## Game settings
-#const SPAWN_INTERVAL = 10.0
-#const COINS_TO_NEXT_LEVEL = 10
-#const NUM_ENEMIES = 10
-#
-## Game state variables
-#var current_coin: Node3D = null
-#var coins_collected = 0
-#var game_active = true
-#var enemies: Array[CharacterBody3D] = []
-#var occupied_positions: Array[Vector3] = []
-#var current_box_line_z = MIN_Z + 0.5
-#var coin_z_offset = MAX_Z - 0.5
-#
-#func _ready() -> void:
-    #randomize()
-    #setup_level2()
-    #retryRectangle.hide()
-    #SignalBus.player_hit.connect(_on_player_hit.bind())
-    #logout_button.pressed.connect(_on_logout_button_pressed)
-    #retry_button.pressed.connect(_on_retry_button_pressed)
-#
-    #coinTimer.wait_time = SPAWN_INTERVAL
-    #coinTimer.timeout.connect(_on_coin_timer_timeout)
-#
-    ## Set initial box line position before spawning enemies
-    #set_initial_box_line_position()
-    #
-    ## Spawn enemies first, then coin
-    #spawn_static_enemies()
-    #await get_tree().process_frame
-    #spawn_coin()
-    #
-    ## Start the timer for subsequent coins
-    #coinTimer.start()
-    #update_score_display()
-#
-#func setup_level2():
-    #game_active = true
-    #coins_collected = 0
-    #enemies.clear()
-    #occupied_positions.clear()
-#
-#func set_initial_box_line_position():
-    ## Set the box line position away from the player at start
-    #var player_pos = player.global_position
-    #var safe_distance = 1.5
-    #
-    ## Choose a position that's far enough from the player
-    #if player_pos.z < (MIN_Z + MAX_Z) / 2:
-        ## Player is in the lower half, put boxes in upper half
-        #current_box_line_z = MAX_Z - 1.0
-    #else:
-        ## Player is in the upper half, put boxes in lower half
-        #current_box_line_z = MIN_Z + 1.0
-    #
-    ## Make sure it's still within bounds and safe distance
-    #current_box_line_z = clamp(current_box_line_z, MIN_Z + 0.5, MAX_Z - 0.5)
-    #
-    ## Double-check distance from player
-    #if abs(current_box_line_z - player_pos.z) < safe_distance:
-        ## If still too close, put it at the opposite end
-        #if player_pos.z < (MIN_Z + MAX_Z) / 2:
-            #current_box_line_z = MAX_Z - 0.5
-        #else:
-            #current_box_line_z = MIN_Z + 0.5
-#
-#func spawn_static_enemies():
-    ## Clear previous enemies
-    #for enemy in enemies:
-        #if is_instance_valid(enemy):
-            #enemy.queue_free()
-    #enemies.clear()
-    #occupied_positions.clear()
-#
-    #var spacing = (MAX_X - MIN_X) / float(NUM_ENEMIES - 1)
-    #var player_pos = player.global_position
-#
-    #var tries = 0
-    #var max_tries = 15
-    #var min_player_box_distance = 1.5
-#
-    #while tries < max_tries:
-        #var temp_enemies: Array[CharacterBody3D] = []
-        #var temp_positions: Array[Vector3] = []
-        #var safe = true
-#
-        #for i in range(NUM_ENEMIES):
-            #var x_pos = MIN_X + i * spacing
-            #var z_offset = randf_range(-0.3, 0.3)  # Adds wobble to line
-            #var box_pos = Vector3(x_pos, FLOOR_Y - 0.5, current_box_line_z + z_offset)
-#
-            ## Check distance from player
-            #if box_pos.distance_to(player_pos) < min_player_box_distance:
-                #safe = false
-                #break
-#
-            #temp_positions.append(box_pos)
-#
-        #if safe:
-            ## All box positions are safe, now instantiate
-            #for i in range(NUM_ENEMIES):
-                #var enemy = enemy_scene.instantiate()
-                #add_child(enemy)
-#
-                #var pos = temp_positions[i]
-                #enemy.global_position = pos
-#
-                ## Add rotation randomness
-                #enemy.rotation_degrees.y = randf_range(-15, 15)
-#
-                ## Optional: call initializer
-                #if enemy.has_method("initialize_as_static_hazard"):
-                    #enemy.initialize_as_static_hazard(pos)
-                #else:
-                    #enemy.velocity = Vector3.ZERO
-#
-                #setup_enemy_collision_detection(enemy)
-                #enemies.append(enemy)
-                #occupied_positions.append(pos)
-#
-            #return  # Done spawning
-        #tries += 1
-#
-    ## Fallback if no safe layout found
-    #print("Warning: fallback enemy layout used after ", max_tries, " attempts")
-#
-#func setup_enemy_collision_detection(enemy: CharacterBody3D):
-    #var detection_area = Area3D.new()
-    #var collision_shape = CollisionShape3D.new()
-    #var box_shape = BoxShape3D.new()
-#
-    #var enemy_collision = enemy.find_child("CollisionShape3D")
-    #if enemy_collision and enemy_collision.shape is BoxShape3D:
-        #var enemy_box = enemy_collision.shape as BoxShape3D
-        #box_shape.size = enemy_box.size * 1.1
-    #else:
-        #box_shape.size = Vector3(1, 2, 1)
-#
-    #collision_shape.shape = box_shape
-    #detection_area.add_child(collision_shape)
-    #enemy.add_child(detection_area)
-#
-    #detection_area.set_collision_layer_value(1, false)
-    #detection_area.set_collision_mask_value(1, true)
-#
-    #detection_area.body_entered.connect(_on_enemy_touched.bind(enemy))
-#
-#func spawn_coin():
-    #if not game_active:
-        #return
-#
-    #debug_coin_spawning()
-#
-    #if current_coin != null and is_instance_valid(current_coin):
-        #current_coin.queue_free()
-        #current_coin = null
-#
-    ## Only reposition enemies when spawning a new coin (not the first one)
-    #if coins_collected > 0:
-        ## Safe hazard line positioning (avoid player)
-        #var max_attempts = 10
-        #var attempt = 0
-        #var safe_distance = 1.5
-        #while attempt < max_attempts:
-            #var proposed_z = randf_range(MIN_Z + 1.0, MAX_Z - 1.0)
-            #if abs(proposed_z - player.global_position.z) >= safe_distance:
-                #current_box_line_z = proposed_z
-                #break
-            #attempt += 1
-        #if attempt >= max_attempts:
-            #current_box_line_z = (MIN_Z + MAX_Z) / 2
-#
-        #spawn_static_enemies()
-#
-    ## Spawn coin on the opposite side of the boxes from the player
-    #var player_z = player.global_position.z
-    #var coin_z: float
-    #
-    ## If player is closer to the box line, put coin on far side
-    ## If player is farther from box line, put coin on near side
-    #if player_z < current_box_line_z:
-        ## Player is below the box line, put coin above it
-        #coin_z = MAX_Z - 0.5
-    #else:
-        ## Player is above the box line, put coin below it
-        #coin_z = MIN_Z + 0.5
-    #
-    #var coin_x = randf_range(MIN_X, MAX_X)
-#
-    #if coin_scene:
-        #current_coin = coin_scene.instantiate()
-        #add_child(current_coin)
-#
-        #current_coin.global_position = Vector3(coin_x, FLOOR_Y + 0.5, coin_z)
-#
-        #if current_coin.has_signal("body_entered"):
-            #current_coin.body_entered.connect(_on_coin_collected)
-        #
-        #print("Coin spawned at: ", current_coin.global_position)
-        #print("Player at: ", player.global_position)
-        #print("Box line at Z: ", current_box_line_z)
-#
-#func _on_coin_timer_timeout() -> void:
-    #if not game_active:
-        #return
-    #spawn_coin()
-#
-#func _on_coin_collected(body):
-    #if not game_active:
-        #return
-    #if body == player or body.is_in_group("player"):
-        #collect_coin()
-#
-#func collect_coin():
-    #if not game_active:
-        #return
-    #coins_collected += 1
-    #Scoreboard.add_score()
-    #update_score_display()
-#
-    #if coins_collected >= COINS_TO_NEXT_LEVEL:
-        #complete_level()
-    #else:
-        #spawn_coin()
-        #coinTimer.stop()
-        #coinTimer.start()
-#
-#func _on_enemy_touched(enemy: CharacterBody3D, body):
-    #if not game_active:
-        #return
-    #if body == player or body.is_in_group("player"):
-        #game_over()
-#
-#func game_over():
-    #game_active = false
-    #coinTimer.stop()
-    #SignalBus.player_hit.emit()
-#
-#func complete_level():
-    #print("Level 2 completed!")
-    #game_active = false
-    #coinTimer.stop()
-    #Scoreboard.record_score()
-    #if level3_transition:
-        #level3_transition.transition()
-    #else:
-        #get_tree().change_scene_to_file("res://Games/Jumpify/levels/level3.tscn")
-#
-#func update_score_display():
-    #if scoreLabel:
-        #scoreLabel.text = "Coins: " + str(coins_collected) + "/" + str(COINS_TO_NEXT_LEVEL)
-#
-#func _on_player_hit() -> void:
-    #game_active = false
-    #coinTimer.stop()
-    #Scoreboard.record_score()
-    #await get_tree().create_timer(0.75).timeout
-    #retryRectangle.show()
-#
-#func _unhandled_input(event: InputEvent) -> void:
-    #if event.is_action_pressed("ui_accept") and retryRectangle.is_visible():
-        #get_tree().reload_current_scene()
-        #Scoreboard.reset_score()
-#
-#func get_coins_collected() -> int:
-    #return coins_collected
-#
-#func get_coins_remaining() -> int:
-    #return COINS_TO_NEXT_LEVEL - coins_collected
-#
-#func is_game_active() -> bool:
-    #return game_active
-#
-#func get_active_enemies() -> Array[CharacterBody3D]:
-    #return enemies.duplicate()
-#
-#func debug_coin_spawning():
-    #print("=== COIN SPAWN DEBUG ===")
-    #print("Coins collected: ", coins_collected)
-    #print("Occupied positions: ", occupied_positions.size())
-    #for i in range(occupied_positions.size()):
-        #print("Enemy ", i, " at: ", occupied_positions[i])
-    #if current_coin:
-        #print("Current coin at: ", current_coin.global_position)
-    #print("====")
-    #
-    #
-#
-#
-#func _on_logout_button_pressed() -> void:
-    #get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn")
-#
-#
-#func _on_retry_button_pressed() -> void:
-    #get_tree().reload_current_scene()
-
-
 extends Node3D
 
 # Level 2 - Coin Collection + Static Enemy Hazards
@@ -329,18 +11,18 @@ extends Node3D
 @onready var logout_button: Button = $UI/Retry/Label/LogoutButton
 @onready var retry_button: Button = $UI/Retry/Label/RetryButton
 
-# Spawn boundaries
-const FLOOR_Y = -0.328
-const MIN_X = -2.321
-const MAX_X = 2.059
-const MIN_Z = -1.179
-const MAX_Z = 3.407
-
 # Game settings
 const SPAWN_INTERVAL = 10.0
 const COINS_TO_NEXT_LEVEL = 10
 const NUM_ENEMIES = 10
 const COIN_HEIGHT_OFFSET = 0.5
+const ENEMY_HEIGHT_OFFSET = -0.5
+const GAME_OVER_DELAY = 0.75
+const MIN_PLAYER_DISTANCE = 2.0
+const EMERGENCY_PLAYER_MOVE_DISTANCE = 2.5
+const BOX_LINE_BUFFER = 1.0
+const BOX_LINE_WOBBLE = 0.3
+const MAX_SPAWN_ATTEMPTS = 15
 
 # Game state variables
 var current_coin: Node3D = null
@@ -349,171 +31,280 @@ var game_active = true
 var is_transitioning = false
 var enemies: Array[CharacterBody3D] = []
 var occupied_positions: Array[Vector3] = []
-var current_box_line_z = MIN_Z + 0.5
-var coin_z_offset = MAX_Z - 0.5
-var is_initialized = false
+var current_box_line_z = GameManager.MIN_Z + 0.5
 
 func _ready() -> void:
     randomize()
     setup_level2()
     retryRectangle.hide()
     
+    # IMPROVED: Restore player position and prepare for level transition
+    restore_player_position_improved()
+    
     # Connect signals
     SignalBus.player_hit.connect(_on_player_hit.bind())
     logout_button.pressed.connect(_on_logout_button_pressed)
     retry_button.pressed.connect(_on_retry_button_pressed)
 
-    # Setup timer
+    # Setup coin timer
     coinTimer.wait_time = SPAWN_INTERVAL
     coinTimer.timeout.connect(_on_coin_timer_timeout)
 
-    # Initialize level
-    await initialize_level()
+    # IMPROVED INITIALIZATION SEQUENCE
+    await initialize_level_sequence()
 
 func setup_level2():
+    """Initialize Level 2 specific settings"""
     game_active = true
     coins_collected = 0
     is_transitioning = false
-    is_initialized = false
     enemies.clear()
     occupied_positions.clear()
 
-func initialize_level():
-    # Wait for scene to fully load and clear any residual objects
+func restore_player_position_improved():
+    """IMPROVED: Restore player position without causing snapping"""
+    if GameManager.has_stored_position and player and is_instance_valid(player):
+        var stored_pos = GameManager.get_stored_player_position()
+        stored_pos = GameManager.clamp_position_to_bounds(stored_pos)
+        
+        # Set player position and prepare for transition
+        player.global_position = stored_pos
+        player.preserve_current_position = true  # NEW: Tell player to preserve position
+        
+        print("Player position restored to: ", stored_pos)
+        GameManager.clear_stored_position()
+        
+        # Prepare player for level transition
+        if player.has_method("prepare_for_level_transition"):
+            player.prepare_for_level_transition()
+    else:
+        print("No stored position, using default safe spawn")
+        if player and is_instance_valid(player):
+            var safe_default = get_safe_default_position()
+            player.global_position = safe_default
+            if player.has_method("prepare_for_level_transition"):
+                player.prepare_for_level_transition()
+
+func initialize_level_sequence():
+    """IMPROVED: Initialize level with proper sequencing"""
+    print("=== INITIALIZING LEVEL 2 SEQUENCE ===")
+    
+    # Step 1: Wait for player to be ready
     await get_tree().process_frame
     
-    # Clean up any existing coins from previous levels
-    cleanup_existing_coins()
-    
-    # Wait a bit more to ensure cleanup
-    await get_tree().create_timer(0.1).timeout
-    
-    # Set initial positions
+    # Step 2: Set initial box line position based on player
     set_initial_box_line_position()
     
-    # Spawn enemies first
+    # Step 3: Spawn enemies with safety checks
     spawn_static_enemies()
-    
-    # Wait for enemies to be fully spawned
     await get_tree().process_frame
     
-    # Now spawn the first coin
-    spawn_coin()
+    # Step 4: Wait a moment for everything to settle
+    await get_tree().create_timer(0.5).timeout
     
-    # Start the timer for subsequent coins
+    # Step 5: Complete player level transition
+    if player and player.has_method("complete_level_transition"):
+        player.complete_level_transition()
+    
+    # Step 6: Wait for player calibration to complete
+    await get_tree().create_timer(2.0).timeout
+    
+    # Step 7: Spawn first coin and start game
+    spawn_coin()
     coinTimer.start()
     update_score_display()
     
-    is_initialized = true
-    print("Level 2 fully initialized")
+    print("=== LEVEL 2 INITIALIZATION COMPLETE ===")
 
-func cleanup_existing_coins():
-    # Remove any coins that might exist from previous levels
-    var existing_coins = get_tree().get_nodes_in_group("coins")
-    for coin in existing_coins:
-        if coin != current_coin and is_instance_valid(coin):
-            print("Cleaning up stray coin: ", coin)
-            coin.queue_free()
+func ensure_safe_player_position(proposed_pos: Vector3) -> Vector3:
+    """Ensure player position won't conflict with enemy spawning zones"""
+    var predicted_box_line_z = predict_box_line_position(proposed_pos)
     
-    # Also check direct children for coins
-    for child in get_children():
-        if child.has_method("add_to_group") and child.is_in_group("coins"):
-            if child != current_coin:
-                print("Cleaning up direct child coin: ", child)
-                child.queue_free()
+    if abs(proposed_pos.z - predicted_box_line_z) < MIN_PLAYER_DISTANCE:
+        print("Player position conflicts with enemy spawn zone, adjusting...")
+        return find_safe_player_position(proposed_pos)
+    
+    return proposed_pos
+
+func predict_box_line_position(player_pos: Vector3) -> float:
+    """Predict where the box line will be placed given a player position"""
+    if player_pos.z < (GameManager.MIN_Z + GameManager.MAX_Z) / 2:
+        return GameManager.MAX_Z - BOX_LINE_BUFFER
+    else:
+        return GameManager.MIN_Z + BOX_LINE_BUFFER
+
+func find_safe_player_position(original_pos: Vector3) -> Vector3:
+    """Find a safe position for the player that won't conflict with enemies"""
+    var safe_positions = [
+        Vector3(GameManager.MIN_X + 0.5, original_pos.y, GameManager.MIN_Z + 0.5),
+        Vector3(GameManager.MAX_X - 0.5, original_pos.y, GameManager.MIN_Z + 0.5),
+        Vector3(GameManager.MIN_X + 0.5, original_pos.y, GameManager.MAX_Z - 0.5),
+        Vector3(GameManager.MAX_X - 0.5, original_pos.y, GameManager.MAX_Z - 0.5),
+        Vector3(original_pos.x, original_pos.y, GameManager.MIN_Z + 0.5),
+        Vector3(original_pos.x, original_pos.y, GameManager.MAX_Z - 0.5),
+        Vector3(GameManager.MIN_X + 0.5, original_pos.y, original_pos.z),
+        Vector3(GameManager.MAX_X - 0.5, original_pos.y, original_pos.z),
+    ]
+    
+    for safe_pos in safe_positions:
+        var predicted_line = predict_box_line_position(safe_pos)
+        if abs(safe_pos.z - predicted_line) >= MIN_PLAYER_DISTANCE:
+            print("Found safe position: ", safe_pos)
+            return safe_pos
+    
+    print("Using emergency fallback position")
+    return Vector3(GameManager.MIN_X + 0.5, original_pos.y, GameManager.MIN_Z + 0.5)
+
+func get_safe_default_position() -> Vector3:
+    """Get a guaranteed safe default position"""
+    return Vector3(0, GameManager.FLOOR_Y, GameManager.MIN_Z + 0.5)
 
 func set_initial_box_line_position():
-    # Set the box line position away from the player at start
+    """IMPROVED: Set initial box line position without moving player"""
+    if not player or not is_instance_valid(player):
+        current_box_line_z = (GameManager.MIN_Z + GameManager.MAX_Z) / 2
+        return
+    
     var player_pos = player.global_position
-    var safe_distance = 1.5
+    var safe_distance = MIN_PLAYER_DISTANCE
     
-    # Choose a position that's far enough from the player
-    if player_pos.z < (MIN_Z + MAX_Z) / 2:
-        # Player is in the lower half, put boxes in upper half
-        current_box_line_z = MAX_Z - 1.0
+    print("Setting box line with player at: ", player_pos)
+    
+    # Strategy: Always place enemies on opposite side from player
+    if player_pos.z < (GameManager.MIN_Z + GameManager.MAX_Z) / 2:
+        # Player in lower half, enemies in upper half
+        current_box_line_z = GameManager.MAX_Z - BOX_LINE_BUFFER
     else:
-        # Player is in the upper half, put boxes in lower half
-        current_box_line_z = MIN_Z + 1.0
+        # Player in upper half, enemies in lower half
+        current_box_line_z = GameManager.MIN_Z + BOX_LINE_BUFFER
     
-    # Make sure it's still within bounds and safe distance
-    current_box_line_z = clamp(current_box_line_z, MIN_Z + 0.5, MAX_Z - 0.5)
-    
-    # Double-check distance from player
-    if abs(current_box_line_z - player_pos.z) < safe_distance:
-        # If still too close, put it at the opposite end
-        if player_pos.z < (MIN_Z + MAX_Z) / 2:
-            current_box_line_z = MAX_Z - 0.5
+    # Ensure minimum distance
+    var distance_to_player = abs(current_box_line_z - player_pos.z)
+    if distance_to_player < safe_distance:
+        print("Adjusting box line for minimum distance...")
+        if current_box_line_z > player_pos.z:
+            current_box_line_z = player_pos.z + safe_distance + 0.5
         else:
-            current_box_line_z = MIN_Z + 0.5
+            current_box_line_z = player_pos.z - safe_distance - 0.5
+        
+        # Clamp to bounds
+        current_box_line_z = clamp(current_box_line_z, GameManager.MIN_Z + 0.5, GameManager.MAX_Z - 0.5)
+    
+    print("Box line positioned at Z: ", current_box_line_z, " (distance from player: ", abs(current_box_line_z - player_pos.z), ")")
 
 func spawn_static_enemies():
-    # Clear previous enemies
+    """IMPROVED: Spawn enemies with better positioning"""
+    if not enemy_scene:
+        push_error("Enemy scene not assigned!")
+        return
+    
+    cleanup_enemies()
+
+    var spacing = (GameManager.MAX_X - GameManager.MIN_X) / float(NUM_ENEMIES - 1)
+    var player_pos = player.global_position if player and is_instance_valid(player) else Vector3.ZERO
+
+    print("Spawning ", NUM_ENEMIES, " enemies at box line Z: ", current_box_line_z)
+
+    for i in range(NUM_ENEMIES):
+        var enemy = enemy_scene.instantiate()
+        add_child(enemy)
+        
+        var x_pos = GameManager.MIN_X + i * spacing
+        var z_offset = randf_range(-BOX_LINE_WOBBLE, BOX_LINE_WOBBLE)
+        var pos = Vector3(x_pos, GameManager.FLOOR_Y + ENEMY_HEIGHT_OFFSET, current_box_line_z + z_offset)
+        
+        # Final safety check
+        var distance_to_player = pos.distance_to(player_pos)
+        if distance_to_player < MIN_PLAYER_DISTANCE:
+            print("WARNING: Enemy ", i, " too close to player, adjusting...")
+            if pos.z < player_pos.z:
+                pos.z = player_pos.z - MIN_PLAYER_DISTANCE - 0.3
+            else:
+                pos.z = player_pos.z + MIN_PLAYER_DISTANCE + 0.3
+            pos.z = clamp(pos.z, GameManager.MIN_Z + 0.5, GameManager.MAX_Z - 0.5)
+        
+        enemy.global_position = pos
+        enemy.rotation_degrees.y = randf_range(-15, 15)
+
+        # Initialize enemy
+        if enemy.has_method("initialize_as_static_hazard"):
+            enemy.initialize_as_static_hazard(pos)
+        elif enemy.has_property("velocity"):
+            enemy.velocity = Vector3.ZERO
+
+        setup_enemy_collision_detection(enemy)
+        enemies.append(enemy)
+        occupied_positions.append(pos)
+
+    print("Successfully spawned ", NUM_ENEMIES, " enemies")
+    verify_safe_spawning()
+
+func verify_safe_spawning():
+    """Verify that all enemies are safely positioned away from player"""
+    if not player or not is_instance_valid(player):
+        return
+    
+    var player_pos = player.global_position
+    var unsafe_enemies = []
+    
+    for i in range(enemies.size()):
+        var enemy = enemies[i]
+        if is_instance_valid(enemy):
+            var distance = enemy.global_position.distance_to(player_pos)
+            if distance < MIN_PLAYER_DISTANCE:
+                unsafe_enemies.append(i)
+                print("DANGER: Enemy ", i, " is only ", distance, " away from player!")
+    
+    if unsafe_enemies.size() > 0:
+        print("CRITICAL: ", unsafe_enemies.size(), " enemies are too close to player!")
+        emergency_player_repositioning()
+    else:
+        print("Safe spawning verified - all enemies are properly positioned")
+
+func emergency_player_repositioning():
+    """Emergency function to move player to absolute safety"""
+    if not player or not is_instance_valid(player):
+        return
+    
+    print("EMERGENCY: Repositioning player for safety")
+    
+    var corners = [
+        Vector3(GameManager.MIN_X + 0.3, GameManager.FLOOR_Y, GameManager.MIN_Z + 0.3),
+        Vector3(GameManager.MAX_X - 0.3, GameManager.FLOOR_Y, GameManager.MIN_Z + 0.3),
+        Vector3(GameManager.MIN_X + 0.3, GameManager.FLOOR_Y, GameManager.MAX_Z - 0.3),
+        Vector3(GameManager.MAX_X - 0.3, GameManager.FLOOR_Y, GameManager.MAX_Z - 0.3)
+    ]
+    
+    var safest_corner = corners[0]
+    var max_min_distance = 0.0
+    
+    for corner in corners:
+        var min_distance_to_enemies = INF
+        for enemy in enemies:
+            if is_instance_valid(enemy):
+                var dist = corner.distance_to(enemy.global_position)
+                min_distance_to_enemies = min(min_distance_to_enemies, dist)
+        
+        if min_distance_to_enemies > max_min_distance:
+            max_min_distance = min_distance_to_enemies
+            safest_corner = corner
+    
+    player.global_position = safest_corner
+    print("Player moved to safest corner: ", safest_corner, " (min distance to enemies: ", max_min_distance, ")")
+
+func cleanup_enemies():
+    """Clean up all existing enemies"""
     for enemy in enemies:
         if is_instance_valid(enemy):
             enemy.queue_free()
     enemies.clear()
     occupied_positions.clear()
 
-    var spacing = (MAX_X - MIN_X) / float(NUM_ENEMIES - 1)
-    var player_pos = player.global_position
-
-    var tries = 0
-    var max_tries = 15
-    var min_player_box_distance = 1.5
-
-    while tries < max_tries:
-        var temp_enemies: Array[CharacterBody3D] = []
-        var temp_positions: Array[Vector3] = []
-        var safe = true
-
-        for i in range(NUM_ENEMIES):
-            var x_pos = MIN_X + i * spacing
-            var z_offset = randf_range(-0.3, 0.3)  # Adds wobble to line
-            var box_pos = Vector3(x_pos, FLOOR_Y - 0.5, current_box_line_z + z_offset)
-
-            # Check distance from player
-            if box_pos.distance_to(player_pos) < min_player_box_distance:
-                safe = false
-                break
-
-            temp_positions.append(box_pos)
-
-        if safe:
-            # All box positions are safe, now instantiate
-            for i in range(NUM_ENEMIES):
-                if not enemy_scene:
-                    print("Warning: enemy_scene is null")
-                    continue
-                    
-                var enemy = enemy_scene.instantiate()
-                add_child(enemy)
-
-                var pos = temp_positions[i]
-                enemy.global_position = pos
-
-                # Add rotation randomness
-                enemy.rotation_degrees.y = randf_range(-15, 15)
-
-                # Optional: call initializer
-                if enemy.has_method("initialize_as_static_hazard"):
-                    enemy.initialize_as_static_hazard(pos)
-                else:
-                    enemy.velocity = Vector3.ZERO
-
-                setup_enemy_collision_detection(enemy)
-                enemies.append(enemy)
-                occupied_positions.append(pos)
-
-            return  # Done spawning
-        tries += 1
-
-    # Fallback if no safe layout found
-    print("Warning: fallback enemy layout used after ", max_tries, " attempts")
-
 func setup_enemy_collision_detection(enemy: CharacterBody3D):
-    if not is_instance_valid(enemy):
+    """Setup collision detection for enemy hazards"""
+    if not enemy or not is_instance_valid(enemy):
         return
-        
+    
     var detection_area = Area3D.new()
     var collision_shape = CollisionShape3D.new()
     var box_shape = BoxShape3D.new()
@@ -535,6 +326,7 @@ func setup_enemy_collision_detection(enemy: CharacterBody3D):
     detection_area.body_entered.connect(_on_enemy_touched.bind(enemy))
 
 func spawn_coin():
+    """IMPROVED: Spawn coin with better positioning"""
     if not game_active or is_transitioning:
         return
 
@@ -542,88 +334,93 @@ func spawn_coin():
 
     # Clean up existing coin
     if current_coin != null and is_instance_valid(current_coin):
-        if current_coin.body_entered.is_connected(_on_coin_collected):
-            current_coin.body_entered.disconnect(_on_coin_collected)
         current_coin.queue_free()
         current_coin = null
 
-    # Clean up any stray coins
-    cleanup_existing_coins()
-    
-    # Wait a frame for cleanup to complete
-    await get_tree().process_frame
-
-    # Only reposition enemies when spawning a new coin (not the first one)
+    # Reposition enemies for subsequent coins (not the first one)
     if coins_collected > 0:
-        # Safe hazard line positioning (avoid player)
-        var max_attempts = 10
-        var attempt = 0
-        var safe_distance = 1.5
-        while attempt < max_attempts:
-            var proposed_z = randf_range(MIN_Z + 1.0, MAX_Z - 1.0)
-            if abs(proposed_z - player.global_position.z) >= safe_distance:
-                current_box_line_z = proposed_z
-                break
-            attempt += 1
-        if attempt >= max_attempts:
-            current_box_line_z = (MIN_Z + MAX_Z) / 2
-
+        reposition_enemy_line()
         spawn_static_enemies()
+        await get_tree().process_frame
 
-    # Spawn coin on the opposite side of the boxes from the player
+    var coin_pos = calculate_coin_position()
+    
+    if not coin_scene:
+        push_error("Coin scene not assigned!")
+        return
+
+    current_coin = coin_scene.instantiate()
+    add_child(current_coin)
+    current_coin.add_to_group("coins")
+    current_coin.global_position = coin_pos
+
+    # Connect coin collection signal
+    if current_coin.has_signal("body_entered"):
+        if not current_coin.body_entered.is_connected(_on_coin_collected):
+            current_coin.body_entered.connect(_on_coin_collected)
+    else:
+        push_error("Coin scene doesn't have body_entered signal")
+    
+    print("Coin spawned at: ", coin_pos)
+
+func reposition_enemy_line():
+    """Reposition the enemy line for subsequent coin spawns"""
+    if not player or not is_instance_valid(player):
+        return
+    
+    var max_attempts = 10
+    var attempt = 0
+    var safe_distance = MIN_PLAYER_DISTANCE
+    
+    while attempt < max_attempts:
+        var proposed_z = randf_range(GameManager.MIN_Z + 1.0, GameManager.MAX_Z - 1.0)
+        if abs(proposed_z - player.global_position.z) >= safe_distance:
+            current_box_line_z = proposed_z
+            break
+        attempt += 1
+        
+    if attempt >= max_attempts:
+        current_box_line_z = (GameManager.MIN_Z + GameManager.MAX_Z) / 2
+
+func calculate_coin_position() -> Vector3:
+    """Calculate optimal coin position relative to player and enemies"""
+    if not player or not is_instance_valid(player):
+        return Vector3(0, GameManager.FLOOR_Y + COIN_HEIGHT_OFFSET, 0)
+    
     var player_z = player.global_position.z
     var coin_z: float
     
-    # If player is closer to the box line, put coin on far side
-    # If player is farther from box line, put coin on near side
+    # Position coin on opposite side of box line from player
     if player_z < current_box_line_z:
-        # Player is below the box line, put coin above it
-        coin_z = MAX_Z - 0.5
+        coin_z = GameManager.MAX_Z - 0.5
     else:
-        # Player is above the box line, put coin below it
-        coin_z = MIN_Z + 0.5
+        coin_z = GameManager.MIN_Z + 0.5
     
-    var coin_x = randf_range(MIN_X, MAX_X)
-
-    if coin_scene:
-        current_coin = coin_scene.instantiate()
-        add_child(current_coin)
-        
-        # Add to group for tracking
-        current_coin.add_to_group("coins")
-
-        current_coin.global_position = Vector3(coin_x, FLOOR_Y + COIN_HEIGHT_OFFSET, coin_z)
-
-        # Connect signal with error checking
-        if current_coin.has_signal("body_entered"):
-            if not current_coin.body_entered.is_connected(_on_coin_collected):
-                current_coin.body_entered.connect(_on_coin_collected)
-        else:
-            print("Warning: Coin scene doesn't have body_entered signal")
-        
-        print("Coin spawned at: ", current_coin.global_position)
-        print("Player at: ", player.global_position)
-        print("Box line at Z: ", current_box_line_z)
-    else:
-        print("Warning: coin_scene is null")
+    var coin_x = randf_range(GameManager.MIN_X, GameManager.MAX_X)
+    return Vector3(coin_x, GameManager.FLOOR_Y + COIN_HEIGHT_OFFSET, coin_z)
 
 func _on_coin_timer_timeout() -> void:
-    if not game_active or is_transitioning or not is_initialized:
+    """Handle coin spawn timer timeout"""
+    if not game_active or is_transitioning:
         return
+    print("Timer timeout - spawning new coin")
     spawn_coin()
 
 func _on_coin_collected(body):
+    """Handle coin collection detection"""
     if not game_active or is_transitioning:
         return
     if body == player or body.is_in_group("player"):
         collect_coin()
 
 func collect_coin():
+    """Process coin collection"""
     if not game_active or is_transitioning:
         return
         
     coins_collected += 1
     print("Coin collected! Total: ", coins_collected)
+    
     Scoreboard.add_score()
     update_score_display()
 
@@ -635,100 +432,99 @@ func collect_coin():
         coinTimer.start()
 
 func _on_enemy_touched(enemy: CharacterBody3D, body):
+    """Handle player touching an enemy"""
     if not game_active or is_transitioning:
         return
     if body == player or body.is_in_group("player"):
+        print("Player touched enemy - Game Over")
         game_over()
 
 func game_over():
-    if is_transitioning:
-        return
-        
+    """Handle game over state"""
     game_active = false
+    is_transitioning = true
     coinTimer.stop()
     SignalBus.player_hit.emit()
 
 func complete_level():
+    """Handle level completion"""
     if is_transitioning:
         return
         
-    print("Level 2 completed!")
+    print("Level 2 completed! Moving to Level 3...")
     is_transitioning = true
     game_active = false
-    
-    # Stop timer and disconnect signals
     coinTimer.stop()
+    
+    # Store player position for next level
+    if player and is_instance_valid(player):
+        GameManager.store_player_position(player.global_position)
+    
+    Scoreboard.record_score()
+    
+    # Transition to level 3
+    if level3_transition and is_instance_valid(level3_transition):
+        level3_transition.transition()
+    else:
+        get_tree().change_scene_to_file("res://Games/Jumpify/levels/level3.tscn")
+
+func update_score_display():
+    """Update the score display UI"""
+    if scoreLabel and is_instance_valid(scoreLabel):
+        scoreLabel.text = "Coins: " + str(coins_collected) + "/" + str(COINS_TO_NEXT_LEVEL)
+
+func _on_player_hit() -> void:
+    """Handle player hit signal"""
+    if is_transitioning:
+        return
+        
+    game_active = false
+    is_transitioning = true
+    coinTimer.stop()
+    
+    Scoreboard.record_score()
+    await get_tree().create_timer(GAME_OVER_DELAY).timeout
+    
+    if is_instance_valid(retryRectangle):
+        retryRectangle.show()
+
+func _unhandled_input(event: InputEvent) -> void:
+    """Handle retry input"""
+    if event.is_action_pressed("ui_accept") and retryRectangle.is_visible():
+        restart_level()
+
+func restart_level():
+    """Restart the current level"""
+    cleanup_before_restart()
+    Scoreboard.reset_score()
+    get_tree().reload_current_scene()
+
+func cleanup_before_restart():
+    """Clean up before restarting"""
+    game_active = false
+    is_transitioning = false
+    coinTimer.stop()
+    
     if coinTimer.timeout.is_connected(_on_coin_timer_timeout):
         coinTimer.timeout.disconnect(_on_coin_timer_timeout)
     
-    # Clean up current coin
     if current_coin != null and is_instance_valid(current_coin):
         if current_coin.body_entered.is_connected(_on_coin_collected):
             current_coin.body_entered.disconnect(_on_coin_collected)
         current_coin.queue_free()
         current_coin = null
     
-    # Clean up all coins and enemies
-    cleanup_existing_coins()
     cleanup_enemies()
-    
-    Scoreboard.record_score()
-    
-    # Small delay to ensure cleanup
-    await get_tree().create_timer(0.1).timeout
-    
-    if level3_transition and is_instance_valid(level3_transition):
-        level3_transition.transition()
-    else:
-        get_tree().change_scene_to_file("res://Games/Jumpify/levels/level3.tscn")
+    GameManager.clear_stored_position()
 
-func cleanup_enemies():
-    for enemy in enemies:
-        if is_instance_valid(enemy):
-            enemy.queue_free()
-    enemies.clear()
-    occupied_positions.clear()
+func _on_logout_button_pressed() -> void:
+    """Handle logout button press"""
+    cleanup_before_restart()
+    get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn")
 
-func update_score_display():
-    if scoreLabel and is_instance_valid(scoreLabel):
-        scoreLabel.text = "Coins: " + str(coins_collected) + "/" + str(COINS_TO_NEXT_LEVEL)
-
-func _on_player_hit() -> void:
-    if is_transitioning:
-        return
-        
-    game_active = false
-    coinTimer.stop()
-    
-    # Disconnect timer signal
-    if coinTimer.timeout.is_connected(_on_coin_timer_timeout):
-        coinTimer.timeout.disconnect(_on_coin_timer_timeout)
-    
-    Scoreboard.record_score()
-    await get_tree().create_timer(0.75).timeout
-    
-    if is_instance_valid(retryRectangle):
-        retryRectangle.show()
-
-func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("ui_accept") and retryRectangle.is_visible():
-        cleanup_before_restart()
-        get_tree().reload_current_scene()
-        Scoreboard.reset_score()
-
-func cleanup_before_restart():
-    # Clean up everything before restart
-    game_active = false
-    is_transitioning = false
-    is_initialized = false
-    coinTimer.stop()
-    
-    if current_coin != null and is_instance_valid(current_coin):
-        current_coin.queue_free()
-        current_coin = null
-    
-    cleanup_existing_coins()
-    cleanup_enemies()
+func _on_retry_button_pressed() -> void:
+    """Handle retry button press"""
+    restart_level()
 
 # Helper functions for external access
 func get_coins_collected() -> int:
@@ -738,36 +534,24 @@ func get_coins_remaining() -> int:
     return COINS_TO_NEXT_LEVEL - coins_collected
 
 func is_game_active() -> bool:
-    return game_active and not is_transitioning and is_initialized
+    return game_active and not is_transitioning
 
 func get_active_enemies() -> Array[CharacterBody3D]:
     return enemies.duplicate()
 
 func debug_coin_spawning():
+    """Debug information for coin spawning"""
     print("=== COIN SPAWN DEBUG ===")
-    print("Game active: ", game_active)
-    print("Is transitioning: ", is_transitioning)
-    print("Is initialized: ", is_initialized)
     print("Coins collected: ", coins_collected)
-    print("Occupied positions: ", occupied_positions.size())
-    for i in range(occupied_positions.size()):
-        print("Enemy ", i, " at: ", occupied_positions[i])
-    if current_coin:
+    print("Player position: ", player.global_position if player else "No player")
+    print("Box line Z: ", current_box_line_z)
+    print("Active enemies: ", enemies.size())
+    if current_coin and is_instance_valid(current_coin):
         print("Current coin at: ", current_coin.global_position)
-    print("Existing coins in scene: ", get_tree().get_nodes_in_group("coins").size())
-    print("=======================")
+    print("========================")
 
-func _on_logout_button_pressed() -> void:
-    cleanup_before_restart()
-    get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn")
-
-func _on_retry_button_pressed() -> void:
-    cleanup_before_restart()
-    get_tree().reload_current_scene()
-
-# Called when the node is about to be removed from the scene
 func _exit_tree():
-    # Final cleanup
+    """Final cleanup when exiting the scene"""
     if coinTimer and coinTimer.timeout.is_connected(_on_coin_timer_timeout):
         coinTimer.timeout.disconnect(_on_coin_timer_timeout)
     
@@ -775,5 +559,4 @@ func _exit_tree():
         if current_coin.body_entered.is_connected(_on_coin_collected):
             current_coin.body_entered.disconnect(_on_coin_collected)
     
-    cleanup_existing_coins()
     cleanup_enemies()
