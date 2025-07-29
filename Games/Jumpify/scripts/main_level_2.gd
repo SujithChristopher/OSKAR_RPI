@@ -238,7 +238,7 @@ func spawn_static_enemies():
 
     print("Successfully spawned ", NUM_ENEMIES, " enemies")
     verify_safe_spawning()
-
+    
 func verify_safe_spawning():
     """Verify that all enemies are safely positioned away from player"""
     if not player or not is_instance_valid(player):

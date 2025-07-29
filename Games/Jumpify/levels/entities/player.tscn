@@ -1,9 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://doxjbwhfys3ot"]
+[gd_scene load_steps=25 format=3 uid="uid://doxjbwhfys3ot"]
 
 [ext_resource type="PackedScene" uid="uid://diuf4ysd58lwj" path="res://Games/Jumpify/art/models/character-male-e.glb" id="1_mibvx"]
 [ext_resource type="Script" uid="uid://bghl6tcpon1yn" path="res://Games/Jumpify/scripts/jplayer.gd" id="1_vfbym"]
-[ext_resource type="PackedScene" uid="uid://de00m6ji8pugo" path="res://Games/Jumpify/levels/entities/ko-stars.tscn" id="2_xr7go"]
-[ext_resource type="PackedScene" uid="uid://cxm3jwu56bcev" path="res://Games/Jumpify/levels/entities/smoke_particles.tscn" id="3_g00be"]
 [ext_resource type="PackedScene" uid="uid://dupw6vr5pmmt4" path="res://Games/Jumpify/art/models/hat-hard.glb" id="3_ojwqx"]
 [ext_resource type="AudioStream" uid="uid://b2jdugmgf32f8" path="res://Games/Jumpify/audio/sfx/jump-1.ogg" id="4_faqc7"]
 [ext_resource type="AudioStream" uid="uid://b6ipjxhd00lq6" path="res://Games/Jumpify/audio/sfx/hurt-1.ogg" id="5_faqc7"]
@@ -89,33 +87,27 @@ radius = 0.205566
 height = 0.49476
 radius = 0.222656
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animation_player", "jump_sound", "death_sound", "ko_pivot")]
+[node name="Player" type="CharacterBody3D"]
 collision_mask = 6
 script = ExtResource("1_vfbym")
-animation_player = NodePath("Pivot/Character/AnimationPlayer")
-jump_sound = NodePath("Audio/Jump")
-death_sound = NodePath("Audio/Hurt")
-ko_pivot = NodePath("Pivot/Character/HeadAttachment/KO Stars pivot")
-ko_effect = ExtResource("2_xr7go")
-smoke_particles = ExtResource("3_g00be")
 
 [node name="Pivot" type="Node3D" parent="."]
 
 [node name="Character" parent="Pivot" instance=ExtResource("1_mibvx")]
 
 [node name="Skeleton3D" parent="Pivot/Character/character-male-e" index="0"]
-bones/1/rotation = Quaternion(-0.458717, 0.344583, 0.198945, 0.79452)
-bones/2/rotation = Quaternion(-0.351087, -0.367602, -0.152266, 0.847598)
-bones/4/rotation = Quaternion(-0.0417211, 0.254486, 0.15672, 0.953381)
-bones/5/rotation = Quaternion(-0.0417211, -0.254486, -0.15672, 0.953381)
-bones/6/rotation = Quaternion(0.0361505, 0, 0, 0.999346)
+bones/1/rotation = Quaternion(-0.44395, 0.398403, 0.230018, 0.768944)
+bones/2/rotation = Quaternion(-0.339785, -0.425018, -0.176048, 0.820313)
+bones/4/rotation = Quaternion(-0.0650146, 0.250131, 0.243038, 0.934955)
+bones/5/rotation = Quaternion(-0.0650146, -0.250131, -0.243038, 0.934955)
+bones/6/rotation = Quaternion(0.00852979, 0, 0, 0.999964)
 
 [node name="AnimationPlayer" parent="Pivot/Character" index="1"]
 autoplay = "attack-kick-left"
 speed_scale = 20.0
 
 [node name="HeadAttachment" type="BoneAttachment3D" parent="Pivot/Character"]
-transform = Transform3D(1, 0, 0, 0, 0.997386, -0.0722537, 0, 0.0722537, 0.997386, 1.81969e-09, 0.34325, -0.00236122)
+transform = Transform3D(1, 0, 0, 0, 0.999855, -0.017059, 0, 0.017059, 0.999855, 1.81969e-09, 0.34325, -0.00236122)
 bone_name = "head"
 bone_idx = 6
 use_external_skeleton = true

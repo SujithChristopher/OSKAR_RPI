@@ -1,8 +1,7 @@
 extends Node
 
-var score_data_path := "user://score_data.tres"  
-var score_data: ScoreData
-
+var score_data_path := "user://score_data.tres"
+var score_data: ScoreData 
 func _ready():
     load_or_create_score_data()
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://7e3crly8y1uw"]
+[gd_scene load_steps=31 format=3 uid="uid://b8nxvsv6c4vl0"]
 
 [ext_resource type="Script" uid="uid://ij1iucowaxmn" path="res://Games/Jumpify/scripts/main_level1.gd" id="1_6qr60"]
 [ext_resource type="Script" uid="uid://b6pasd7cw6qqt" path="res://Games/Jumpify/scripts/camera_shake.gd" id="3_m0uu3"]
@@ -29,17 +29,8 @@ background_color = Color(0.0980392, 0.109804, 0.176471, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.234504, 0.243243, 0.311212, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1fput"]
-size = Vector3(6.06056, 3.37207, 0.700684)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_sugp2"]
 size = Vector3(2.00354, 0.167053, 2.01003)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xdh4e"]
-size = Vector3(1.85059, 2.95654, 1.19336)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_c7dyn"]
-size = Vector3(1.3258, 3.40051, 0.549072)
 
 [sub_resource type="Animation" id="Animation_jkag2"]
 length = 0.001
@@ -154,10 +145,6 @@ smoke_particles = null
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.71473)
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Back wall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.017662, 0.21875, 0.149658)
-shape = SubResource("BoxShape3D_1fput")
-
 [node name="floor-large" parent="Level" groups=["floor"] instance=ExtResource("5_mosb8")]
 transform = Transform3D(6.11215, 0, 0, 0, 1.01405, 0, 0, 0, 6.43752, 0, -1, 0)
 
@@ -175,10 +162,6 @@ transform = Transform3D(-3.13735, 0, -8.74228e-08, 0, 1, 0, 2.74276e-07, 0, -1, 
 [node name="StaticBody3D" type="StaticBody3D" parent="Level/structure-doorway-wide2"]
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-doorway-wide2/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00744633, 1.43542, 0.710464)
-shape = SubResource("BoxShape3D_xdh4e")
-
 [node name="structure-corner-inner2" parent="Level" instance=ExtResource("7_0xxkv")]
 transform = Transform3D(-4.38264e-08, 0, 0.60448, 0, 1.00263, 0, -1.00263, 0, -2.64227e-08, 3.436, -1, -1.763)
 
@@ -192,20 +175,12 @@ transform = Transform3D(-4.32567e-07, 0, 1, 0, 1, 0, -9.89597, 0, -4.37114e-08, 
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.37677, -0.012161, -3.171)
 collision_layer = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-wall2/StaticBody3D2"]
-transform = Transform3D(1, 0, -2.0691e-11, 0, 1, 0, 0, 0, 1, -3.38004, 1.20833, -0.263306)
-shape = SubResource("BoxShape3D_c7dyn")
-
 [node name="structure-wall3" parent="Level" instance=ExtResource("8_ewpcl")]
 transform = Transform3D(-4.32567e-07, 0, -1, 0, 1, 0, 9.89597, 0, -4.37114e-08, -3.17071, -0.988235, 1.9575)
 
 [node name="StaticBody3D3" type="StaticBody3D" parent="Level/structure-wall3"]
 transform = Transform3D(5.25456e-08, 0, -1, 0, 1, 0, 1, 0, 9.08845e-07, -0.376814, -0.011765, 3.52697)
 collision_layer = 4
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/structure-wall3/StaticBody3D3"]
-transform = Transform3D(1, 0, -2.34763e-11, 0, 1, 0, 0, 0, 1, -3.51221, 1.20026, -0.263306)
-shape = SubResource("BoxShape3D_c7dyn")
 
 [node name="door-wide-half2" parent="Level" instance=ExtResource("9_v8qhs")]
 transform = Transform3D(-3.14561, 0, -8.74228e-08, 0, 1, 0, 2.74998e-07, 0, -1, 0, -1, -1.84997)

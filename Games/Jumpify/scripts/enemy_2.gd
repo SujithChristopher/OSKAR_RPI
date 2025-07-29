@@ -62,6 +62,22 @@ func initialize_as_static_hazard(start_position: Vector3) -> void:
     rotation.y = randf_range(0, PI * 2)
     
     print("Static hazard initialized at: ", global_position)
+    
+#func initialize_as_static_hazard(start_position: Vector3, uniform_width := 1.0) -> void:
+    #global_position = start_position
+    #velocity = Vector3.ZERO
+#
+    ## Set uniform scale to remove randomness
+    #var target_scale = Vector3(uniform_width, 1.0, uniform_width)
+    #scale = target_scale
+    #initial_scale = scale
+#
+    ## No rotation for clean alignment
+    #rotation = Vector3.ZERO
+#
+    #print("Static hazard initialized at: ", global_position)
+
+
 
 func setup_hazard_appearance():
     if not mesh_instance:

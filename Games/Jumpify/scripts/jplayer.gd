@@ -2,30 +2,19 @@ class_name Player
 extends CharacterBody3D
 
 @export_group("Movement")
-@export var speed = 3.0
-@export var fall_acceleration = 74.0
-@export var jump_impulse = 20.0
-@export var bounce_factor = 0.75
-@export var position_lerp_factor = 0.15
+@export var position_lerp_factor = 0.8  # Similar to Random Reach
 
 @export_group("Boundaries")
-@export var min_bounds = Vector3(-2.6, -100, -1.8)
-@export var max_bounds = Vector3(2.6, 100, 3.42)
+@export var min_bounds = Vector3(-2.6, -0.95, -1.8)    # Ground level Y = -1.0
+@export var max_bounds = Vector3(2.6, 4.0, 3.42)     # Max height Y = 4
 @export var boundary_buffer = 0.1
 
 @export_group("Network Control")
 @export var debug_mode: bool = false
 @export var network_movement_enabled: bool = true
-@export var movement_sensitivity: float = 2.0
-@export var network_deadzone: float = 0.02
 
 # Adaptive mode support
 var adapt_toggle: bool = false
-
-@export_group("Jump Detection - DIRECTION BASED")
-@export var min_direction_change: float = 0.01  # Minimum change to detect direction switch
-@export var jump_cooldown_time: float = 0.6     # Cooldown between jumps
-@export var smoothing_factor: float = 0.3       # Smoothing for Y values
 
 @export_group("Animation")
 @export var animation_player: AnimationPlayer
@@ -42,358 +31,256 @@ var adapt_toggle: bool = false
 
 @export_group("Debug")
 @export var verbose_debug: bool = true
+@export var preserve_current_position: bool = false
 
-# Network position variables
+# Network position variables - similar to Random Reach
 var network_position = Vector3.ZERO
-var target_position = Vector3.ZERO
 var zero_offset = Vector3.ZERO
-var preserve_current_position: bool = false
 
-# Y DIRECTION CHANGE DETECTION
-var raw_y_history: Array[float] = []
-var smoothed_y_history: Array[float] = []
-var y_direction_history: Array[int] = []  # -1 = down, 0 = no change, 1 = up
-var history_size: int = 5
-
-var current_smoothed_y: float = 0.0
-var previous_smoothed_y: float = 0.0
-var current_y_direction: int = 0
-var previous_y_direction: int = 0
-
-var jump_cooldown: float = 0.0
-var is_calibrated: bool = false
-var baseline_y: float = 0.0
-var calibration_samples = []
-var calibration_count = 8
-
-var level_transition_active: bool = false
+# Position tracking variables - similar to Random Reach
+var pos_x: float
+var pos_y: float
+var pos_z: float
 
 # State
 var is_dead = false
 var debug_frame_counter = 0
+var level_transition_active: bool = false
 
 func _ready() -> void:
-    print("=== PLAYER READY - DIRECTION CHANGE DETECTION ===")
+    print("=== JUMPIFY PLAYER READY - ABSOLUTE 3D POSITIONING ===")
     print("Debug mode: ", debug_mode)
     print("Network movement enabled: ", network_movement_enabled)
     
-    # Initialize history arrays
-    for i in range(history_size):
-        raw_y_history.append(0.0)
-        smoothed_y_history.append(0.0)
-        y_direction_history.append(0)
+    _initialize_position()
     
-    if not preserve_current_position:
-        _initialize_position()
-    else:
-        target_position = position
-        print("Preserving current position: ", position)
-    
-    _start_calibration()
+    # Start calibration after a brief delay
+    await get_tree().create_timer(0.5).timeout
+    level_transition_active = false
 
 func _initialize_position():
-    """Initialize player at center of bounds"""
+    """Initialize player at ground level"""
     position = Vector3(
         (min_bounds.x + max_bounds.x) / 2.0,
-        0,
+        min_bounds.y,  # Start at ground level (Y = -1.0)
         (min_bounds.z + max_bounds.z) / 2.0
     )
-    target_position = position
-    print("Initial position: ", position)
-
-func _start_calibration():
-    """Start calibration process"""
-    print("Starting calibration process...")
-    calibration_samples.clear()
-    is_calibrated = false
-    level_transition_active = true
-    
-    if network_movement_enabled and not debug_mode:
-        print("Waiting for network to stabilize...")
-        await get_tree().create_timer(1.0).timeout
-        _calibrate_zero_position()
-        print("Collecting baseline samples...")
-        await get_tree().create_timer(0.5).timeout
-        level_transition_active = false
-        print("Calibration complete - direction detection active")
-    else:
-        print("Skipping network calibration (debug mode)")
-        await get_tree().create_timer(0.2).timeout
-        level_transition_active = false
+    print("Initial position (ground level): ", position)
 
 func _physics_process(delta: float) -> void:
     debug_frame_counter += 1
     
-    if is_dead:
+    if is_dead or level_transition_active:
         return
 
-    # Update cooldown timer
-    if jump_cooldown > 0:
-        jump_cooldown -= delta
+    # Update player position using absolute positioning
+    _update_player_position_absolute()
+    
+    # Handle collision detection (keep enemy collision)
+    _check_enemy_collision()
 
-    # Update network position and Y direction detection
+func _update_player_position_absolute() -> void:
+    """Update player position using absolute positioning like Random Reach"""
+    
+    if debug_mode:
+        # Debug mode: Use mouse for 3D movement
+        _handle_debug_movement()
+    elif network_movement_enabled:
+        # Network mode: Use absolute positioning from GlobalScript
+        _handle_network_movement_absolute()
+    else:
+        # Keyboard mode: Use keyboard input
+        _handle_keyboard_movement()
+
+func _handle_debug_movement() -> void:
+    """Debug movement using mouse and keyboard"""
+    var mouse_pos = get_viewport().get_mouse_position()
+    var screen_size = get_viewport().get_visible_rect().size
+    
+    # Map mouse to X and Z
+    var target_x = (mouse_pos.x / screen_size.x) * (max_bounds.x - min_bounds.x) + min_bounds.x
+    var target_z = (mouse_pos.y / screen_size.y) * (max_bounds.z - min_bounds.z) + min_bounds.z
+    
+    # Use keyboard for Y movement in debug - start from ground
+    var target_y = position.y
+    if Input.is_action_pressed("ui_up"):
+        target_y += 0.05  # Move UP
+    if Input.is_action_pressed("ui_down"):
+        target_y -= 0.05  # Move DOWN
+        target_y = max(target_y, min_bounds.y)  # Don't go below ground (-1.0)
+    
+    var target_position = Vector3(target_x, target_y, target_z)
+    target_position = _clamp_to_bounds(target_position)
+    
+    # Apply smooth movement like Random Reach
+    position = position.lerp(target_position, position_lerp_factor)
+
+func _handle_network_movement_absolute() -> void:
+    """Handle absolute positioning from network data like Random Reach"""
+    
+    # Get network position similar to Random Reach
+    if adapt_toggle:
+        network_position = _get_scaled_network_position()
+    else:
+        network_position = _get_network_position()
+    
+    if network_position != Vector3.ZERO:
+        # Apply zero offset calibration like Random Reach
+        network_position = network_position - zero_offset
+        
+        # Map network coordinates to 3D world coordinates
+        var target_position = _map_network_to_3d_bounds(network_position)
+        
+        # Clamp to boundaries
+        target_position = _clamp_to_bounds(target_position)
+        
+        # Apply smooth movement like Random Reach
+        position = position.lerp(target_position, position_lerp_factor)
+        
+        # Update position tracking variables
+        _update_position_tracking()
+
+func _get_network_position() -> Vector3:
+    """Get network position from GlobalScript like Random Reach"""
+    if not GlobalScript:
+        return Vector3.ZERO
+    
+    # Get raw sensor data
+    pos_x = GlobalScript.raw_x if "raw_x" in GlobalScript else 0.0
+    pos_y = GlobalScript.raw_y if "raw_y" in GlobalScript else 0.0
+    pos_z = GlobalScript.raw_z if "raw_z" in GlobalScript else 0.0
+    
+    # Apply scaling similar to GlobalScript transformation
+    var net_x = pos_x * GlobalScript.PLAYER_POS_SCALER_X
+    var net_y = pos_y * GlobalScript.PLAYER_POS_SCALER_Y
+    var net_z = pos_z * GlobalScript.PLAYER_POS_SCALER_Y
+    
+    return Vector3(net_x, net_y, net_z)
+
+func _get_scaled_network_position() -> Vector3:
+    """Get scaled network position for adaptive mode"""
+    if not GlobalScript:
+        return Vector3.ZERO
+    
+    # Get raw sensor data
+    pos_x = GlobalScript.raw_x if "raw_x" in GlobalScript else 0.0
+    pos_y = GlobalScript.raw_y if "raw_y" in GlobalScript else 0.0
+    pos_z = GlobalScript.raw_z if "raw_z" in GlobalScript else 0.0
+    
+    # Apply scaling with global scalars
+    var scaled_x = pos_x * GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x
+    var scaled_y = pos_y * GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y
+    var scaled_z = pos_z * GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y
+    
+    return Vector3(scaled_x, scaled_y, scaled_z)
+
+func _map_network_to_3d_bounds(net_pos: Vector3) -> Vector3:
+    """Map network position to 3D game boundaries"""
+    # Increased scale factor for faster movement
+    var scale_factor = 0.01  # Increased from 0.001 for faster movement
+    
+    var mapped_pos = Vector3(
+        net_pos.x * scale_factor,
+        net_pos.y * scale_factor,  # Y sensor controls Y movement (NOT inverted)
+        net_pos.z * scale_factor
+    )
+    
+    # Start from ground level, not center
+    var base_position = Vector3(
+        (min_bounds.x + max_bounds.x) / 2.0,  # Center X
+        min_bounds.y,  # Ground level Y = -1.0
+        (min_bounds.z + max_bounds.z) / 2.0   # Center Z
+    )
+    
+    # For Y axis: positive sensor values move UP from ground
+    var final_pos = Vector3(
+        base_position.x + mapped_pos.x,
+        base_position.y + abs(mapped_pos.y),  # Only positive Y movement from ground (-1.0)
+        base_position.z + mapped_pos.z
+    )
+    
+    return final_pos
+
+func _update_position_tracking() -> void:
+    """Update position tracking variables like Random Reach"""
+    # Store current sensor values for logging
+    if GlobalScript:
+        pos_x = GlobalScript.raw_x if "raw_x" in GlobalScript else 0.0
+        pos_y = GlobalScript.raw_y if "raw_y" in GlobalScript else 0.0
+        pos_z = GlobalScript.raw_z if "raw_z" in GlobalScript else 0.0
+
+func _handle_keyboard_movement() -> void:
+    """Handle keyboard movement with absolute positioning"""
+    var target_position = position
+    var move_speed = 0.1  # Increased speed
+    
+    if Input.is_action_pressed("move_right"):
+        target_position.x += move_speed
+    if Input.is_action_pressed("move_left"):
+        target_position.x -= move_speed
+    if Input.is_action_pressed("move_back"):
+        target_position.z += move_speed
+    if Input.is_action_pressed("move_forward"):
+        target_position.z -= move_speed
+    if Input.is_action_pressed("ui_up"):  # Move up in Y
+        target_position.y += move_speed
+    if Input.is_action_pressed("ui_down"):  # Move down in Y
+        target_position.y -= move_speed
+        target_position.y = max(target_position.y, min_bounds.y)  # Don't go below ground (-1.0)
+    
+    target_position = _clamp_to_bounds(target_position)
+    position = position.lerp(target_position, position_lerp_factor)
+
+func _clamp_to_bounds(pos: Vector3) -> Vector3:
+    """Clamp position to boundaries like Random Reach"""
+    return Vector3(
+        clamp(pos.x, min_bounds.x + boundary_buffer, max_bounds.x - boundary_buffer),
+        clamp(pos.y, min_bounds.y + boundary_buffer, max_bounds.y - boundary_buffer),
+        clamp(pos.z, min_bounds.z + boundary_buffer, max_bounds.z - boundary_buffer)
+    )
+
+func _check_enemy_collision() -> void:
+    """Check for enemy collision"""
+    # Keep the existing collision system
+    pass
+
+# Calibration functions like Random Reach
+func _on_zero_pressed() -> void:
+    """Calibrate zero position like Random Reach"""
+    print("=== CALIBRATING ZERO POSITION (3D) ===")
     if network_movement_enabled and not debug_mode:
-        _update_network_position()
-        _update_y_direction_detection()
-
-    # Handle smooth movement
-    _update_player_position(delta)
-
-    # Handle jumping and physics
-    if is_on_floor():
-        if velocity.y < 0:
-            Scoreboard.reset_combo()
-            _spawn_smoke()
-        
-        # Check for jump based on Y direction change
-        if not level_transition_active and _should_jump():
-            _perform_jump()
-    else:
-        velocity.y -= fall_acceleration * delta
-
-    # Apply movement (only Y velocity for jumping/falling)
-    velocity.x = 0
-    velocity.z = 0
-    move_and_slide()
-
-    # Clamp to boundaries
-    var new_x = clamp(position.x, min_bounds.x + boundary_buffer, max_bounds.x - boundary_buffer)
-    var new_z = clamp(position.z, min_bounds.z + boundary_buffer, max_bounds.z - boundary_buffer)
-    
-    if abs(new_x - position.x) > 0.01 or abs(new_z - position.z) > 0.01:
-        position.x = new_x
-        position.z = new_z
-
-func _update_network_position():
-    """Update network position with smooth interpolation"""
-    var current_network_pos = Vector2.ZERO
-    
-    if debug_mode:
-        var mouse_pos = get_viewport().get_mouse_position()
-        var screen_size = get_viewport().get_visible_rect().size
-        current_network_pos = Vector2(
-            (mouse_pos.x / screen_size.x) * (max_bounds.x - min_bounds.x) + min_bounds.x,
-            (mouse_pos.y / screen_size.y) * (max_bounds.z - min_bounds.z) + min_bounds.z
-        )
-    elif adapt_toggle:
-        if GlobalScript.has_method("get_scaled_network_position"):
-            current_network_pos = GlobalScript.scaled_network_position
-        else:
-            current_network_pos = GlobalScript.network_position
-    else:
-        if "network_position" in GlobalScript:
-            current_network_pos = GlobalScript.network_position
-
-    if current_network_pos != Vector2.ZERO:
-        var new_network_pos = Vector3(current_network_pos.x, 0, current_network_pos.y)
-        
-        if zero_offset != Vector3.ZERO:
-            new_network_pos = new_network_pos - zero_offset
-        
-        var new_target = _map_network_to_bounds(new_network_pos)
-        new_target.y = position.y
-        
-        if not level_transition_active:
-            var distance_to_new_target = new_target.distance_to(target_position)
-            if distance_to_new_target > network_deadzone:
-                target_position = new_target
-
-func _map_network_to_bounds(net_pos: Vector3) -> Vector3:
-    """Map network position to game boundaries"""
-    var mapped_pos = Vector3.ZERO
-    
-    var network_scale_x = movement_sensitivity * 0.008
-    var network_scale_z = movement_sensitivity * 0.008
-    
-    mapped_pos.x = net_pos.x * network_scale_x
-    mapped_pos.z = net_pos.z * network_scale_z
-    
-    mapped_pos.x = clamp(mapped_pos.x, min_bounds.x, max_bounds.x)
-    mapped_pos.z = clamp(mapped_pos.z, min_bounds.z, max_bounds.z)
-    mapped_pos.y = net_pos.y
-    
-    return mapped_pos
-
-func _update_player_position(delta: float) -> void:
-    """Update player position with smooth movement"""
-    if debug_mode:
-        var direction = Vector3.ZERO
-        if Input.is_action_pressed("ui_right"):
-            direction.x += 1
-        if Input.is_action_pressed("ui_left"):
-            direction.x -= 1
-        if Input.is_action_pressed("ui_down"):
-            direction.z += 1
-        if Input.is_action_pressed("ui_up"):
-            direction.z -= 1
-        
-        if direction.length() > 0:
-            target_position += direction.normalized() * speed * delta
-    elif network_movement_enabled and not level_transition_active:
-        pass  # Handled in _update_network_position
-    else:
-        var direction = Vector3.ZERO
-        if Input.is_action_pressed("move_right"):
-            direction.x += 1
-        if Input.is_action_pressed("move_left"):
-            direction.x -= 1
-        if Input.is_action_pressed("move_back"):
-            direction.z += 1
-        if Input.is_action_pressed("move_forward"):
-            direction.z -= 1
-            
-        if direction.length() > 0:
-            target_position += direction.normalized() * speed * delta
-
-    # Smooth interpolation to target position
-    if target_position != Vector3.ZERO and not level_transition_active:
-        var horizontal_distance = Vector2(target_position.x - position.x, target_position.z - position.z).length()
-        
-        if horizontal_distance > network_deadzone:
-            var new_pos = position.lerp(Vector3(target_position.x, position.y, target_position.z), position_lerp_factor)
-            position.x = new_pos.x
-            position.z = new_pos.z
-            
-            var movement_direction = Vector3(target_position.x - position.x, 0, target_position.z - position.z)
-            if movement_direction.length() > network_deadzone:
-                $Pivot.basis = $Pivot.basis.slerp(Basis.looking_at(-movement_direction), 0.15)
-
-func _update_y_direction_detection():
-    """Detect Y direction changes for jump triggering"""
-    if not "raw_y" in GlobalScript:
-        return
-    
-    var raw_y = GlobalScript.raw_y
-    
-    # Add to history and remove oldest
-    raw_y_history.append(raw_y)
-    raw_y_history.remove_at(0)
-    
-    # Apply smoothing
-    current_smoothed_y = lerp(current_smoothed_y, raw_y, smoothing_factor)
-    
-    # Add smoothed value to history
-    smoothed_y_history.append(current_smoothed_y)
-    smoothed_y_history.remove_at(0)
-    
-    # Handle calibration
-    if not is_calibrated:
-        calibration_samples.append(current_smoothed_y)
-        
-        if calibration_samples.size() >= calibration_count:
-            var sum = 0.0
-            for sample in calibration_samples:
-                sum += sample
-            baseline_y = sum / calibration_samples.size()
-            
-            is_calibrated = true
-            previous_smoothed_y = current_smoothed_y
-            print("=== Y-AXIS CALIBRATED FOR DIRECTION DETECTION ===")
-            print("Baseline Y: ", "%.4f" % baseline_y)
-        return
-    
-    # Calculate direction
-    previous_y_direction = current_y_direction
-    var y_diff = current_smoothed_y - previous_smoothed_y
-    
-    if abs(y_diff) > min_direction_change:
-        if y_diff > 0:
-            current_y_direction = 1   # Moving up (Y increasing)
-        else:
-            current_y_direction = -1  # Moving down (Y decreasing)
-    else:
-        current_y_direction = 0  # No significant change
-    
-    # Add direction to history
-    y_direction_history.append(current_y_direction)
-    y_direction_history.remove_at(0)
-    
-    # Update previous value
-    previous_smoothed_y = current_smoothed_y
-    
-    # Debug output
-    if verbose_debug and debug_frame_counter % 30 == 0:
-        print("Y DIRECTION: Current=", "%.3f" % current_smoothed_y, " Diff=", "%.3f" % y_diff, " Dir=", current_y_direction, " PrevDir=", previous_y_direction)
-
-func _should_jump() -> bool:
-    """Check for Y direction change to trigger jump"""
-    if debug_mode:
-        return Input.is_action_just_pressed("ui_accept")
-    
-    if not is_calibrated or level_transition_active:
-        return false
-    
-    # Check cooldown
-    if jump_cooldown > 0:
-        return false
-    
-    # DIRECTION CHANGE DETECTION:
-    # Jump when direction changes from UP to DOWN (head was moving up, now moving down)
-    # This means: previous_y_direction = 1 (up) and current_y_direction = -1 (down)
-    var direction_changed_to_down = (previous_y_direction == 1 and current_y_direction == -1)
-    
-    # Alternative: Also jump when we detect a sudden downward movement after being stable
-    var sudden_downward = (previous_y_direction == 0 and current_y_direction == -1)
-    
-    var should_jump = direction_changed_to_down or sudden_downward
-    
-    if should_jump and verbose_debug:
-        print("=== JUMP TRIGGERED BY DIRECTION CHANGE ===")
-        print("Previous direction: ", previous_y_direction, " Current direction: ", current_y_direction)
-        print("Direction changed to down: ", direction_changed_to_down)
-        print("Sudden downward: ", sudden_downward)
-    
-    return should_jump
-
-func _perform_jump():
-    """Perform jump with proper cooldown"""
-    print("=== PERFORMING JUMP ===")
-    print("Y Direction change detected - jumping!")
-    
-    if jump_sound:
-        jump_sound.play()
-    
-    velocity.y = jump_impulse
-    jump_cooldown = jump_cooldown_time
-    
-    print("Jump applied, velocity.y = ", velocity.y)
-
-func _calibrate_zero_position():
-    """Calibrate zero position while preserving current player position"""
-    print("=== CALIBRATING ZERO POSITION ===")
-    if network_movement_enabled and not debug_mode:
-        var current_network_pos = Vector2.ZERO
+        var current_network_pos = Vector3.ZERO
         
         if adapt_toggle:
-            if GlobalScript.has_method("get_scaled_network_position"):
-                current_network_pos = GlobalScript.scaled_network_position
-            else:
-                current_network_pos = GlobalScript.network_position
+            current_network_pos = _get_scaled_network_position()
         else:
-            if "network_position" in GlobalScript:
-                current_network_pos = GlobalScript.network_position
-            else:
-                print("ERROR: GlobalScript.network_position not found!")
-                return
+            current_network_pos = _get_network_position()
         
-        if current_network_pos != Vector2.ZERO:
-            var current_3d_pos = Vector3(current_network_pos.x, 0, current_network_pos.y)
-            var desired_network_pos = _inverse_map_bounds_to_network(Vector3(position.x, 0, position.z))
-            zero_offset = current_3d_pos - desired_network_pos
+        if current_network_pos != Vector3.ZERO:
+            # Calculate offset to maintain current position
+            var desired_network_pos = _inverse_map_bounds_to_network(position)
+            zero_offset = current_network_pos - desired_network_pos
             
-            print("Zero offset calculated: ", zero_offset)
+            print("Zero offset calculated (3D): ", zero_offset)
         else:
             print("WARNING: Network position is zero during calibration")
 
 func _inverse_map_bounds_to_network(world_pos: Vector3) -> Vector3:
     """Inverse mapping from world position to network position"""
-    var network_scale_x = movement_sensitivity * 0.008
-    var network_scale_z = movement_sensitivity * 0.008
+    var scale_factor = 0.01  # Same as used in mapping
+    
+    var base_position = Vector3(
+        (min_bounds.x + max_bounds.x) / 2.0,  # Center X
+        min_bounds.y,  # Ground level Y = -1.0
+        (min_bounds.z + max_bounds.z) / 2.0   # Center Z
+    )
+    
+    var relative_pos = world_pos - base_position
     
     return Vector3(
-        world_pos.x / network_scale_x,
-        0,
-        world_pos.z / network_scale_z
+        relative_pos.x / scale_factor,
+        relative_pos.y / scale_factor,  # Y from ground up
+        relative_pos.z / scale_factor
     )
 
 # Level transition functions
@@ -401,26 +288,13 @@ func prepare_for_level_transition():
     """Prepare for level transition"""
     print("=== PREPARING FOR LEVEL TRANSITION ===")
     level_transition_active = true
-    preserve_current_position = true
-    is_calibrated = false
-    calibration_samples.clear()
-    jump_cooldown = jump_cooldown_time
-    
-    # Reset direction detection
-    current_y_direction = 0
-    previous_y_direction = 0
-    for i in range(history_size):
-        y_direction_history[i] = 0
-    
     print("Current position preserved: ", position)
 
 func complete_level_transition():
     """Complete level transition"""
     print("=== COMPLETING LEVEL TRANSITION ===")
-    preserve_current_position = false
-    target_position = position
     await get_tree().create_timer(0.5).timeout
-    _start_calibration()
+    level_transition_active = false
 
 func die():
     print("=== PLAYER DIED ===")
@@ -437,10 +311,6 @@ func _on_area_3d_body_entered(other: Node3D) -> void:
         print("DEBUG: Hit by enemy: ", other.name)
         die()
 
-func _disable_enemy_collisions():
-    collision_mask &= ~(1 << enemy_layer)
-    print("DEBUG: Enemy collisions disabled")
-
 func _spawn_ko_effect():
     if ko_effect and ko_pivot:
         var effect_instance = ko_effect.instantiate()
@@ -455,43 +325,15 @@ func _spawn_smoke() -> void:
 func _input(event):
     if event.is_action_pressed("ui_select"):
         print("Manual zero position calibration triggered")
-        _calibrate_zero_position()
-    elif event.is_action_pressed("ui_cancel"):
-        print("Manual Y-axis recalibration triggered")
-        is_calibrated = false
-        calibration_samples.clear()
-        current_y_direction = 0
-        previous_y_direction = 0
-    elif event.is_action_pressed("ui_up"):
-        print("Manual jump test triggered")
-        if is_on_floor():
-            _perform_jump()
-        else:
-            print("Cannot jump - not on floor")
+        _on_zero_pressed()
     elif event.is_action_pressed("ui_home"):
         verbose_debug = !verbose_debug
         print("Verbose debug toggled: ", verbose_debug)
 
 # Public API functions
-func _on_zero_pressed() -> void:
-    print("Zero button pressed")
-    _calibrate_zero_position()
-
 func recalibrate_position():
     print("External position recalibration requested")   
-    _calibrate_zero_position()
-
-func recalibrate_ground():
-    print("External Y-axis recalibration requested")
-    is_calibrated = false
-    calibration_samples.clear()
-    current_y_direction = 0
-    previous_y_direction = 0
-
-func get_height_above_ground() -> float:
-    if not is_calibrated:
-        return 0.0
-    return current_smoothed_y - baseline_y
+    _on_zero_pressed()
 
 func start_game():
     print("Game started!")
