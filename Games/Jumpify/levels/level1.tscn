@@ -136,8 +136,6 @@ far = 137.24
 
 [node name="Player" parent="Entities" instance=ExtResource("4_xm6wu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.04954, 1)
-ko_effect = null
-smoke_particles = null
 
 [node name="Level" type="Node3D" parent="."]
 

@@ -10,8 +10,8 @@ extends CharacterBody3D
 @export var boundary_buffer = 0.1
 
 @export_group("Network Control")
-@export var debug_mode: bool = false
-@export var network_movement_enabled: bool = true
+@export var debug_mode: bool = true
+@export var network_movement_enabled: bool = false
 
 # Adaptive mode support
 var adapt_toggle: bool = false

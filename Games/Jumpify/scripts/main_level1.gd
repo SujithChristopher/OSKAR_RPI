@@ -14,6 +14,7 @@ const COINS_TO_NEXT_LEVEL = 5
 const COIN_HEIGHT_OFFSET = 0.5
 const GAME_OVER_DELAY = 0.75
 const CLEANUP_DELAY = 0.1
+const COLLECTION_DELAY = 0.3  # Time to wait after collection before spawning new coin
 
 # Game state variables
 var current_coin: Node3D = null
@@ -27,6 +28,7 @@ func _ready() -> void:
     
     # Connect signals
     SignalBus.player_hit.connect(_on_player_hit.bind())
+    SignalBus.coin_collected.connect(_on_coin_collected_signal.bind())
     
     # Setup coin timer
     coinTimer.wait_time = SPAWN_INTERVAL
@@ -52,45 +54,38 @@ func spawn_coin():
     """Spawn a new coin at a random valid position"""
     if not game_active or is_transitioning:
         return
-        
-    # Remove existing coin if present
-    if current_coin != null and is_instance_valid(current_coin):
-        current_coin.queue_free()
-        current_coin = null
     
-    # Clean up any stray coins from previous levels
-    cleanup_existing_coins()
+    # Clean up any stray coins from previous levels (but not current coin if it's being collected)
+    cleanup_stray_coins()
     
     # Create new coin instance
     if not coin_scene:
         push_error("Coin scene not assigned!")
         return
         
-    current_coin = coin_scene.instantiate()
-    add_child(current_coin)
+    var new_coin = coin_scene.instantiate()
+    add_child(new_coin)
     
     # Add to group for tracking
-    current_coin.add_to_group("coins")
+    new_coin.add_to_group("coins")
     
     # Generate random position within boundaries
     var spawn_position = generate_random_position()
-    current_coin.global_position = spawn_position
+    new_coin.global_position = spawn_position
     
-    # Connect coin collection signal with error checking
-    if current_coin.has_signal("body_entered"):
-        if not current_coin.body_entered.is_connected(_on_coin_collected):
-            current_coin.body_entered.connect(_on_coin_collected)
-    else:
-        push_error("Coin scene doesn't have body_entered signal")
+    # Update current coin reference
+    current_coin = new_coin
     
     print("Coin spawned at position: ", spawn_position)
 
-func cleanup_existing_coins():
-    """Remove any existing coins that aren't our current coin"""
+func cleanup_stray_coins():
+    """Remove any stray coins that aren't our current coin or being collected"""
     var existing_coins = get_tree().get_nodes_in_group("coins")
     for coin in existing_coins:
         if coin != current_coin and is_instance_valid(coin):
-            coin.queue_free()
+            # Check if the coin is currently being collected (has scaling tween running)
+            if not coin.collected:
+                coin.queue_free()
 
 func generate_random_position() -> Vector3:
     """Generate a random position within the game boundaries"""
@@ -106,17 +101,8 @@ func _on_coin_timer_timeout() -> void:
     print("Time's up! Spawning new coin...")
     spawn_coin()
 
-func _on_coin_collected(body):
-    """Handle coin collection detection"""
-    if not game_active or is_transitioning:
-        return
-        
-    # Check if it's the player
-    if body == player or body.is_in_group("player"):
-        collect_coin()
-
-func collect_coin():
-    """Process coin collection"""
+func _on_coin_collected_signal():
+    """Handle coin collection via signal (allows coin to play its effect first)"""
     if not game_active or is_transitioning:
         return
         
@@ -133,10 +119,12 @@ func collect_coin():
     if coins_collected >= COINS_TO_NEXT_LEVEL:
         complete_level()
     else:
-        # Spawn new coin immediately and restart timer
-        spawn_coin()
-        coinTimer.stop()
-        coinTimer.start()
+        # Wait a bit for the coin collection effect to play, then spawn new coin
+        await get_tree().create_timer(COLLECTION_DELAY).timeout
+        if game_active and not is_transitioning:  # Double check we're still in game
+            spawn_coin()
+            coinTimer.stop()
+            coinTimer.start()
 
 func complete_level():
     """Handle level completion and transition to level 2"""
@@ -156,21 +144,14 @@ func complete_level():
     if coinTimer.timeout.is_connected(_on_coin_timer_timeout):
         coinTimer.timeout.disconnect(_on_coin_timer_timeout)
     
-    # Clean up current coin
-    if current_coin != null and is_instance_valid(current_coin):
-        if current_coin.body_entered.is_connected(_on_coin_collected):
-            current_coin.body_entered.disconnect(_on_coin_collected)
-        current_coin.queue_free()
-        current_coin = null
-    
-    # Clean up any remaining coins
-    cleanup_existing_coins()
+    # Clean up any remaining coins (but let current one finish its effect)
+    cleanup_remaining_coins()
     
     # Record the score
     Scoreboard.record_score()
     
-    # Small delay to ensure cleanup
-    await get_tree().create_timer(CLEANUP_DELAY).timeout
+    # Small delay to ensure cleanup and let final coin effect finish
+    await get_tree().create_timer(CLEANUP_DELAY + COLLECTION_DELAY).timeout
     
     # Transition to level 2
     if level2_transition and is_instance_valid(level2_transition):
@@ -178,6 +159,13 @@ func complete_level():
     else:
         # Fallback: load level 2 scene directly
         get_tree().change_scene_to_file("res://Games/Jumpify/levels/level2.tscn")
+
+func cleanup_remaining_coins():
+    """Clean up remaining coins, but let collected ones finish their effects"""
+    var existing_coins = get_tree().get_nodes_in_group("coins")
+    for coin in existing_coins:
+        if is_instance_valid(coin) and not coin.collected:
+            coin.queue_free()
 
 func update_score_display():
     """Update the score display UI"""
@@ -224,14 +212,21 @@ func cleanup_before_restart():
     if coinTimer.timeout.is_connected(_on_coin_timer_timeout):
         coinTimer.timeout.disconnect(_on_coin_timer_timeout)
     
-    if current_coin != null and is_instance_valid(current_coin):
-        if current_coin.body_entered.is_connected(_on_coin_collected):
-            current_coin.body_entered.disconnect(_on_coin_collected)
-        current_coin.queue_free()
-        current_coin = null
+    if SignalBus.coin_collected.is_connected(_on_coin_collected_signal):
+        SignalBus.coin_collected.disconnect(_on_coin_collected_signal)
     
-    cleanup_existing_coins()
+    # Clean up all coins
+    cleanup_all_coins()
+    current_coin = null
+    
     GameManager.clear_stored_position()
+
+func cleanup_all_coins():
+    """Force cleanup of all coins"""
+    var existing_coins = get_tree().get_nodes_in_group("coins")
+    for coin in existing_coins:
+        if is_instance_valid(coin):
+            coin.queue_free()
 
 func _on_logout_pressed() -> void:
     """Handle logout button press"""
@@ -254,8 +249,7 @@ func _exit_tree():
     if coinTimer and coinTimer.timeout.is_connected(_on_coin_timer_timeout):
         coinTimer.timeout.disconnect(_on_coin_timer_timeout)
     
-    if current_coin != null and is_instance_valid(current_coin):
-        if current_coin.body_entered.is_connected(_on_coin_collected):
-            current_coin.body_entered.disconnect(_on_coin_collected)
+    if SignalBus.coin_collected.is_connected(_on_coin_collected_signal):
+        SignalBus.coin_collected.disconnect(_on_coin_collected_signal)
     
-    cleanup_existing_coins()
+    cleanup_all_coins()

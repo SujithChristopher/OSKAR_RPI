@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfwga62dvbqw7"]
 
 [ext_resource type="Script" uid="uid://dxnvfirrfjbc3" path="res://Games/Jumpify/scripts/coin.gd" id="1_f20sk"]
-[ext_resource type="ArrayMesh" uid="uid://clhhkuqf8n7f2" path="res://Games/Jumpify/art/models/coin_new.res" id="2_ohue8"]
+[ext_resource type="ArrayMesh" uid="uid://dholl6letsum" path="res://Games/Jumpify/art/materials/ttr.res" id="2_oiiim"]
 [ext_resource type="AudioStream" uid="uid://d0aig0gv17ubb" path="res://Games/Jumpify/audio/sfx/subway-surfers-coin-collect.mp3" id="3_e2h06"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mexab"]
@@ -12,11 +12,11 @@ radius = 0.3
 script = ExtResource("1_f20sk")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0691824, 0.279056, -3.02406e-09, -1.16841e-08, -1.50076e-15, -0.2673, -0.258192, 0.0747728, 1.12859e-08, 0.0122619, -0.00525556, 0)
-mesh = ExtResource("2_ohue8")
+transform = Transform3D(0.000247745, -0.000115897, -0.0299988, 0.000276874, -0.0299985, 0.000118182, -0.0299977, -0.000277838, -0.000246663, 0.012, -0.05, 0)
+mesh = ExtResource("2_oiiim")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.0109105, -0.0469443, 0)
 shape = SubResource("CylinderShape3D_mexab")
 
 [node name="Timer" type="Timer" parent="."]

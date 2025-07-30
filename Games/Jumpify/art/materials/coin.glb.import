@@ -3,12 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://5jw8jlkwwmnf"
-valid=false
+uid="uid://bwmf5af1x8wag"
+path="res://.godot/imported/coin.glb-f8dc2118756cfaaf6fe170c709935f51.scn"
 
 [deps]
 
-source_file="res://Games/Jumpify/art/models/coin_new.glb"
+source_file="res://Games/Jumpify/art/materials/coin.glb"
+dest_files=["res://.godot/imported/coin.glb-f8dc2118756cfaaf6fe170c709935f51.scn"]
 
 [params]
 
@@ -33,14 +34,13 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "meshes": {
-"coin_new_Cylinder": {
+"Sketchfab_Scene_CoinObj_Coin_0": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
 "lods/normal_merge_angle": 60.0,
-"lods/normal_split_angle": 25.0,
 "save_to_file/enabled": true,
-"save_to_file/path": "res://art/models/coin_new.res"
+"save_to_file/path": "res://Games/Jumpify/art/materials/ttr.res"
 }
 }
 }
