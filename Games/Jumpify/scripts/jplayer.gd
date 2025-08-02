@@ -2,16 +2,16 @@ class_name Player
 extends CharacterBody3D
 
 @export_group("Movement")
-@export var position_lerp_factor = 0.8  # Similar to Random Reach
+@export var position_lerp_factor = 0.9  
 
 @export_group("Boundaries")
 @export var min_bounds = Vector3(-2.6, -0.95, -1.8)    # Ground level Y = -1.0
 @export var max_bounds = Vector3(2.6, 4.0, 3.42)     # Max height Y = 4
 @export var boundary_buffer = 0.1
 
-@export_group("Network Control")
-@export var debug_mode: bool = true
-@export var network_movement_enabled: bool = false
+@export_group("Network Control")  
+@export var debug_mode = DebugSettings.debug_mode
+@export var network_movement_enabled: bool = true
 
 # Adaptive mode support
 var adapt_toggle: bool = false

@@ -55,7 +55,12 @@ func spawn_coin():
     if not game_active or is_transitioning:
         return
     
-    # Clean up any stray coins from previous levels (but not current coin if it's being collected)
+    # Remove the old coin before spawning a new one
+    if current_coin and is_instance_valid(current_coin):
+        current_coin.queue_free()
+        current_coin = null
+    
+    # Clean up any other stray coins
     cleanup_stray_coins()
     
     # Create new coin instance
@@ -79,13 +84,11 @@ func spawn_coin():
     print("Coin spawned at position: ", spawn_position)
 
 func cleanup_stray_coins():
-    """Remove any stray coins that aren't our current coin or being collected"""
+    """Remove any stray coins that aren't our current coin"""
     var existing_coins = get_tree().get_nodes_in_group("coins")
     for coin in existing_coins:
         if coin != current_coin and is_instance_valid(coin):
-            # Check if the coin is currently being collected (has scaling tween running)
-            if not coin.collected:
-                coin.queue_free()
+            coin.queue_free()
 
 func generate_random_position() -> Vector3:
     """Generate a random position within the game boundaries"""
@@ -94,11 +97,11 @@ func generate_random_position() -> Vector3:
     return Vector3(x, GameManager.FLOOR_Y + COIN_HEIGHT_OFFSET, z)
 
 func _on_coin_timer_timeout() -> void:
-    """Handle coin timer timeout - spawn new coin"""
+    """Handle coin timer timeout - remove old coin and spawn new coin"""
     if not game_active or is_transitioning:
         return
         
-    print("Time's up! Spawning new coin...")
+    print("Time's up! Removing old coin and spawning new coin...")
     spawn_coin()
 
 func _on_coin_collected_signal():
@@ -108,6 +111,9 @@ func _on_coin_collected_signal():
         
     coins_collected += 1
     print("Coin collected! Total: ", coins_collected)
+    
+    # Clear current coin reference since it's been collected
+    current_coin = null
     
     # Add to scoreboard
     Scoreboard.add_score()

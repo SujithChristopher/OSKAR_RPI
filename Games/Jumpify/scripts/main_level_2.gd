@@ -23,6 +23,7 @@ const BOX_LINE_BUFFER = 1.0
 const BOX_LINE_WOBBLE = 0.3
 const MAX_SPAWN_ATTEMPTS = 15
 const COLLECTION_DELAY = 0.3  # Time to wait after collection before spawning new coin
+const ROTATION_SPEED = 3.0  # Speed of player rotation towards coin
 
 # Game state variables
 var current_coin: Node3D = null
@@ -351,10 +352,59 @@ func spawn_coin():
     current_coin.add_to_group("coins")
     current_coin.global_position = coin_pos
     
+    # Rotate player towards the new coin
+    rotate_player_to_coin(coin_pos)
+    
     # FIXED: Don't connect directly to coin's body_entered signal
     # The coin will handle its own collection and emit SignalBus.coin_collected
     
     print("Coin spawned at: ", coin_pos)
+
+func rotate_player_to_coin(coin_position: Vector3):
+    """Smoothly rotate the player to face the coin"""
+    if not player or not is_instance_valid(player):
+        return
+    
+    # Calculate direction from player to coin (only on XZ plane)
+    var player_pos = player.global_position
+    var direction = Vector3(coin_position.x - player_pos.x, 0, coin_position.z - player_pos.z)
+    
+    # Don't rotate if the coin is too close or direction is zero
+    if direction.length() < 0.1:
+        return
+    
+    direction = direction.normalized()
+    
+    # Calculate target rotation
+    var target_rotation = atan2(direction.x, direction.z)
+    
+    # Create tween for smooth rotation
+    var tween = create_tween()
+    tween.set_ease(Tween.EASE_OUT)
+    tween.set_trans(Tween.TRANS_CUBIC)
+    
+    # Get current Y rotation
+    var current_rotation = player.rotation.y
+    
+    # Handle angle wrapping for shortest rotation path
+    var angle_diff = target_rotation - current_rotation
+    if angle_diff > PI:
+        angle_diff -= 2 * PI
+    elif angle_diff < -PI:
+        angle_diff += 2 * PI
+    
+    # Smooth rotation to target
+    var rotation_duration = abs(angle_diff) / ROTATION_SPEED
+    rotation_duration = clamp(rotation_duration, 0.2, 1.0)  # Min 0.2s, max 1.0s
+    
+    tween.tween_method(
+        func(angle): player.rotation.y = angle,
+        current_rotation,
+        current_rotation + angle_diff,
+        rotation_duration
+    )
+    
+    print("Rotating player to face coin at: ", coin_position)
 
 func cleanup_stray_coins():
     """Remove any stray coins that aren't currently being collected"""
@@ -364,6 +414,14 @@ func cleanup_stray_coins():
             # Check if the coin is currently being collected
             if not coin.collected:
                 coin.queue_free()
+
+func remove_current_coin():
+    """Remove the current coin when timer expires"""
+    if current_coin and is_instance_valid(current_coin):
+        if not current_coin.collected:  # Only remove if not being collected
+            current_coin.queue_free()
+            print("Removed uncollected coin due to timeout")
+        current_coin = null
 
 func reposition_enemy_line():
     """Reposition the enemy line for subsequent coin spawns"""
@@ -402,11 +460,20 @@ func calculate_coin_position() -> Vector3:
     return Vector3(coin_x, GameManager.FLOOR_Y + COIN_HEIGHT_OFFSET, coin_z)
 
 func _on_coin_timer_timeout() -> void:
-    """Handle coin spawn timer timeout"""
+    """Handle coin timer timeout - remove old coin and spawn new one"""
     if not game_active or is_transitioning:
         return
-    print("Timer timeout - spawning new coin")
-    spawn_coin()
+        
+    print("Time's up! Removing old coin and spawning new one...")
+    
+    # Remove the current coin first
+    remove_current_coin()
+    
+    # Small delay to ensure cleanup, then spawn new coin
+    await get_tree().create_timer(0.1).timeout
+    
+    if game_active and not is_transitioning:  # Double check we're still active
+        spawn_coin()
 
 func _on_coin_collected_signal():
     """FIXED: Handle coin collection via signal (allows coin to play its effect first)"""

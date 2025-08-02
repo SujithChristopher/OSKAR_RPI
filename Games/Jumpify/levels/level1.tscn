@@ -321,6 +321,7 @@ script = ExtResource("14_w6e8k")
 metadata/_edit_use_anchors_ = true
 
 [node name="HighScoreLabel" type="Label" parent="UI"]
+visible = false
 layout_direction = 1
 layout_mode = 1
 anchors_preset = 5
@@ -392,26 +393,26 @@ autoplay = "pulse"
 
 [node name="Logout" type="Button" parent="UI"]
 layout_mode = 0
-offset_left = 90.0
-offset_top = 596.0
-offset_right = 231.0
-offset_bottom = 636.0
+offset_left = 69.0
+offset_top = 591.0
+offset_right = 210.0
+offset_bottom = 631.0
 text = "Logout"
 
 [node name="TimerSelectorPanel" type="Panel" parent="UI"]
 visible = false
 layout_mode = 0
-offset_left = 386.0
+offset_left = 393.0
 offset_top = 180.0
 offset_right = 745.0
-offset_bottom = 464.0
+offset_bottom = 479.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_68u2d")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/TimerSelectorPanel"]
 layout_mode = 0
-offset_left = 44.0
+offset_left = 38.0
 offset_top = 39.0
-offset_right = 321.0
+offset_right = 315.0
 offset_bottom = 248.0
 theme_override_constants/separation = 120
 
@@ -445,18 +446,18 @@ text = "  Close  "
 
 [node name="TimeSelector" type="Label" parent="UI/TimerSelectorPanel"]
 layout_mode = 0
-offset_left = 154.0
-offset_top = 113.0
-offset_right = 215.0
-offset_bottom = 142.0
+offset_left = 148.0
+offset_top = 119.0
+offset_right = 209.0
+offset_bottom = 148.0
 theme = ExtResource("18_f58y4")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="UI/TimerSelectorPanel"]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = 47.0
+offset_left = 40.0
 offset_top = 112.0
-offset_right = 149.0
+offset_right = 142.0
 offset_bottom = 152.0
 theme_override_constants/separation = 10
 
@@ -477,9 +478,9 @@ text = "  -5   "
 modulate = Color(0.952941, 1, 1, 1)
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = 221.0
+offset_left = 216.0
 offset_top = 111.0
-offset_right = 317.0
+offset_right = 315.0
 offset_bottom = 151.0
 theme_override_constants/separation = 6
 
@@ -494,6 +495,14 @@ layout_mode = 2
 theme = ExtResource("18_f58y4")
 theme_override_fonts/font = ExtResource("20_brjkg")
 text = "  +5  "
+
+[node name="AdaptROM" type="CheckButton" parent="UI"]
+layout_mode = 0
+offset_left = 502.0
+offset_top = 57.0
+offset_right = 630.0
+offset_bottom = 85.0
+text = "Adapt prom"
 
 [node name="CoinSpawner" type="Node3D" parent="."]
 script = ExtResource("16_emeai")
