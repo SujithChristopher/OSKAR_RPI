@@ -11,6 +11,7 @@ var random_reach_scene = preload("res://Games/random_reach/scenes/random_reach.t
 var flappy_scene = preload("res://Games/flappy_bird/Scenes/flappy_main.tscn")
 var pingpong_scene = preload("res://Games/ping_pong/Scenes/PingPong.tscn")
 var jumpify = preload("res://Games/Jumpify/levels/level1.tscn")
+var platformer = preload("res://Games/2D/Scenes/Levels/Level_01.tscn")
 var assessment_scene = preload("res://Games/assessment/workspace.tscn")
 var results_scene = preload("res://Results/scenes/user_progress.tscn")
 var main_menu_scene = preload("res://Main_screen/Scenes/main.tscn")
@@ -84,3 +85,7 @@ func _on_exit_button_pressed() -> void:
 
 func _on_game_jumpify_pressed() -> void:
    get_tree().change_scene_to_packed(jumpify)
+
+
+func _on_platformer_pressed() -> void:
+    get_tree().change_scene_to_packed(platformer)

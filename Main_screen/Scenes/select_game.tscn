@@ -70,9 +70,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -349.0
+offset_left = -474.5
 offset_top = 142.0
-offset_right = -197.0
+offset_right = -295.5
 offset_bottom = 207.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
@@ -84,9 +84,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -162.0
+offset_left = -250.0
 offset_top = 141.0
-offset_right = -10.0
+offset_right = -98.0
 offset_bottom = 206.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
@@ -98,9 +98,9 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 25.0
+offset_left = -63.0
 offset_top = 140.0
-offset_right = 177.0
+offset_right = 89.0
 offset_bottom = 205.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
@@ -179,6 +179,26 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_fliu1")
 theme_override_font_sizes/font_size = 20
 
+[node name="game_jumpify" type="Button" parent="."]
+layout_mode = 0
+offset_left = 713.0
+offset_top = 139.0
+offset_right = 865.0
+offset_bottom = 204.0
+theme = ExtResource("4_r2fws")
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Jumpify"
+
+[node name="platformer" type="Button" parent="."]
+layout_mode = 0
+offset_left = 920.0
+offset_top = 142.0
+offset_right = 1070.0
+offset_bottom = 202.0
+theme = ExtResource("4_r2fws")
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "Platform"
+
 [node name="HandSelectionPopup" type="Panel" parent="."]
 visible = false
 layout_mode = 0
@@ -212,16 +232,6 @@ text = "Left Hand"
 layout_mode = 2
 text = "Right Hand"
 
-[node name="game_jumpify" type="Button" parent="."]
-layout_mode = 0
-offset_left = 785.0
-offset_top = 139.0
-offset_right = 937.0
-offset_bottom = 204.0
-theme = ExtResource("4_r2fws")
-theme_override_fonts/font = ExtResource("3_fliu1")
-text = "Jumpify"
-
 [connection signal="pressed" from="game_reach" to="." method="_on_game_reach_pressed"]
 [connection signal="pressed" from="game_flappy" to="." method="_on_game_flappy_pressed"]
 [connection signal="pressed" from="game_pingpong" to="." method="_on_game_pingpong_pressed"]
@@ -230,3 +240,4 @@ text = "Jumpify"
 [connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
 [connection signal="pressed" from="game_jumpify" to="." method="_on_game_jumpify_pressed"]
+[connection signal="pressed" from="platformer" to="." method="_on_platformer_pressed"]
