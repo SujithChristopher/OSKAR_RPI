@@ -48,6 +48,7 @@ var raw_x: float
 var raw_y: float
 var raw_z: float
 var network_position: Vector2 = Vector2.ZERO
+var network_position2D: Vector2 = Vector2.ZERO
 
 # scaled position
 var scaled_x: float
@@ -145,6 +146,7 @@ func handle_udp_packet():
     net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
     net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
     network_position = Vector2(net_x, net_z)
+    network_position2D = Vector2(net_x, net_y)
     scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
     scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
     scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
