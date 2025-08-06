@@ -4,15 +4,16 @@ extends Button
 @onready var hosp_id: String = ""
 @onready var popup = $"../Window"
 @onready var patient_notfound = $"../patient_notfound"
-
+@onready var loading_dialog: AcceptDialog = AcceptDialog.new()
 var patient_db: PatientDetails = load("res://Main_screen/patient_register.tres")
-
+var registry_scene = preload("res://Main_screen/Scenes/registry.tscn")
+var endgame : bool
 
 
 
 
 func _on_exit_button_pressed():
-    GlobalScript.handle_quit_request()
+    GlobalScript._notification(NOTIFICATION_WM_CLOSE_REQUEST)
     GlobalSignals.SignalBus.emit()
     get_tree().quit()
     
@@ -24,7 +25,7 @@ func _on_pressed():
         if patient_db.get_patient(hosp_id):
             patient_db.current_patient_id = hosp_id
             ResourceSaver.save(patient_db, "res://Main_screen/patient_register.tres")			
-            get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn") # Replace with function body.\
+            get_tree().change_scene_to_packed(registry_scene) 
         else:
             patient_notfound.show()
 
@@ -57,3 +58,4 @@ func _on_hosp_id_text_submitted(new_text: String) -> void:
             get_tree().change_scene_to_file("res://Main_screen/Scenes/select_game.tscn") 
         else:
             patient_notfound.show()
+            

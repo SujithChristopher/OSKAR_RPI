@@ -110,6 +110,7 @@ func _ready() -> void:
     _connect_signals()
     _initialize_game_state()
     _setup_logging()
+    
 
 func _load_debug_config() -> void:
     debug = JSON.parse_string(FileAccess.get_file_as_string(path))['debug']
@@ -168,6 +169,9 @@ func _physics_process(delta):
     _update_sprite_direction()
     _handle_apple_spawning()
     _update_timer_display()
+    #print("RAW X", GlobalScript.raw_x)
+    print("RAW Y", GlobalScript.net_y)
+    #print("RAW Z", GlobalScript.raw_z)
 
 func _update_player_position() -> void:
     if debug_mode:

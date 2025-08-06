@@ -13,8 +13,8 @@ var path = "res://debug.json"
 
 
 
-@export var PLAYER_POS_SCALER_X: int = 15 * 100
-@export var PLAYER_POS_SCALER_Y: int = 15 * 100
+@export var PLAYER_POS_SCALER_X: int = 20 * 100
+@export var PLAYER_POS_SCALER_Y: int = 50 * 100
 
 var screen_size = DisplayServer.screen_get_size()
 var MIN_X: int = 10
@@ -79,7 +79,7 @@ func _ready():
 
     print(MAX_X, " " + str(MAX_Y))
     X_SCREEN_OFFSET = int(screen_size.x/4)
-    Y_SCREEN_OFFSET = int(screen_size.y/4)
+    Y_SCREEN_OFFSET = int(screen_size.y/1.5)
     
     message_timer.autostart = true
     message_timer.wait_time = delay_time
@@ -145,7 +145,8 @@ func handle_udp_packet():
     net_x = my_floats[1]*PLAYER_POS_SCALER_X + X_SCREEN_OFFSET
     net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
     net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
-    network_position = Vector2(net_x, net_z)
+ 
+    network_position = Vector2(net_x, net_y)
     network_position2D = Vector2(net_x, net_y)
     scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
     scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET

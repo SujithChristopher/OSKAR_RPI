@@ -4,7 +4,7 @@ extends Control
 const ADMIN_PASSWORD = "CMC"
 const PATIENT_REGISTER_PATH = "res://Main_screen/patient_register.tres"
 const MAIN_SCENE_PATH = "res://Main_screen/Scenes/main.tscn"
-const SELECT_GAME_SCENE_PATH = "res://Main_screen/Scenes/select_game.tscn"
+const SELECT_GAME_SCENE_PATH = preload("res://Main_screen/Scenes/select_game.tscn")
 
 # Enums for better type safety
 enum Gender { MALE, FEMALE, OTHERS, UNSPECIFIED = -1 }
@@ -35,6 +35,7 @@ enum AffectedHand { LEFT, RIGHT, BOTH, UNSPECIFIED = -1 }
 var patient_selected: int = -1
 var cached_patients: Array = []
 var json_path: String
+var endgame : bool
 
 func _ready() -> void:
     json_path = OS.get_system_dir(2) + "//NOARK//data.json"
@@ -127,7 +128,7 @@ func _on_back_button_pressed() -> void:
     get_tree().change_scene_to_file(MAIN_SCENE_PATH)
 
 func _on_exit_button_pressed() -> void:
-    GlobalScript.handle_quit_request()
+    GlobalScript._notification(NOTIFICATION_WM_CLOSE_REQUEST)
     get_tree().quit()
 
 func _on_register_patient_pressed() -> void:
@@ -224,7 +225,7 @@ func _on_login_button_pressed() -> void:
     GlobalSignals.affected_hand = current_patient['affected_hand']
     
     _save_patient_data()
-    get_tree().change_scene_to_file(SELECT_GAME_SCENE_PATH)
+    get_tree().change_scene_to_packed(SELECT_GAME_SCENE_PATH)
 
 # Window management
 func _on_auth_close_requested() -> void:

@@ -151,9 +151,11 @@ func _get_network_position() -> Vector3:
     pos_z = GlobalScript.raw_z if "raw_z" in GlobalScript else 0.0
     
     # Apply scaling similar to GlobalScript transformation
-    var net_x = pos_x * GlobalScript.PLAYER_POS_SCALER_X
+    var net_x = pos_x * GlobalScript.PLAYER_POS_SCALER_X 
     var net_y = pos_y * GlobalScript.PLAYER_POS_SCALER_Y
     var net_z = pos_z * GlobalScript.PLAYER_POS_SCALER_Y
+    
+    
     
     return Vector3(net_x, net_y, net_z)
 

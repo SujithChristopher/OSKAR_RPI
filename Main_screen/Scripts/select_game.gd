@@ -15,7 +15,7 @@ var platformer = preload("res://Games/2D/Scenes/Levels/Level_01.tscn")
 var assessment_scene = preload("res://Games/assessment/workspace.tscn")
 var results_scene = preload("res://Results/scenes/user_progress.tscn")
 var main_menu_scene = preload("res://Main_screen/Scenes/main.tscn")
-
+var endgame : bool
 
 
 func _ready() -> void:
@@ -74,10 +74,10 @@ func _on_results_pressed() -> void:
 func _on_logout_pressed() -> void:
     GlobalSignals.selected_training_hand == ""
     GlobalSignals.affected_hand = ""
-    get_tree().change_scene_to_packed(main_menu_scene)
+    get_tree().change_scene_to_file("res://Main_screen/Scenes/main.tscn")
     
 func _on_exit_button_pressed() -> void:
-    GlobalScript.handle_quit_request()
+    GlobalScript._notification(NOTIFICATION_WM_CLOSE_REQUEST)
     GlobalSignals.selected_training_hand == ""
     GlobalSignals.affected_hand = ""
     get_tree().quit()
@@ -89,3 +89,4 @@ func _on_game_jumpify_pressed() -> void:
 
 func _on_platformer_pressed() -> void:
     get_tree().change_scene_to_packed(platformer)
+    
