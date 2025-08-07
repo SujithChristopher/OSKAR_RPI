@@ -12,9 +12,11 @@ var flappy_scene = preload("res://Games/flappy_bird/Scenes/flappy_main.tscn")
 var pingpong_scene = preload("res://Games/ping_pong/Scenes/PingPong.tscn")
 var jumpify = preload("res://Games/Jumpify/levels/level1.tscn")
 var platformer = preload("res://Games/2D/Scenes/Levels/Level_01.tscn")
+var fruit_catcher = preload("res://Games/fruit_catcher/Scenes/Game/Game.tscn")
 var assessment_scene = preload("res://Games/assessment/workspace.tscn")
 var results_scene = preload("res://Results/scenes/user_progress.tscn")
 var main_menu_scene = preload("res://Main_screen/Scenes/main.tscn")
+
 var endgame : bool
 
 
@@ -89,4 +91,8 @@ func _on_game_jumpify_pressed() -> void:
 
 func _on_platformer_pressed() -> void:
     get_tree().change_scene_to_packed(platformer)
+    
+
+func _on_fruit_catcher_pressed() -> void:
+     get_tree().change_scene_to_packed(fruit_catcher)
     

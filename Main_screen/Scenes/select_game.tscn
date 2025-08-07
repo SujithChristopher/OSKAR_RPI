@@ -85,9 +85,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -474.5
-offset_top = 142.0
+offset_top = 174.0
 offset_right = -295.5
-offset_bottom = 207.0
+offset_bottom = 239.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
@@ -99,9 +99,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -250.0
-offset_top = 141.0
+offset_top = 173.0
 offset_right = -98.0
-offset_bottom = 206.0
+offset_bottom = 238.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
@@ -113,9 +113,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -63.0
-offset_top = 140.0
+offset_top = 172.0
 offset_right = 89.0
-offset_bottom = 205.0
+offset_bottom = 237.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
@@ -126,10 +126,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -169.0
-offset_top = 254.0
-offset_right = -17.0
-offset_bottom = 320.0
+offset_left = -183.0
+offset_top = 295.0
+offset_right = -31.0
+offset_bottom = 361.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
@@ -140,10 +140,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 42.0
-offset_top = 254.0
-offset_right = 196.0
-offset_bottom = 319.0
+offset_left = 28.0
+offset_top = 293.0
+offset_right = 182.0
+offset_bottom = 358.0
 grow_horizontal = 2
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
@@ -194,24 +194,35 @@ theme_override_fonts/font = ExtResource("3_fliu1")
 theme_override_font_sizes/font_size = 20
 
 [node name="game_jumpify" type="Button" parent="."]
+visible = false
 layout_mode = 0
-offset_left = 713.0
-offset_top = 139.0
-offset_right = 865.0
-offset_bottom = 204.0
+offset_left = 494.0
+offset_top = 565.0
+offset_right = 646.0
+offset_bottom = 630.0
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
 text = "Jumpify"
 
 [node name="platformer" type="Button" parent="."]
 layout_mode = 0
-offset_left = 920.0
-offset_top = 142.0
-offset_right = 1070.0
-offset_bottom = 202.0
+offset_left = 710.0
+offset_top = 175.0
+offset_right = 860.0
+offset_bottom = 235.0
 theme = ExtResource("4_r2fws")
 theme_override_fonts/font = ExtResource("3_fliu1")
 text = "Platform"
+
+[node name="fruit_catcher" type="Button" parent="."]
+layout_mode = 0
+offset_left = 902.0
+offset_top = 174.0
+offset_right = 1089.0
+offset_bottom = 236.0
+theme = ExtResource("4_r2fws")
+theme_override_fonts/font = ExtResource("3_fliu1")
+text = "     Fruit catcher     "
 
 [node name="HandSelectionPopup" type="Panel" parent="."]
 visible = false
@@ -255,3 +266,4 @@ text = "Right Hand"
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
 [connection signal="pressed" from="game_jumpify" to="." method="_on_game_jumpify_pressed"]
 [connection signal="pressed" from="platformer" to="." method="_on_platformer_pressed"]
+[connection signal="pressed" from="fruit_catcher" to="." method="_on_fruit_catcher_pressed"]

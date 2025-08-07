@@ -25,7 +25,8 @@ const FIVE_MINUTES = 300
     "game_over_label": $"../TileMap/CanvasLayer/ColorRect/GameOverLabel",
     "time_label": $"../TileMap/CanvasLayer/TimerSelectorPanel/TimeSelector",
     "top_score_label": $"../TileMap/CanvasLayer/TextureRect/TopScoreLabel",
-    "color_rect": $"../TileMap/CanvasLayer/ColorRect"
+    "color_rect": $"../TileMap/CanvasLayer/ColorRect",
+    "mode_selection": $"../ModeSelection"
    
 }
 
@@ -47,7 +48,10 @@ const FIVE_MINUTES = 300
     "add_one_btn": $"../TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer/AddOneButton",
     "add_five_btn": $"../TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer/AddFiveButton",
     "sub_one_btn": $"../TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer2/SubOneButton",
-    "sub_five_btn": $"../TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer2/SubFiveButton"
+    "sub_five_btn": $"../TileMap/CanvasLayer/TimerSelectorPanel/HBoxContainer2/SubFiveButton",
+    "2d_mode": $"../ModeSelection/2D_mode",
+    "3d_mode": $"../ModeSelection/3D_mode"
+
 }
 
 @onready var _sprite_nodes = {
@@ -67,6 +71,7 @@ var current_time := 0
 var is_paused = false
 var pause_state = 1
 var adapt_toggle: bool = false
+var is_3d_mode := false
 
 # Position tracking variables
 var target_x: float
@@ -144,7 +149,10 @@ func _connect_signals() -> void:
     _button_nodes.sub_five_btn.pressed.connect(_on_sub_five_pressed)
     _button_nodes.logout_button.pressed.connect(_on_logout_button_pressed)
     _button_nodes.retry_button.pressed.connect(_on_retry_button_pressed)
+    _button_nodes["2d_mode"].pressed.connect(_on_2d_mode_pressed)
+    _button_nodes["3d_mode"].pressed.connect(_on_3d_mode_pressed)
     _panel_nodes.pause_button.pressed.connect(_on_PauseButton_pressed)
+    
     
     # Timer connections
     _timer_nodes.countdown_timer.timeout.connect(_on_CountdownTimer_timeout)
@@ -169,9 +177,6 @@ func _physics_process(delta):
     _update_sprite_direction()
     _handle_apple_spawning()
     _update_timer_display()
-    #print("RAW X", GlobalScript.raw_x)
-    print("RAW Y", GlobalScript.net_y)
-    #print("RAW Z", GlobalScript.raw_z)
 
 func _update_player_position() -> void:
     if debug_mode:
@@ -179,8 +184,7 @@ func _update_player_position() -> void:
     elif adapt_toggle:
         network_position = GlobalScript.scaled_network_position
     else:
-        network_position = GlobalScript.network_position
-
+        network_position = GlobalScript.network_position3D if is_3d_mode else GlobalScript.network_position
     if network_position != Vector2.ZERO:
         network_position = network_position - zero_offset
         position = position.lerp(network_position, 0.8)
@@ -196,10 +200,10 @@ func _update_position_tracking() -> void:
     
     if not adapt_toggle:
         game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-        game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+        game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Z
     else:
         game_x = (position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
-        game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+        game_z = (position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Z * GlobalSignals.global_scalar_y)
 
 func _update_sprite_direction() -> void:
     if current_apple != null:
@@ -250,7 +254,7 @@ func _get_valid_apple_position() -> Vector2:
 
 func _update_target_position(apple_position: Vector2) -> void:
     target_x = (apple_position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-    target_y = (apple_position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+    target_y = (apple_position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Z
     target_z = 0
 
 func _update_timer_display() -> void:
@@ -291,7 +295,7 @@ func _on_sub_five_pressed() -> void:
 func _on_play_pressed() -> void:
     GlobalTimer.start_timer()
     _panel_nodes.timer_panel.visible = false
-    game_started = true
+    game_started = false
     _hide_timer_buttons()
     start_game_with_timer()
     _setup_game_logging()
@@ -299,7 +303,7 @@ func _on_play_pressed() -> void:
 func _on_close_pressed() -> void:
     _panel_nodes.timer_panel.visible = false
     _hide_timer_buttons()
-    game_started = true
+    game_started = false
     _ui_nodes.countdown_display.hide()
     start_game_without_timer()
     _setup_game_logging()
@@ -462,3 +466,13 @@ func _on_udp_timer_timeout() -> void:
 
 func _on_dummy_timeout() -> void:
     pass
+
+
+func _on_2d_mode_pressed() -> void:
+   is_3d_mode = false
+   _ui_nodes.mode_selection.hide()
+   game_started = true
+func _on_3d_mode_pressed() -> void:
+   is_3d_mode = true 
+   _ui_nodes.mode_selection.hide()
+   game_started = true

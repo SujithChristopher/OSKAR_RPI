@@ -145,7 +145,7 @@ curve = SubResource("Curve3D_wdj6m")
 metadata/_edit_group_ = true
 
 [node name="SpawnLocation" type="PathFollow3D" parent="Entities/Enemies/SpawnPath"]
-transform = Transform3D(-0.0295617, 0, 0.999543, 0, 0.999998, 0, -0.999541, 0, -0.0295618, 2.47185, -0.950095, -4.87356)
+transform = Transform3D(-0.0295619, 0, 0.999543, 0, 0.999998, 0, -0.999541, 0, -0.0295619, 2.47185, -0.950095, -4.87356)
 
 [node name="Level" type="Node3D" parent="."]
 

@@ -2,12 +2,11 @@ extends CharacterBody2D
 
 var network_position = Vector2.ZERO
 var zero_offset = Vector2.ZERO
-
+@onready var flappy = $".."
 
 @onready var adapt_toggle:bool = false
 @onready var flash: AnimationPlayer = $AnimatedSprite2D/Flash
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-#@export var debug_mode: bool = true
 @onready var debug_mode = DebugSettings.debug_mode
 
 const PLAYER_RADIUS = 70
@@ -30,7 +29,7 @@ func _physics_process(delta: float) -> void:
     elif adapt_toggle:
         network_position = GlobalScript.scaled_network_position
     else:
-        network_position = GlobalScript.network_position
+        network_position = GlobalScript.network_position3D if flappy.is_3d_mode else GlobalScript.network_position
 
     if network_position != Vector2.ZERO:
         network_position = network_position - zero_offset  + Vector2(600, 100)  
@@ -45,7 +44,6 @@ func pilot_refresh():
     animated_sprite_2d.animation = 'default'
 
 func plane_anim_change():
-    #animated_sprite_2d.animation_changed
     animated_sprite_2d.animation = 'dead'
     
 func anim_change():

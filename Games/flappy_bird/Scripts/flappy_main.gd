@@ -18,6 +18,7 @@ signal flash_animation
 signal plane_crashed
 signal game_started
 
+
 # Preloaded resources
 @onready var pipe_scene = preload("res://Games/flappy_bird/Scenes/pipe.tscn")
 
@@ -36,8 +37,9 @@ signal game_started
     "score_label": $Score,
     "countdown_display": $CanvasLayer/CountdownTimer/CountdownLabel,
     "game_over_label": $CanvasLayer/GameOverLabel,
-    "time_label": $CanvasLayer/TimeSelector,
-    "top_score_label": $CanvasLayer/TextureRect/TopScoreLabel
+    "time_label": $CanvasLayer/TimerSelectorPanel/TimeSelector,
+    "top_score_label": $CanvasLayer/TextureRect/TopScoreLabel,
+    "mode_selection": $ModeSelection
 }
 
 @onready var _panel_nodes = {
@@ -54,7 +56,10 @@ signal game_started
     "sub_one_btn": $CanvasLayer/TimerSelectorPanel/HBoxContainer2/SubOneButton,
     "sub_five_btn": $CanvasLayer/TimerSelectorPanel/HBoxContainer2/SubFiveButton,
     "logout_button": $CanvasLayer/GameOverLabel/LogoutButton,
-    "retry_button": $CanvasLayer/GameOverLabel/RetryButton
+    "retry_button": $CanvasLayer/GameOverLabel/RetryButton,
+    "2d_mode": $"ModeSelection/2D_mode",
+    "3d_mode": $"ModeSelection/3D_mode"
+        
 }
 
 @onready var _health_nodes = {
@@ -77,6 +82,7 @@ var countdown_time: int = 0
 var countdown_active: bool = false
 var current_time: int = 0
 var is_paused: bool = false
+var is_3d_mode := false
 var pause_state: int = 1
 
 # Position tracking variables
@@ -150,7 +156,10 @@ func _connect_signals() -> void:
     _button_nodes.sub_five_btn.pressed.connect(_on_sub_five_pressed)
     _button_nodes.logout_button.pressed.connect(_on_logout_button_pressed)
     _button_nodes.retry_button.pressed.connect(_on_retry_button_pressed)
+    _button_nodes["2d_mode"].pressed.connect(_on_2d_mode_pressed)
+    _button_nodes["3d_mode"].pressed.connect(_on_3d_mode_pressed)
     _panel_nodes.pause_button.pressed.connect(_on_PauseButton_pressed)
+    
     
     # Timer connections
     _timer_nodes.countdown_timer.timeout.connect(_on_CountdownTimer_timeout)
@@ -193,7 +202,7 @@ func _on_sub_five_pressed() -> void:
     _modify_countdown_time(-FIVE_MINUTES)
 
 func _on_play_pressed() -> void:
-    game_running = true
+    game_running = false
     GlobalTimer.start_timer()
     print("play button is pressed, countdown_time:", countdown_time)
     _hide_timer_ui()
@@ -201,7 +210,7 @@ func _on_play_pressed() -> void:
     _setup_game_logging()
 
 func _on_close_pressed() -> void:
-    game_running = true
+    game_running = false
     _hide_timer_ui()
     _ui_nodes.countdown_display.hide()
     start_game_without_timer()
@@ -253,12 +262,12 @@ func start_game_with_timer() -> void:
     _timer_nodes.countdown_timer.wait_time = 1.0
     _timer_nodes.countdown_timer.start()
     _update_time_display()
-    game_running = true
+    game_running = false
     
 func start_game_without_timer() -> void:
     countdown_active = false
     GlobalTimer.start_timer()
-    game_running = true
+    game_running = false
 
 func _on_CountdownTimer_timeout() -> void:
     if countdown_active:
@@ -308,10 +317,10 @@ func _update_player_position() -> void:
     if pilot_node:
         if not pilot_node.adapt_toggle:
             game_x = (pilot_node.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-            game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+            game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Z
         else:
             game_x = (pilot_node.position.x - GlobalScript.X_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x)
-            game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y)
+            game_z = (pilot_node.position.y - GlobalScript.Y_SCREEN_OFFSET) / (GlobalScript.PLAYER_POS_SCALER_Z * GlobalSignals.global_scalar_y)
 
 func _update_scroll_and_pipes() -> void:
     scroll += SCROLL_SPEED
@@ -353,7 +362,7 @@ func _setup_pipe_position(pipe: Node) -> void:
     pipe.position.y = 400 + randi_range(-PIPE_RANGE, PIPE_RANGE)
     
     target_x = (pipe.position.x - GlobalScript.X_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_X
-    target_y = (pipe.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Y
+    target_y = (pipe.position.y - GlobalScript.Y_SCREEN_OFFSET) / GlobalScript.PLAYER_POS_SCALER_Z
     target_z = 0
 
 func _setup_pipe_signals(pipe: Node) -> void:
@@ -435,3 +444,18 @@ func _on_log_timer_timeout() -> void:
             str(pos_x), str(pos_y), str(pos_z), str(target_x), str(target_y), str(target_z),
             str(game_x), str(game_y), str(game_z), str(pause_state)
         ]))
+
+
+func _on_2d_mode_pressed() -> void:
+    is_3d_mode = false
+    game_running = true
+    _ui_nodes.mode_selection.hide()
+    print("2D pressed")
+
+
+func _on_3d_mode_pressed() -> void:
+    is_3d_mode = true
+    game_running = true
+    _ui_nodes.mode_selection.hide()
+    print("3d pressed")
+    

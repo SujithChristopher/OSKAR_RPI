@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://fj2c6cebl8pk"]
+[gd_scene load_steps=22 format=3 uid="uid://fj2c6cebl8pk"]
 
 [ext_resource type="Script" uid="uid://cplymo30m4t22" path="res://Games/flappy_bird/Scripts/flappy_main.gd" id="1_ahv5j"]
 [ext_resource type="PackedScene" uid="uid://cd76jpqxb0eqo" path="res://Games/flappy_bird/Scenes/ground.tscn" id="2_lkjn6"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://5ows6ytbrmdg" path="res://Assets/scoring_system/Background.png" id="11_hp4h5"]
 [ext_resource type="Theme" uid="uid://b07twninll6cv" path="res://addons/new_theme.tres" id="12_0goge"]
 [ext_resource type="Texture2D" uid="uid://b1ifscbhf76bo" path="res://Assets/scoring_system/medal.webp" id="13_8iopb"]
+[ext_resource type="Texture2D" uid="uid://h2ss1trfuva0" path="res://Assets/flappy_assets/bg.png" id="16_m56p3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovamc"]
 bg_color = Color(0.254902, 0.752941, 1, 1)
@@ -209,10 +210,11 @@ offset_right = 161.0
 offset_bottom = 55.0
 
 [node name="TimerSelectorPanel" type="Panel" parent="CanvasLayer"]
-offset_left = 412.0
-offset_top = 167.0
-offset_right = 764.0
-offset_bottom = 476.0
+visible = false
+offset_left = 392.0
+offset_top = 183.0
+offset_right = 744.0
+offset_bottom = 484.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_lyy77")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
@@ -296,6 +298,16 @@ theme = ExtResource("12_0goge")
 theme_override_fonts/font = ExtResource("7_jtf2p")
 text = "  -5  "
 
+[node name="TimeSelector" type="Label" parent="CanvasLayer/TimerSelectorPanel"]
+offset_left = 152.0
+offset_top = 123.0
+offset_right = 195.0
+offset_bottom = 156.0
+theme = ExtResource("12_0goge")
+theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_font_sizes/font_size = 20
+text = "0 m"
+
 [node name="CountdownTimer" type="Timer" parent="CanvasLayer"]
 
 [node name="CountdownLabel" type="Label" parent="CanvasLayer/CountdownTimer"]
@@ -335,16 +347,6 @@ offset_top = 56.0
 offset_right = 208.0
 offset_bottom = 95.0
 text = "🔄:Retry"
-
-[node name="TimeSelector" type="Label" parent="CanvasLayer"]
-offset_left = 569.0
-offset_top = 286.0
-offset_right = 612.0
-offset_bottom = 319.0
-theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
-theme_override_font_sizes/font_size = 20
-text = "0 m"
 
 [node name="PauseButton" type="Button" parent="CanvasLayer"]
 offset_left = 567.0
@@ -434,7 +436,46 @@ theme_override_fonts/font = ExtResource("7_jtf2p")
 theme_override_font_sizes/font_size = 25
 text = "0"
 
+[node name="ModeSelection" type="TextureRect" parent="."]
+offset_left = 453.0
+offset_top = 274.0
+offset_right = 674.0
+offset_bottom = 400.0
+texture = ExtResource("16_m56p3")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="ModeSelection"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 21.0
+offset_right = 210.0
+offset_bottom = 55.0
+theme_override_colors/font_color = Color(0.197937, 0.197937, 0.197937, 1)
+theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_font_sizes/font_size = 25
+text = "Select mode !"
+
+[node name="2D_mode" type="Button" parent="ModeSelection"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 69.0
+offset_right = 96.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("7_jtf2p")
+text = "2D"
+
+[node name="3D_mode" type="Button" parent="ModeSelection"]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 69.0
+offset_right = 181.0
+offset_bottom = 100.0
+theme_override_fonts/font = ExtResource("7_jtf2p")
+text = "3D"
+
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
 [connection signal="pressed" from="logout" to="." method="_on_logout_pressed"]
 [connection signal="toggled" from="AdaptRom" to="pilot" method="_on_adapt_rom_toggled"]
+[connection signal="pressed" from="ModeSelection/2D_mode" to="." method="_on_2d_mode_pressed"]
+[connection signal="pressed" from="ModeSelection/3D_mode" to="." method="_on_3d_mode_pressed"]
