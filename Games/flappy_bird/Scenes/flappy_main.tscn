@@ -299,6 +299,7 @@ theme_override_fonts/font = ExtResource("7_jtf2p")
 text = "  -5  "
 
 [node name="TimeSelector" type="Label" parent="CanvasLayer/TimerSelectorPanel"]
+layout_mode = 0
 offset_left = 152.0
 offset_top = 123.0
 offset_right = 195.0
@@ -437,6 +438,7 @@ theme_override_font_sizes/font_size = 25
 text = "0"
 
 [node name="ModeSelection" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = 453.0
 offset_top = 274.0
 offset_right = 674.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cjanwm3sy2x37"]
+[gd_scene load_steps=16 format=4 uid="uid://cjanwm3sy2x37"]
 
 [ext_resource type="PackedScene" uid="uid://cyti38f0lagf2" path="res://Games/2D/Scenes/Prefabs/LevelFinishDoor.tscn" id="1_oqkjg"]
 [ext_resource type="PackedScene" uid="uid://bjb3dx2x4bocm" path="res://Games/2D/Scenes/Levels/Level_02.tscn" id="2_0ac5u"]
@@ -10,6 +10,7 @@
 [ext_resource type="FontFile" uid="uid://qgc4vi5osk7v" path="res://Games/2D/Assets/Fonts/Star Choco.ttf" id="8_gwcy2"]
 [ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="10_pbla7"]
 [ext_resource type="PackedScene" uid="uid://bfmh3fm2de78o" path="res://Games/2D/Scenes/Prefabs/Coin.tscn" id="10_uy5mx"]
+[ext_resource type="Texture2D" uid="uid://b21hocnostsdr" path="res://Games/2D/Assets/Forest1.jpg" id="11_pbla7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gs0qk"]
 texture = ExtResource("5_wqbaa")
@@ -119,16 +120,23 @@ theme_override_fonts/font = ExtResource("8_gwcy2")
 theme_override_font_sizes/font_size = 32
 text = "x 3"
 
-[node name="Coin" parent="." instance=ExtResource("10_uy5mx")]
-position = Vector2(564, 302)
-
-[node name="Button" type="Button" parent="."]
-offset_left = 2.0
-offset_top = 590.0
-offset_right = 137.0
-offset_bottom = 634.0
+[node name="Button" type="Button" parent="UserInterface/GameUI"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 616.0
+offset_right = 167.0
+offset_bottom = 660.0
 theme_override_fonts/font = ExtResource("10_pbla7")
 text = "⬅️ logout
 "
 
-[connection signal="pressed" from="Button" to="LevelFinishDoor" method="_on_logout_button_pressed"]
+[node name="Coin" parent="." instance=ExtResource("10_uy5mx")]
+position = Vector2(564, 302)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1153.0
+offset_bottom = 638.0
+texture = ExtResource("11_pbla7")
+expand_mode = 1
+
+[connection signal="pressed" from="UserInterface/GameUI/Button" to="Player" method="_on_logout_button_pressed"]
