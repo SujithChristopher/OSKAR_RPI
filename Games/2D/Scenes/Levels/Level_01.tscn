@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://domyi75bwl5ad" path="res://Games/2D/Scripts/GameUI.gd" id="6_66mfc"]
 [ext_resource type="Texture2D" uid="uid://clreg520jah1j" path="res://Games/2D/Assets/platformPack_item008.png" id="7_j7jun"]
 [ext_resource type="FontFile" uid="uid://qgc4vi5osk7v" path="res://Games/2D/Assets/Fonts/Star Choco.ttf" id="8_gwcy2"]
-[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="10_pbla7"]
+[ext_resource type="FontFile" uid="uid://b54m8n1w2ouio" path="res://Assets/Fonts/Bungee-Regular.ttf" id="9_uy5mx"]
 [ext_resource type="PackedScene" uid="uid://bfmh3fm2de78o" path="res://Games/2D/Scenes/Prefabs/Coin.tscn" id="10_uy5mx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gs0qk"]
@@ -125,7 +125,7 @@ offset_left = 32.0
 offset_top = 616.0
 offset_right = 167.0
 offset_bottom = 660.0
-theme_override_fonts/font = ExtResource("10_pbla7")
+theme_override_fonts/font = ExtResource("9_uy5mx")
 text = "⬅️ logout
 "
 

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://beumoolioq1b2" path="res://Games/flappy_bird/Scripts/pilot.gd" id="5_fuths"]
 [ext_resource type="Texture2D" uid="uid://uoq3jhwpvq60" path="res://Assets/Plane/Fly (1).png" id="6_sq106"]
 [ext_resource type="Texture2D" uid="uid://fn3psom18nnv" path="res://Assets/health_and_pointers_bar/Sprites/Heart Bar/Heart Stage 1.png" id="7_60dfc"]
-[ext_resource type="FontFile" uid="uid://bnbrhy3ui4hcs" path="res://Games/Jumpify/art/ui/fonts/Bungee-Regular.ttf" id="7_jtf2p"]
+[ext_resource type="FontFile" uid="uid://b54m8n1w2ouio" path="res://Assets/Fonts/Bungee-Regular.ttf" id="7_m56p3"]
 [ext_resource type="Texture2D" uid="uid://co33yn52kaeqb" path="res://Assets/health_and_pointers_bar/Sprites/Heart Bar/Heart Stage 5.png" id="8_oja8t"]
 [ext_resource type="PackedScene" uid="uid://7nr2tlykv2n5" path="res://Games/flappy_bird/Scenes/game_over.tscn" id="9_wgnds"]
 [ext_resource type="Script" uid="uid://nqypnx6hl2qj" path="res://Games/flappy_bird/Scripts/timer_label.gd" id="10_7qyl5"]
@@ -102,7 +102,7 @@ offset_left = 7.0
 offset_top = 570.0
 offset_right = 101.0
 offset_bottom = 606.0
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "⬅️ logout
 "
 
@@ -194,7 +194,7 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 20
 text = "Adapt PROM"
 flat = true
@@ -236,7 +236,7 @@ theme_override_constants/separation = 125
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.7065, 0.126, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 25
 text = "SET TIME TO PLAY !"
 horizontal_alignment = 1
@@ -250,13 +250,13 @@ alignment = 1
 [node name="PlayButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "    Play Game    "
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "   Close   "
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
@@ -269,13 +269,13 @@ offset_bottom = 156.0
 [node name="AddOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "  +1  "
 
 [node name="AddFiveButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "  +5  "
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/TimerSelectorPanel"]
@@ -289,13 +289,13 @@ offset_bottom = 157.0
 [node name="SubOneButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "  -1  "
 
 [node name="SubFiveButton" type="Button" parent="CanvasLayer/TimerSelectorPanel/HBoxContainer2"]
 layout_mode = 2
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "  -5  "
 
 [node name="TimeSelector" type="Label" parent="CanvasLayer/TimerSelectorPanel"]
@@ -305,7 +305,7 @@ offset_top = 123.0
 offset_right = 195.0
 offset_bottom = 156.0
 theme = ExtResource("12_0goge")
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 20
 text = "0 m"
 
@@ -317,7 +317,7 @@ offset_top = 47.0
 offset_right = 666.0
 offset_bottom = 85.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 25
 text = "Time left:"
 
@@ -354,7 +354,7 @@ offset_left = 567.0
 offset_top = 575.0
 offset_right = 640.0
 offset_bottom = 608.0
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "Pause"
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
@@ -371,7 +371,6 @@ offset_left = 15.0
 offset_top = 16.0
 offset_right = 49.0
 offset_bottom = 41.0
-theme_override_fonts/font = ExtResource("7_jtf2p")
 horizontal_alignment = 1
 
 [node name="ApplePic" type="Panel" parent="."]
@@ -415,7 +414,7 @@ offset_right = 192.0
 offset_bottom = 61.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 25
 text = "Score"
 
@@ -433,7 +432,7 @@ offset_right = 252.0
 offset_bottom = 61.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 25
 text = "0"
 
@@ -453,7 +452,7 @@ offset_top = 21.0
 offset_right = 210.0
 offset_bottom = 55.0
 theme_override_colors/font_color = Color(0.197937, 0.197937, 0.197937, 1)
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 theme_override_font_sizes/font_size = 25
 text = "Select mode !"
 
@@ -463,7 +462,7 @@ offset_left = 33.0
 offset_top = 69.0
 offset_right = 96.0
 offset_bottom = 100.0
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "2D"
 
 [node name="3D_mode" type="Button" parent="ModeSelection"]
@@ -472,7 +471,7 @@ offset_left = 116.0
 offset_top = 69.0
 offset_right = 181.0
 offset_bottom = 100.0
-theme_override_fonts/font = ExtResource("7_jtf2p")
+theme_override_fonts/font = ExtResource("7_m56p3")
 text = "3D"
 
 [connection signal="area_entered" from="ground" to="ground" method="_on_area_entered"]
