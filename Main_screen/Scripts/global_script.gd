@@ -5,16 +5,27 @@ var session_id: int = 1
 var current_date: String = ""
 var trial_counts: Dictionary = {}
 
+# 2D offsets
 var X_SCREEN_OFFSET: int
 var Y_SCREEN_OFFSET: int
+
+#3D offsets
+var Y_SCREEN_OFFSET3D: int
+
+
 var current_score: int = 0
 var json = JSON.new()
 var path = "res://debug.json"
 
 
+# 2D Game positions
+@export var PLAYER_POS_SCALER_X: int = 20 * 100
+@export var PLAYER_POS_SCALER_Z: int = 20 * 100
 
-@export var PLAYER_POS_SCALER_X: int = 15 * 100
-@export var PLAYER_POS_SCALER_Y: int = 15 * 100
+
+# 3D Game positions
+@export var PLAYER3D_POS_SCALER_X: int = 20 * 100
+@export var PLAYER3D_POS_SCALER_Y: int = 30 * 100
 
 var screen_size = DisplayServer.screen_get_size()
 var MIN_X: int = 10
@@ -24,6 +35,7 @@ var MAX_Y: int = int(screen_size.y - screen_size.y * .15)
 
 var clamp_vector_x = Vector2(MIN_X, MIN_Y)
 var clamp_vector_y = Vector2(MAX_X, MAX_Y)
+
 # UDP and threading
 @onready var udp: PacketPeerUDP = PacketPeerUDP.new()
 @onready var thread_network = Thread.new()
@@ -47,13 +59,23 @@ var net_z: float
 var raw_x: float
 var raw_y: float
 var raw_z: float
+
+# 2D Game network position
 var network_position: Vector2 = Vector2.ZERO
+
+#3D Game network position
+var network_position3D: Vector2 = Vector2.ZERO
 
 # scaled position
 var scaled_x: float
 var scaled_y: float
 var scaled_z: float
+
+# 2D Game scaled
 var scaled_network_position: Vector2 = Vector2.ZERO
+
+#3D Game scaled
+var scaled_network_position3D: Vector2 = Vector2.ZERO
 
 var quit_request:bool = false
 @export var delay_time = 0.1
@@ -76,27 +98,27 @@ func _ready():
     thread_network.start(network_thread)
     
 
-    print(MAX_X, " " + str(MAX_Y))
-    X_SCREEN_OFFSET = int(screen_size.x/4)
-    Y_SCREEN_OFFSET = int(screen_size.y/4)
-    
-    message_timer.autostart = true
-    message_timer.wait_time = delay_time
-    message_timer.one_shot = false
-    message_timer.timeout.connect(send_dummy_packet)
-    add_child(message_timer)
-    GlobalSignals.SignalBus.connect(handle_quit_request)
-    get_tree().set_auto_accept_quit(false)
-    
-    if OS.get_name() == "Windows":
-        pyscript_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\stream_optimize.py"
-        pypath_checker_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\file_integrity.py"
-        interpreter_path = "E:\\CMC\\py_env\\venv\\Scripts\\python.exe"
-    else:
-        pyscript_path = "/home/sujith/Documents/programs/stream_optimize.py"
-        pypath_checker_path = "/home/sujith/Documents/programs/file_integrity.py"
-        interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
-    
+	print(MAX_X, " " + str(MAX_Y))
+	X_SCREEN_OFFSET = int(screen_size.x/4)
+	Y_SCREEN_OFFSET = int(screen_size.y/4)
+	
+	message_timer.autostart = true
+	message_timer.wait_time = delay_time
+	message_timer.one_shot = false
+	message_timer.timeout.connect(send_dummy_packet)
+	add_child(message_timer)
+	GlobalSignals.SignalBus.connect(handle_quit_request)
+	get_tree().set_auto_accept_quit(false)
+	
+	if OS.get_name() == "Windows":
+		pyscript_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\stream_optimize.py"
+		pypath_checker_path = "E:\\CMC\\pyprojects\\programs_rpi\\rpi_python\\file_integrity.py"
+		interpreter_path = "E:\\CMC\\py_env\\venv\\Scripts\\python.exe"
+	else:
+		pyscript_path = "/home/sujith/Documents/programs/stream_optimize.py"
+		pypath_checker_path = "/home/sujith/Documents/programs/file_integrity.py"
+		interpreter_path = "/home/sujith/Documents/programs/venv/bin/python"
+	
 func _process(_delta: float) -> void:
     if not thread_python.is_alive() and not endgame and not debug:
         thread_python = Thread.new()
@@ -126,8 +148,8 @@ func network_thread():
         if disconnected:
             break
 func handle_quit_request():
-    _outgoing_message = "STOP"
-    udp.put_packet(_outgoing_message.to_utf8_buffer())
+	_outgoing_message = "STOP"
+	udp.put_packet(_outgoing_message.to_utf8_buffer())
 
 func handle_udp_packet():
     var packet = udp.get_packet()
@@ -135,20 +157,20 @@ func handle_udp_packet():
 
     udp.put_packet(_outgoing_message.to_utf8_buffer())
 
-    _incoming_message = my_floats[0]
-    
-    raw_x = my_floats[1]
-    raw_y = my_floats[2]
-    raw_z = my_floats[3]
-    net_x = my_floats[1]*PLAYER_POS_SCALER_X + X_SCREEN_OFFSET
-    net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
-    net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
-    network_position = Vector2(net_x, net_z)
-    scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
-    scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
-    scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
-    scaled_network_position = Vector2(scaled_x, scaled_z)
-    
+	_incoming_message = my_floats[0]
+	
+	raw_x = my_floats[1]
+	raw_y = my_floats[2]
+	raw_z = my_floats[3]
+	net_x = my_floats[1]*PLAYER_POS_SCALER_X + X_SCREEN_OFFSET
+	net_y = my_floats[2]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
+	net_z = my_floats[3]*PLAYER_POS_SCALER_Y + Y_SCREEN_OFFSET
+	network_position = Vector2(net_x, net_z)
+	scaled_x = my_floats[1]*PLAYER_POS_SCALER_X * GlobalSignals.global_scalar_x + X_SCREEN_OFFSET
+	scaled_y = my_floats[2]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
+	scaled_z = my_floats[3]*PLAYER_POS_SCALER_Y * GlobalSignals.global_scalar_y + Y_SCREEN_OFFSET
+	scaled_network_position = Vector2(scaled_x, scaled_z)
+	
 func change_patient():
     _outgoing_message = 'USER:' + patient_db.current_patient_id
 
